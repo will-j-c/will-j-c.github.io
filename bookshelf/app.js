@@ -5,7 +5,7 @@ class Book {
 
 // A class to encapsulate all the logic surrounding a book search
 class Search {
-    static apiEndpoint = "http://openlibrary.org/search.json";
+    static apiEndpoint = "https://openlibrary.org/search.json";
     constructor() {
         this.generalSearchString = "";
     }
@@ -44,6 +44,7 @@ class Search {
     // The below method needs to be an async because it is calling an async function
     async submitSearch() {
         this.setSearchString();
+        // Need to await the below as it calls an async function
         await this.fetchDataDisplaySearch(this.generalSearchString);
     }
 }
@@ -51,5 +52,4 @@ class Search {
 const search = new Search();
 
 const button = document.querySelector("button");
-console.log(button);
 button.addEventListener("click", search.submitSearch.bind(search));
