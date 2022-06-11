@@ -1,0 +1,91 @@
+body {
+    color: white;
+    font-family: 'Libre Baskerville', serif;
+}
+li {
+    list-style: none;
+    margin-top: 5px;
+}
+#splash-image {
+    background-image: url("img/leftBanner.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-color: black;
+}
+#splash-image2 {
+    background-image: url("img/leftBanner2.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-color: black;
+}
+#splash-image3 {
+    background-image: url("img/leftBanner3.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-color: black;
+}
+summary {
+    background-color: black;
+    padding: 1em;
+    margin-top: 1em;
+}
+p {
+    margin: 0.5em 0;
+    text-align: justify;
+}
+header {
+    background-color: black;
+    text-align: center;
+}
+footer {
+    background-color: black;
+}
+#album-section {
+    background-color: black;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+header img {
+    height: 15vh;
+    margin: 0 auto;
+}
+h2 {
+    margin-top: 5px;
+    font-size: 1.5em;
+}
+.constrained-full-height {
+    height: calc(100vh - 188px);
+}
+footer {
+    text-align: right;
+}
+a {
+    color: white;
+}
+.ace-of-spades img{
+    border-style: solid;
+    border-color: white;
+    border-radius: 10px;
+    margin-top: 1em;
+}
+@media screen and (max-width: 750px){
+    #splash-image {
+        height: 40vh;
+    }
+    #splash-image2 {
+        height: 40vh;
+    }
+    #splash-image3 {
+        height: 40vh;
+    }
+    .col-4 {
+        width: -webkit-fill-available;
+    }
+    figure {
+        text-align: center;
+    }
+    .img-thumbnail {
+        margin: auto;
+    }
+}
