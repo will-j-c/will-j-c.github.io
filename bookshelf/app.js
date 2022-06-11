@@ -25,7 +25,6 @@ class Search {
         // Take the form data and convert it to search friendly string
         const input = this.getFormData().replace(/\s+/g, "+");
         this.generalSearchString = `${Search.apiEndpoint}?q=${input}`;
-        return `${Search.apiEndpoint}?q=${input}`;
     }
     // Method to create a div element with inner list elements to display the relevant data
     createSearchResultDiv(title) {
@@ -42,11 +41,15 @@ class Search {
         const input = document.querySelector("#general-search").value;
         return input;
     }
-    submitSearch() {
-        const input = this.setSearchString();
-        console.log(input);
+    // The below method needs to be an async because it is calling an async function
+    async submitSearch() {
+        this.setSearchString();
+        await this.fetchDataDisplaySearch(this.generalSearchString);
     }
 }
+
 const search = new Search();
+
 const button = document.querySelector("button");
-button.addEventListener("click", search.submitSearch);
+console.log(button);
+button.addEventListener("click", search.submitSearch.bind(search));
