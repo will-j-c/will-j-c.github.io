@@ -2,6 +2,6 @@ img {
     display: inline-block;
     animation: pulse;
     animation-duration: 1s;
-    /* animation-iteration-count: infinite; */
+    animation-iteration-count: infinite;
     height: 100px;
 }

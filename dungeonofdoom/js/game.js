@@ -8,7 +8,6 @@ import "./monsters.js";
 class Game {
     constructor() {
         this.player = new Player();
-
     }
     newBattle() {
         // Initiate a new battle
