@@ -108,8 +108,10 @@ class Game {
     }
     // Initiates a new battle object and loops until the battle is over.
     newBattle() {
-        const battle = new Battle(this.currentLevel);
+        const battle = new Battle(this.currentLevel[0], this.currentLevel[1], this.currentLevel[2], this.currentLevel[3]);
+        console.log(battle);
         while (battle.isOver === false) {
+            battle.buildActionButtons();
             break
         }
     }
@@ -179,13 +181,17 @@ class Battle {
         if (this.mob.frontRank.some(enemy => enemy.isAlive === true)) {
             this.mob.frontRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
-                    const attackButton = control.createButton(`Attack ${enemy.name} ${index + 1}`, ``)
+                    const attackButton = controls.createButton(`Attack ${enemy.name} ${index + 1}`, `${enemy.name}-${index + 1}`);
+                    controlPanel.append(attackButton);
+                    console.log(controlPanel);
                 }
             })
         } else {
             this.mob.backRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
-                    const attackButton = control.createButton(`Attack ${enemy.name} ${index + 1}`, ``)
+                    const attackButton = controls.createButton(`Attack ${enemy.name} ${index + 1}`, `${enemy.name}-${index + 1}`);
+                    controlPanel.append(attackButton);
+                    console.log(controlPanel);
                 }
             })
         }
@@ -196,6 +202,7 @@ class Battle {
         if (this.player.potions >= 0) {
             const potionButton = controls.createButton("Take potion", "take-potion");
             controlPanel.append(potionButton);
+            console.log(controlPanel);
         }
     }
 }
@@ -210,14 +217,16 @@ class WindowControls {
     }
     createButton(text, id) {
         const button = document.createElement("button");
-        button.innerText = type;
+        button.innerText = text;
         button.setAttribute("id", id);
+        console.log(button);
     }
 }
 
 // Initialise all the classes
 const game = new Game();
 const controls = new WindowControls();
+game.newBattle();
 // console.log(game.player);
 // const battle = new Battle(new Skeleton, 3, new Skeleton, 1);
 // console.log(battle);
