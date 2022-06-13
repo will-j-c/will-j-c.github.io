@@ -66,8 +66,9 @@ class Skeleton extends Monster {
     static criticalChance = 0.9
     constructor() {
         super(Skeleton.totalHitPoints);
+        this.name = "Skeleton";
     }
-    shuffleAttack() {
+    basicAttack() {
         const isHit = Math.random() <= Skeleton.accuracy ? true : false;
         const damage = Skeleton.strength;
         if (isHit) {
@@ -127,7 +128,10 @@ class Battle {
         this.mob = new Mob(frontMonster, numFrontMonster, backMonster, numBackMonster);
         this.isOver = false;
     }
-    playerTurn(action, target) {
+    playerTurn() {
+        // Display a message that it is the players turn
+        const messageBox = controls.getMessageBox()
+        messageBox.innerText = "Choose an action"
     //     ask player to choose an action and target if applicable 
     //     put that action into a variable 
     //     run the action
@@ -161,12 +165,38 @@ class Battle {
     }
     // Display a message to the screen when the battle is over. Take a boolean - true if player wins, false if otherwise.
     endBattleMessage(result) {
-        const p = controls.getMessageBox();
+        const messageBox = controls.getMessageBox();
         if (result) {
-            p.innerText = "You defeated the enemies"
+            messageBox.innerText = "You defeated the enemies"
         } else {
-            p.innerText = "You died"
+            messageBox.innerText = "You died"
         }   
+    }
+    // Method determines the available actions of the player and add relevant buttons to the DOM for that action
+    buildActionButtons() {
+        const controlPanel = controls.getControlPanelDiv();
+        //Create buttons to attack viable targets. Can only attack the front rank if it is still alive
+        if (this.mob.frontRank.some(enemy => enemy.isAlive === true)) {
+            this.mob.frontRank.forEach((enemy, index) => {
+                if (enemy.isAlive) {
+                    const attackButton = control.createButton(`Attack ${enemy.name} ${index + 1}`, ``)
+                }
+            })
+        } else {
+            this.mob.backRank.forEach((enemy, index) => {
+                if (enemy.isAlive) {
+                    const attackButton = control.createButton(`Attack ${enemy.name} ${index + 1}`, ``)
+                }
+            })
+        }
+        // Creates the button to defend
+        const defendButton = controls.createButton("Defend", "defend");
+        controlPanel.append(defendButton);
+        // Allow the potion action if player has potions. Creates a take potion button and appends to the control panel
+        if (this.player.potions >= 0) {
+            const potionButton = controls.createButton("Take potion", "take-potion");
+            controlPanel.append(potionButton);
+        }
     }
 }
 
@@ -174,6 +204,14 @@ class Battle {
 class WindowControls {
     getMessageBox() {
         return document.querySelector("#message-box");
+    }
+    getControlPanelDiv() {
+        return document.querySelector("#control-panel");
+    }
+    createButton(text, id) {
+        const button = document.createElement("button");
+        button.innerText = type;
+        button.setAttribute("id", id);
     }
 }
 
