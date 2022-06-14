@@ -1,14 +1,14 @@
 // Define our hero of the story
 class Player {
     static accuracy = 0.7;
-    static strength = 10;
+    static strength = 7;
     static startPotion = 3;
     constructor() {
         this.totalHitPoints = 100;
         this.currentHitPoints = this.totalHitPoints;
         this.isAlive = true;
         this.isDefending = false;
-        this.potions = 0;//Player.startPotion;
+        this.potions = Player.startPotion;
         this.artwork = "assets/player/daeva.png";
     }
     // Method for player attacking. Returns array of whether it is a hit and the damage inflicted.
@@ -78,10 +78,10 @@ class Skeleton extends Monster {
         }
         return [false, 0];
     }
-    // Method to determine if the attack is a critical strike or not
-    isCritical() {
-        return Math.random() > Skeleton.criticalChance ? true : false;
-    }
+    // // Method to determine if the attack is a critical strike or not
+    // isCritical() {
+    //     return Math.random() > Skeleton.criticalChance ? true : false;
+    // }
 }
 
 // Create a class of Mob to represent the group of monsters
@@ -103,7 +103,7 @@ class Mob {
 
 // Define the Game class. This will start the game, initiate battles and all other game logic.
 class Game {
-    static levelOne = [new Skeleton, 0, new Skeleton, 3];
+    static levelOne = [new Skeleton, 3, new Skeleton, 3];
     constructor() {
         this.player = new Player();
         this.currentLevel = Game.levelOne;
@@ -136,12 +136,59 @@ class Battle {
         this.buildActionButtons();
         this.playerTurn();
         this.enemyTurn();
-        this.battleOver();
     }
     playerTurn() {
         // Display a message that it is the players turn
         const messageBox = controls.getMessageBox()
+        this.player.isDefending = false;
         messageBox.innerText = "Choose an action"
+        const controlPanel = document.querySelector("#control-panel");
+        // Set event listener to listen for the button press. Need to use arrow function to inherit "this" from class
+        controlPanel.onclick = event => {
+            if (event.target.id === "control-panel") {
+                return;
+            }
+            const playerAction = String(event.target.id);
+            console.log(playerAction)
+            if (playerAction === "defend") {
+                this.player.defend();
+                messageBox.innerText = "You are defending!"
+                return;
+            }
+            if (playerAction === "take-potion") {
+                this.player.drinkPotion();
+                messageBox.innerText = "You drank a potion!"
+                return;
+            }
+            const attackStatus = this.player.attack()
+            if (attackStatus[0] === false) {
+                messageBox.innerText = "You missed your target!"
+                return;
+            }
+            switch(playerAction) {
+                case "front-enemy-1":
+                    this.mob.frontRank[0].takeDamage(attackStatus[1]);
+                    this. mob.frontRank[0].checkDeathStatus();
+                    console.log(this.mob.frontRank[0].isAlive);
+                    break;
+                case "front-enemy-2":
+                    break;
+                case "front-enemy-3":
+                    break;
+                case "back-enemy-1":
+                    break;
+                case "back-enemy-2":
+                    break;
+                case "back-enemy-2":
+                    break;
+            }
+            this.battleOver();
+            if (this.battleOver) {
+                setTimeout(this.endBattleMessage(true), 500)
+                
+            }
+        }
+    }
     //     ask player to choose an action and target if applicable 
     //     put that action into a variable 
     //     run the action
@@ -149,7 +196,6 @@ class Battle {
     //      check if the battle is over
     //      display victory message
 
-    }
     enemyTurn() {
         // Detemine which enemies are alive
         // alive enemies choose action
@@ -166,10 +212,13 @@ class Battle {
             return;
         }
         // Determine if all the monsters in the mob are dead
-        const frontRankAlive = this.mob.frontRank.every(element => element.isAlive);
-        const backRankAlive = this.mob.backRank.every(element => element.isAlive);
+        const frontRankAlive = this.mob.frontRank.some(element => element.isAlive);
+        console.log("frontRankAlive: ", frontRankAlive);
+        const backRankAlive = this.mob.backRank.some(element => element.isAlive);
+        console.log("backRankAlive: ", backRankAlive);
         if (frontRankAlive === false && backRankAlive === false) {
             this.isOver = true;
+            console.log("isOver: ", this.isOver);
             return;
         }
     }
@@ -327,14 +376,14 @@ class Battle {
         if (this.mob.frontRank.some(enemy => enemy.isAlive === true)) {
             this.mob.frontRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
-                    const attackButton = controls.createButton(`Attack front enemy ${index + 1}`, `front-enemy-${index + 1}`);
+                    const attackButton = controls.createButton(`Attack front ${enemy.name} ${index + 1}`, `front-enemy-${index + 1}`);
                     controlPanel.append(attackButton);
                 }
             })
         } else {
             this.mob.backRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
-                    const attackButton = controls.createButton(`Attack back enemy ${index + 1}`, `${enemy.name}-${index + 1}`);
+                    const attackButton = controls.createButton(`Attack back ${enemy.name} ${index + 1}`, `back-enemy-${index + 1}`);
                     controlPanel.append(attackButton);
                 }
             })
