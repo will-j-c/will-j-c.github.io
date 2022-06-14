@@ -8,7 +8,7 @@ class Player {
         this.currentHitPoints = this.totalHitPoints;
         this.isAlive = true;
         this.isDefending = false;
-        this.potions = Player.startPotion;
+        this.potions = 0//Player.startPotion;
         this.artwork = "assets/player/daeva.png";
     }
     // Method for player attacking. Returns array of whether it is a hit and the damage inflicted.
@@ -103,7 +103,7 @@ class Mob {
 
 // Define the Game class. This will start the game, initiate battles and all other game logic.
 class Game {
-    static levelOne = [new Skeleton, 3, new Skeleton, 1];
+    static levelOne = [new Skeleton, 0, new Skeleton, 3];
     constructor() {
         this.player = new Player();
         this.currentLevel = Game.levelOne;
@@ -212,12 +212,113 @@ class Battle {
                 rowDiv.append(colDiv);
             }
         }
-        // Add the initial art to the board
-        const playerStartTile = document.querySelector("#col-3-2");
+        // Add the initial player art to the board
+        const playerStartTile = controls.getSquare("#col-3-2");
         const playerImg = document.createElement("img")
-        playerImg.setAttribute("src", this.player.artwork);
-        console.log(playerImg);
+        const playerImgAttributes = {
+                    id: "player-img", 
+                    src: this.player.artwork
+                };
+        //Set the attributes for the player
+        for (const attribute in playerImgAttributes) {
+            playerImg.setAttribute(`${attribute}`, `${playerImgAttributes[attribute]}`)
+        }
         playerStartTile.append(playerImg);
+        // Add the initial enemies to the board
+        // Set the particulars about the current enemy setup
+        const frontRankTiles = ["col-2-4", "col-3-4", "col-4-4"];
+        const backRankTiles = ["col-2-5", "col-3-5", "col-4-5"];
+        const frontRankLen = this.mob.frontRank.length;
+        const backRankLen = this.mob.backRank.length;
+        // Determine how many enemies in the rank and place the enemies according to this
+        switch(frontRankLen) {
+            case 3:
+                this.mob.frontRank.forEach((enemy, index) => {
+                    const enemyImg = document.createElement("img")
+                    const enemyImgAttributes = {
+                            id: `fr-enemy-${index + 1}-img`, 
+                            src: enemy.artwork
+                        };
+                    for (const attribute in enemyImgAttributes) {
+                        enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
+                    }
+                    const tile = document.querySelector(`#${frontRankTiles[index]}`);
+                    tile.append(enemyImg);
+                })
+                break;
+            case 2:
+                this.mob.frontRank.forEach((enemy, index) => {
+                    const enemyImg = document.createElement("img")
+                    const enemyImgAttributes = {
+                            id: `fr-enemy-${index + 1}-img`, 
+                            src: enemy.artwork
+                        };
+                    for (const attribute in enemyImgAttributes) {
+                        enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
+                    }
+                    const tile = document.querySelector(`#${frontRankTiles[index]}`);
+                    tile.append(enemyImg);
+                })
+                break;
+            case 1:
+                const enemyImg = document.createElement("img")
+                const enemyImgAttributes = {
+                            id: `fr-enemy-1-img`, 
+                            src: this.mob.frontRank[0].artwork
+                        };
+                for (const attribute in enemyImgAttributes) {
+                    enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
+                }
+                const tile = document.querySelector(`#${frontRankTiles[1]}`);
+                tile.append(enemyImg);
+                break;
+            case 0:
+                break;
+        }
+        switch(backRankLen) {
+            case 3:
+                this.mob.backRank.forEach((enemy, index) => {
+                    const enemyImg = document.createElement("img")
+                    const enemyImgAttributes = {
+                            id: `fr-enemy-${index + 1}-img`, 
+                            src: enemy.artwork
+                        };
+                    for (const attribute in enemyImgAttributes) {
+                        enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
+                    }
+                    const tile = document.querySelector(`#${backRankTiles[index]}`);
+                    tile.append(enemyImg);
+                })
+                break;
+            case 2:
+                this.mob.backRank.forEach((enemy, index) => {
+                    const enemyImg = document.createElement("img")
+                    const enemyImgAttributes = {
+                            id: `fr-enemy-${index + 1}-img`, 
+                            src: enemy.artwork
+                        };
+                    for (const attribute in enemyImgAttributes) {
+                        enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
+                    }
+                    const tile = document.querySelector(`#${backRankTiles[index]}`);
+                    tile.append(enemyImg);
+                })
+                break;
+            case 1:
+                const enemyImg = document.createElement("img")
+                const enemyImgAttributes = {
+                            id: `fr-enemy-1-img`, 
+                            src: this.mob.backRank[0].artwork
+                        };
+                for (const attribute in enemyImgAttributes) {
+                    enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
+                }
+                const tile = document.querySelector(`#${backRankTiles[1]}`);
+                tile.append(enemyImg);
+                break;
+            case 0:
+                break;
+        }
     }
     // Method determines the available actions of the player and add relevant buttons to the DOM for that action
     buildActionButtons() {
@@ -263,12 +364,12 @@ class WindowControls {
         button.setAttribute("id", id);
         return button;
     }
+    getSquare(id) {
+        return document.querySelector(`${id}`);
+    }
 }
 
 // Initialise all the classes
 const game = new Game();
 const controls = new WindowControls();
 game.newBattle();
-// console.log(game.player);
-// const battle = new Battle(new Skeleton, 3, new Skeleton, 1);
-// console.log(battle);
