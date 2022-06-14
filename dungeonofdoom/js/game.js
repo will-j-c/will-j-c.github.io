@@ -95,7 +95,7 @@ class Mob {
     createRank(monster, number) {
         const rank = [];
         for (let i = 1; i <= number; i++) {
-            rank.push(monster);
+            rank.push(new monster);
         }
         return rank;
     }
@@ -103,7 +103,7 @@ class Mob {
 
 // Define the Game class. This will start the game, initiate battles and all other game logic.
 class Game {
-    static levelOne = [new Skeleton, 3, new Skeleton, 3];
+    static levelOne = [Skeleton, 3, Skeleton, 3];
     constructor() {
         this.player = new Player();
         this.currentLevel = Game.levelOne;
@@ -165,36 +165,48 @@ class Battle {
                 messageBox.innerText = "You missed your target!"
                 return;
             }
+            let target = "";
             switch(playerAction) {
+                
                 case "front-enemy-1":
-                    this.mob.frontRank[0].takeDamage(attackStatus[1]);
+                    target = this.mob.frontRank[0]
+                    target.takeDamage(attackStatus[1]);
                     this. mob.frontRank[0].checkDeathStatus();
-                    console.log(this.mob.frontRank[0].isAlive);
                     break;
                 case "front-enemy-2":
+                    target = this.mob.frontRank[1]
+                    target.takeDamage(attackStatus[1]);
+                    this. mob.frontRank[1].checkDeathStatus();
                     break;
                 case "front-enemy-3":
+                    target = this.mob.frontRank[2]
+                    target.takeDamage(attackStatus[1]);
+                    this. mob.frontRank[2].checkDeathStatus();
                     break;
                 case "back-enemy-1":
+                    target = this.mob.backRank[0]
+                    target.takeDamage(attackStatus[1]);
+                    this. mob.backRank[0].checkDeathStatus();
                     break;
                 case "back-enemy-2":
+                    target = this.mob.backRank[1]
+                    target.takeDamage(attackStatus[1]);
+                    this. mob.backRank[1].checkDeathStatus();
                     break;
-                case "back-enemy-2":
+                case "back-enemy-3":
+                    target = this.mob.backRank[2]
+                    target.takeDamage(attackStatus[1]);
+                    this. mob.backRank[2].checkDeathStatus();
                     break;
             }
             this.battleOver();
-            if (this.battleOver) {
+            if (this.isOver) {
                 setTimeout(this.endBattleMessage(true), 500)
                 
             }
+            this.buildActionButtons();
         }
     }
-    //     ask player to choose an action and target if applicable 
-    //     put that action into a variable 
-    //     run the action
-    //     display result message of that action
-    //      check if the battle is over
-    //      display victory message
 
     enemyTurn() {
         // Detemine which enemies are alive
@@ -211,11 +223,12 @@ class Battle {
             this.isOver = true;
             return;
         }
-        // Determine if all the monsters in the mob are dead
+        // Determine if all the monsters in the mob are dead - THIS NEEDS WORK
         const frontRankAlive = this.mob.frontRank.some(element => element.isAlive);
         console.log("frontRankAlive: ", frontRankAlive);
         const backRankAlive = this.mob.backRank.some(element => element.isAlive);
         console.log("backRankAlive: ", backRankAlive);
+        console.log("isOver: ", this.isOver);
         if (frontRankAlive === false && backRankAlive === false) {
             this.isOver = true;
             console.log("isOver: ", this.isOver);
@@ -372,6 +385,8 @@ class Battle {
     // Method determines the available actions of the player and add relevant buttons to the DOM for that action
     buildActionButtons() {
         const controlPanel = controls.getControlPanelDiv();
+        //Clear the HTML each time this is called
+        controlPanel.innerHTML = "";
         //Create buttons to attack viable targets. Can only attack the front rank if it is still alive
         if (this.mob.frontRank.some(enemy => enemy.isAlive === true)) {
             this.mob.frontRank.forEach((enemy, index) => {
