@@ -166,34 +166,41 @@ class Battle {
                 return;
             }
             let target = "";
-            switch(playerAction) {
-                
-                case "front-enemy-1":
+            switch(playerAction) {   
+                case "front-enemy-1-square":
                     target = this.mob.frontRank[0]
                     target.takeDamage(attackStatus[1]);
                     this. mob.frontRank[0].checkDeathStatus();
+                    if (this.mob.frontRank[0].isAlive === false) {
+                        const tileImg = controls.getSquare(`#col-2-4`).firstChild;
+                        console.log(tileImg);
+                        tileImg.classList.add("dead");
+                        tileImg.addEventListener("animationend", () => {
+                            tileImg.setAttribute("class", "hidden");
+                        })
+                    }
                     break;
-                case "front-enemy-2":
+                case "front-enemy-2-square":
                     target = this.mob.frontRank[1]
                     target.takeDamage(attackStatus[1]);
                     this. mob.frontRank[1].checkDeathStatus();
                     break;
-                case "front-enemy-3":
+                case "front-enemy-3-square":
                     target = this.mob.frontRank[2]
                     target.takeDamage(attackStatus[1]);
                     this. mob.frontRank[2].checkDeathStatus();
                     break;
-                case "back-enemy-1":
+                case "back-enemy-1-square":
                     target = this.mob.backRank[0]
                     target.takeDamage(attackStatus[1]);
                     this. mob.backRank[0].checkDeathStatus();
                     break;
-                case "back-enemy-2":
+                case "back-enemy-2-square":
                     target = this.mob.backRank[1]
                     target.takeDamage(attackStatus[1]);
                     this. mob.backRank[1].checkDeathStatus();
                     break;
-                case "back-enemy-3":
+                case "back-enemy-3-square":
                     target = this.mob.backRank[2]
                     target.takeDamage(attackStatus[1]);
                     this. mob.backRank[2].checkDeathStatus();
@@ -201,13 +208,13 @@ class Battle {
             }
             this.battleOver();
             if (this.isOver) {
-                setTimeout(this.endBattleMessage(true), 500)
-                
+                setTimeout(this.endBattleMessage(true), 2000);
+
             }
             this.buildActionButtons();
         }
     }
-
+    // Method that sets the logic for the enemy turn
     enemyTurn() {
         // Detemine which enemies are alive
         // alive enemies choose action
@@ -223,15 +230,11 @@ class Battle {
             this.isOver = true;
             return;
         }
-        // Determine if all the monsters in the mob are dead - THIS NEEDS WORK
+        // Determine if all the monsters in the mob are dead
         const frontRankAlive = this.mob.frontRank.some(element => element.isAlive);
-        console.log("frontRankAlive: ", frontRankAlive);
         const backRankAlive = this.mob.backRank.some(element => element.isAlive);
-        console.log("backRankAlive: ", backRankAlive);
-        console.log("isOver: ", this.isOver);
         if (frontRankAlive === false && backRankAlive === false) {
             this.isOver = true;
-            console.log("isOver: ", this.isOver);
             return;
         }
     }
@@ -243,6 +246,9 @@ class Battle {
         } else {
             messageBox.innerText = "You died"
         }   
+    }
+    quitBattle() {
+        //
     }
     // Method that adds the divs for the game board. Grid is 6x5 and adds a co-ordinate for each box. Grid also adds art for the enemies.
     buildBattlefield() {
@@ -391,14 +397,14 @@ class Battle {
         if (this.mob.frontRank.some(enemy => enemy.isAlive === true)) {
             this.mob.frontRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
-                    const attackButton = controls.createButton(`Attack front ${enemy.name} ${index + 1}`, `front-enemy-${index + 1}`);
+                    const attackButton = controls.createButton(`Attack front ${enemy.name} ${index + 1}`, `front-enemy-${index + 1}-square`);
                     controlPanel.append(attackButton);
                 }
             })
         } else {
             this.mob.backRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
-                    const attackButton = controls.createButton(`Attack back ${enemy.name} ${index + 1}`, `back-enemy-${index + 1}`);
+                    const attackButton = controls.createButton(`Attack back ${enemy.name} ${index + 1}`, `back-enemy-${index + 1}-square`);
                     controlPanel.append(attackButton);
                 }
             })

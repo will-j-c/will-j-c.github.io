@@ -5,6 +5,13 @@ img {
     animation-iteration-count: infinite;
     height: 95%;
 }
+.dead {
+    animation: rotateOutDownLeft;
+    animation-duration: 1s;
+}
+.hidden {
+    display: none;
+}
 .tile {
     background-image: url("assets/tiles/mud.jpg");
     background-size: cover;
