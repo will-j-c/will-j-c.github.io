@@ -9,6 +9,7 @@ class Player {
         this.isAlive = true;
         this.isDefending = false;
         this.potions = Player.startPotion;
+        this.artwork = "assets/player/daeva.png";
     }
     // Method for player attacking. Returns array of whether it is a hit and the damage inflicted.
     attack() {
@@ -34,7 +35,7 @@ class Player {
     }
     // Check is the player is alive
     checkDeathStatus() {
-        if (this.currentHitPoints <=0 ) {
+        if (this.currentHitPoints <= 0) {
             this.isAlive = false;
         }
     }
@@ -67,6 +68,7 @@ class Skeleton extends Monster {
     constructor() {
         super(Skeleton.totalHitPoints);
         this.name = "Skeleton";
+        this.artwork = "assets/monster/skeletal_warrior.png"
     }
     basicAttack() {
         const isHit = Math.random() <= Skeleton.accuracy ? true : false;
@@ -105,15 +107,13 @@ class Game {
     constructor() {
         this.player = new Player();
         this.currentLevel = Game.levelOne;
+        this.currentBattle = "";
     }
     // Initiates a new battle object and loops until the battle is over.
     newBattle() {
         const battle = new Battle(this.currentLevel[0], this.currentLevel[1], this.currentLevel[2], this.currentLevel[3]);
-        console.log(battle);
-        while (battle.isOver === false) {
-            battle.buildActionButtons();
-            break
-        }
+        this.currentBattle = battle;
+        battle.battleSequence();
     }
     start() {
         //
@@ -129,6 +129,14 @@ class Battle {
         this.player = game.player; //The current instance of the player object within Game
         this.mob = new Mob(frontMonster, numFrontMonster, backMonster, numBackMonster);
         this.isOver = false;
+    }
+    // The below method is called to launch a new battle and run the whole logic for the battle.
+    battleSequence() {
+        this.buildBattlefield();
+        this.buildActionButtons();
+        this.playerTurn();
+        this.enemyTurn();
+        this.battleOver();
     }
     playerTurn() {
         // Display a message that it is the players turn
@@ -174,6 +182,43 @@ class Battle {
             messageBox.innerText = "You died"
         }   
     }
+    // Method that adds the divs for the game board. Grid is 6x5 and adds a co-ordinate for each box. Grid also adds art for the enemies.
+    buildBattlefield() {
+        // Create the 5 rows
+        const battleContainer = document.querySelector("#battle-container");
+        for (let i = 1; i <= 5; i++) {
+            const rowDiv = document.createElement("div");
+            const rowDivAttributes = {
+                        id: `row-${i}`,
+                        class: "row"
+                    };
+            battleContainer.append(rowDiv);
+            // Set the attributes for the rows
+            for (const attribute in rowDivAttributes) {
+                rowDiv.setAttribute(`${attribute}`, `${rowDivAttributes[attribute]}`);
+            }
+            // BUild the 6 columns, set their attributes adn append to the row
+            for (let j = 1; j <= 6; j++) {
+                const colDiv = document.createElement("div");
+                const colDivAttributes = {
+                        id: `col-${i}-${j}`,
+                        class: "col pt-3 pb-3 tile"
+                    };
+                //Set the attributes for the columns
+                for (const attribute in colDivAttributes) {
+                    colDiv.setAttribute(`${attribute}`, `${colDivAttributes[attribute]}`)
+                }
+                //Append the column to the row
+                rowDiv.append(colDiv);
+            }
+        }
+        // Add the initial art to the board
+        const playerStartTile = document.querySelector("#col-3-2");
+        const playerImg = document.createElement("img")
+        playerImg.setAttribute("src", this.player.artwork);
+        console.log(playerImg);
+        playerStartTile.append(playerImg);
+    }
     // Method determines the available actions of the player and add relevant buttons to the DOM for that action
     buildActionButtons() {
         const controlPanel = controls.getControlPanelDiv();
@@ -182,31 +227,24 @@ class Battle {
             this.mob.frontRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
                     const attackButton = controls.createButton(`Attack front enemy ${index + 1}`, `front-enemy-${index + 1}`);
-                    console.log("attack button: ", attackButton)
                     controlPanel.append(attackButton);
-                    console.log(controlPanel);
                 }
             })
         } else {
             this.mob.backRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
                     const attackButton = controls.createButton(`Attack back enemy ${index + 1}`, `${enemy.name}-${index + 1}`);
-                    console.log("attack button: ", attackButton)
                     controlPanel.append(attackButton);
-                    console.log(controlPanel);
                 }
             })
         }
         // Creates the button to defend
         const defendButton = controls.createButton("Defend", "defend");
-        console.log("defend button: ", defendButton)
         controlPanel.append(defendButton);
         // Allow the potion action if player has potions. Creates a take potion button and appends to the control panel
         if (this.player.potions >= 0) {
             const potionButton = controls.createButton("Take potion", "take-potion");
-            console.log("potion button: ", potionButton)
             controlPanel.append(potionButton);
-            console.log(controlPanel);
         }
     }
 }
