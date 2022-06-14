@@ -8,7 +8,7 @@ class Player {
         this.currentHitPoints = this.totalHitPoints;
         this.isAlive = true;
         this.isDefending = false;
-        this.potions = 0//Player.startPotion;
+        this.potions = 0;//Player.startPotion;
         this.artwork = "assets/player/daeva.png";
     }
     // Method for player attacking. Returns array of whether it is a hit and the damage inflicted.
@@ -343,7 +343,7 @@ class Battle {
         const defendButton = controls.createButton("Defend", "defend");
         controlPanel.append(defendButton);
         // Allow the potion action if player has potions. Creates a take potion button and appends to the control panel
-        if (this.player.potions >= 0) {
+        if (this.player.potions > 0) {
             const potionButton = controls.createButton("Take potion", "take-potion");
             controlPanel.append(potionButton);
         }
