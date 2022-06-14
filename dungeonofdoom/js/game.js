@@ -181,7 +181,8 @@ class Battle {
         if (this.mob.frontRank.some(enemy => enemy.isAlive === true)) {
             this.mob.frontRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
-                    const attackButton = controls.createButton(`Attack ${enemy.name} ${index + 1}`, `${enemy.name}-${index + 1}`);
+                    const attackButton = controls.createButton(`Attack front enemy ${index + 1}`, `front-enemy-${index + 1}`);
+                    console.log("attack button: ", attackButton)
                     controlPanel.append(attackButton);
                     console.log(controlPanel);
                 }
@@ -189,7 +190,8 @@ class Battle {
         } else {
             this.mob.backRank.forEach((enemy, index) => {
                 if (enemy.isAlive) {
-                    const attackButton = controls.createButton(`Attack ${enemy.name} ${index + 1}`, `${enemy.name}-${index + 1}`);
+                    const attackButton = controls.createButton(`Attack back enemy ${index + 1}`, `${enemy.name}-${index + 1}`);
+                    console.log("attack button: ", attackButton)
                     controlPanel.append(attackButton);
                     console.log(controlPanel);
                 }
@@ -197,10 +199,12 @@ class Battle {
         }
         // Creates the button to defend
         const defendButton = controls.createButton("Defend", "defend");
+        console.log("defend button: ", defendButton)
         controlPanel.append(defendButton);
         // Allow the potion action if player has potions. Creates a take potion button and appends to the control panel
         if (this.player.potions >= 0) {
             const potionButton = controls.createButton("Take potion", "take-potion");
+            console.log("potion button: ", potionButton)
             controlPanel.append(potionButton);
             console.log(controlPanel);
         }
@@ -219,7 +223,7 @@ class WindowControls {
         const button = document.createElement("button");
         button.innerText = text;
         button.setAttribute("id", id);
-        console.log(button);
+        return button;
     }
 }
 
