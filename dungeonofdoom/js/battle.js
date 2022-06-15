@@ -12,13 +12,15 @@ class Battle {
         this.isOver = false;
     }
     // The below method is called to launch a new battle and run the whole logic for the battle.
-    battleSequence() {
-        this.buildBattlefield();
-        this.buildActionButtons();
-        this.playerTurn();
-        this.enemyTurn();
+    async battleSequence() {
+        await this.buildBattlefield();
+        // do {
+            this.buildActionButtons();
+            this.playerTurn();
+            this.enemyTurn(); 
+    //     } while(this.isOver === false);
     }
-    playerTurn() {
+    async playerTurn() {
         // Display a message that it is the players turn
         const messageBox = controls.getMessageBox()
         this.player.isDefending = false;
@@ -124,14 +126,16 @@ class Battle {
             this.battleOver();
             if (this.isOver) {
                 setTimeout(this.endBattleMessage(true), 2000);
-
+                return;
             }
             this.buildActionButtons();
         }
     }
     // Method that sets the logic for the enemy turn
-    enemyTurn() {
+    async enemyTurn() {
         // Detemine which enemies are alive
+        const frontRankAlive = this.mob.frontRank.filter(enemy => enemy.isAlive);
+        const backRankAlive = this.mob.backRank.filter(enemy => enemy.isAlive);
         // alive enemies choose action
         // enemies cycle through and put that action into effect
         // display result message of that action
@@ -166,7 +170,7 @@ class Battle {
         //
     }
     // Method that adds the divs for the game board. Grid is 6x5 and adds a co-ordinate for each box. Grid also adds art for the enemies.
-    buildBattlefield() {
+    async buildBattlefield() {
         // Create the 5 rows
         const battleContainer = document.querySelector("#battle-container");
         for (let i = 1; i <= 5; i++) {
@@ -304,7 +308,7 @@ class Battle {
         }
     }
     // Method determines the available actions of the player and add relevant buttons to the DOM for that action
-    buildActionButtons() {
+    async buildActionButtons() {
         const controlPanel = controls.getControlPanelDiv();
         //Clear the HTML each time this is called
         controlPanel.innerHTML = "";
