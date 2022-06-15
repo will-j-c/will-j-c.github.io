@@ -1,7 +1,7 @@
 // Define our hero of the story
 class Player {
     static accuracy = 0.7;
-    static strength = 10;
+    static strength = 7;
     static startPotion = 3;
     constructor() {
         this.totalHitPoints = 100;
@@ -9,6 +9,7 @@ class Player {
         this.isAlive = true;
         this.isDefending = false;
         this.potions = Player.startPotion;
+        this.artwork = "assets/player/daeva.png";
     }
     // Method for player attacking. Returns array of whether it is a hit and the damage inflicted.
     attack() {
@@ -26,12 +27,18 @@ class Player {
         //
     }
     takeDamage(damage) {
+        if (this.isDefending === true) {
+            this.currentHitPoints -= 0.5 * damage;
+            return;
+        }
         this.currentHitPoints -= damage;
     }
     // Check is the player is alive
     checkDeathStatus() {
-        if (this.currentHitPoints <=0 ) {
+        if (this.currentHitPoints <= 0) {
             this.isAlive = false;
         }
     }
 }
+
+export { Player };
