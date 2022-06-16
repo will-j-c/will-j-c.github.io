@@ -174,34 +174,7 @@ class Battle {
     }
     // Method that adds the divs for the game board. Grid is 6x5 and adds a co-ordinate for each box. Grid also adds art for the enemies.
     buildBattlefield() {
-        // Create the 5 rows
-        const battleContainer = document.querySelector("#battle-container");
-        for (let i = 1; i <= 5; i++) {
-            const rowDiv = document.createElement("div");
-            const rowDivAttributes = {
-                        id: `row-${i}`,
-                        class: "row"
-                    };
-            battleContainer.append(rowDiv);
-            // Set the attributes for the rows
-            for (const attribute in rowDivAttributes) {
-                rowDiv.setAttribute(`${attribute}`, `${rowDivAttributes[attribute]}`);
-            }
-            // BUild the 6 columns, set their attributes adn append to the row
-            for (let j = 1; j <= 6; j++) {
-                const colDiv = document.createElement("div");
-                const colDivAttributes = {
-                        id: `col-${i}-${j}`,
-                        class: "col pt-3 pb-3 tile"
-                    };
-                //Set the attributes for the columns
-                for (const attribute in colDivAttributes) {
-                    colDiv.setAttribute(`${attribute}`, `${colDivAttributes[attribute]}`)
-                }
-                //Append the column to the row
-                rowDiv.append(colDiv);
-            }
-        }
+        controls.createBattleFieldGrid()
         // Add the initial player art to the board
         const playerStartTile = controls.getSquare("#col-3-2");
         const playerImg = document.createElement("img")
@@ -230,6 +203,8 @@ class Battle {
                             src: enemy.artwork
                         };
                     enemy.placement = `#${frontRankTiles[index]}`;
+                    enemy.attackButton = `front-enemy-${index + 1}-square`
+                    console.log(enemy.attackButton);
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -244,6 +219,9 @@ class Battle {
                             id: `fr-enemy-${index + 1}-img`, 
                             src: enemy.artwork
                         };
+                    enemy.placement = `#${frontRankTiles[index]}`;
+                    enemy.attackButton = `front-enemy-${index + 1}-square`
+                    console.log(enemy.attackButton)
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -257,6 +235,9 @@ class Battle {
                             id: `fr-enemy-1-img`, 
                             src: this.mob.frontRank[0].artwork
                         };
+                this.mob.frontRank[0].placement = `#${frontRankTiles[1]}`;
+                this.mob.frontRank[0].placement = `front-enemy-1-square`;
+                console.log(this.mob.frontRank[0].placement)
                 for (const attribute in enemyImgAttributes) {
                     enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                 }
@@ -274,6 +255,9 @@ class Battle {
                             id: `fr-enemy-${index + 1}-img`, 
                             src: enemy.artwork
                         };
+                    enemy.placement = `#${backRankTiles[index]}`;
+                    enemy.attackButton = `back-enemy-${index + 1}-square`
+                    console.log(enemy.attackButton);
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -288,6 +272,9 @@ class Battle {
                             id: `fr-enemy-${index + 1}-img`, 
                             src: enemy.artwork
                         };
+                    enemy.placement = `#${backRankTiles[index]}`;
+                    enemy.attackButton = `back-enemy-${index + 1}-square`
+                    console.log(enemy.attackButton);
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -301,6 +288,9 @@ class Battle {
                             id: `fr-enemy-1-img`, 
                             src: this.mob.backRank[0].artwork
                         };
+                this.mob.backRank[0].placement = `#${backRankTiles[1]}`;
+                this.mob.frontRank[0].placement = `back-enemy-1-square`;
+                console.log(this.mob.frontRank[0].placement)
                 for (const attribute in enemyImgAttributes) {
                     enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                 }
@@ -314,8 +304,6 @@ class Battle {
     // Method determines the available actions of the player and add relevant buttons to the DOM for that action
     buildActionButtons() {
         const controlPanel = controls.getControlPanelDiv();
-        // //Clear the HTML each time this is called
-        // controlPanel.innerHTML = "";
         //Create buttons to attack viable targets. Can only attack the front rank if it is still alive
         if (this.mob.frontRank.some(enemy => enemy.isAlive === true)) {
             this.mob.frontRank.forEach((enemy, index) => {
@@ -341,6 +329,7 @@ class Battle {
             controlPanel.append(potionButton);
         }
     }
+    // Method to map 
 }
 
 export { Battle };

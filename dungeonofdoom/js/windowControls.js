@@ -25,6 +25,36 @@ class WindowControls {
             tileImg.setAttribute("class", "hidden");
         })
     }
+    createBattleFieldGrid() {
+        // Create the 5 rows
+        const battleContainer = document.querySelector("#battle-container");
+        for (let i = 1; i <= 5; i++) {
+            const rowDiv = document.createElement("div");
+            const rowDivAttributes = {
+                        id: `row-${i}`,
+                        class: "row"
+                    };
+            battleContainer.append(rowDiv);
+            // Set the attributes for the rows
+            for (const attribute in rowDivAttributes) {
+                rowDiv.setAttribute(`${attribute}`, `${rowDivAttributes[attribute]}`);
+            }
+            // BUild the 6 columns, set their attributes adn append to the row
+            for (let j = 1; j <= 6; j++) {
+                const colDiv = document.createElement("div");
+                const colDivAttributes = {
+                        id: `col-${i}-${j}`,
+                        class: "col pt-3 pb-3 tile"
+                    };
+                //Set the attributes for the columns
+                for (const attribute in colDivAttributes) {
+                    colDiv.setAttribute(`${attribute}`, `${colDivAttributes[attribute]}`)
+                }
+                //Append the column to the row
+                rowDiv.append(colDiv);
+            }
+        }
+    }
 }
 const controls = new WindowControls;
 export { WindowControls, controls };
