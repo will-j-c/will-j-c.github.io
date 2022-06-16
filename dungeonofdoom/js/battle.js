@@ -44,6 +44,8 @@ class Battle {
             return;
         }
         const playerAction = String(event.target.id);
+        console.log("Player action: ", playerAction)
+        console.log(this.mob.frontRank)
         if (playerAction === "defend") {
             this.player.defend();
             controls.getMessageBox().innerText = "You are defending!"
@@ -62,13 +64,19 @@ class Battle {
             controls.resetControlPanelDiv();
             return;
         }
+        const frontTargetMap = this.mapButtonsToFrontRank(this.mob.frontRank);
+        console.log("Front Target Map: ", frontTargetMap);
+        const backTargetMap = this.mapButtonsToBackRank(this.mob.backRank);
+        console.log("Back Target Map: ", backTargetMap)
         let target = "";
         let targetTileId = "";
         controls.getMessageBox().innerText = "You hit your target!"
         switch(playerAction) {   
             case "front-enemy-1-square":
-                targetTileId = "#col-2-4";
+                targetTileId = frontTargetMap["front-enemy-1-square"];
+                console.log("front-enemy-1-square target: ", targetTileId)
                 target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
+                console.log(target)
                 target.takeDamage(attackStatus[1]);
                 console.log("Front Rank Target 1 current HP: ", target.currentHitPoints);
                 target.checkDeathStatus();
@@ -77,7 +85,7 @@ class Battle {
                 }
                 break;
             case "front-enemy-2-square":
-                targetTileId = "#col-3-4";
+                targetTileId = frontTargetMap["front-enemy-2-square"];
                 target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
                 console.log("Front Rank Target 2 current HP: ", target.currentHitPoints);
@@ -87,7 +95,7 @@ class Battle {
                 }
                 break;
             case "front-enemy-3-square":
-                targetTileId = "#col-4-4";
+                targetTileId = frontTargetMap["front-enemy-3-square"];
                 target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
                 console.log("Front Rank Target 3 current HP: ", target.currentHitPoints);
@@ -97,7 +105,7 @@ class Battle {
                 }
                 break;
             case "back-enemy-1-square":
-                targetTileId = "#col-2-5";
+                targetTileId = backTargetMap["back-enemy-1-square"];
                 target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
                 console.log("Back Rank Target 1 current HP: ", target.currentHitPoints);
@@ -107,7 +115,7 @@ class Battle {
                 }
                 break;
             case "back-enemy-2-square":
-                targetTileId = "#col-3-5";
+                targetTileId = backTargetMap["back-enemy-2-square"];
                 target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
                 console.log("Back Rank Target 2 current HP: ", target.currentHitPoints);
@@ -117,7 +125,7 @@ class Battle {
                 }
                 break;
             case "back-enemy-3-square":
-                targetTileId = "#col-4-5";
+                targetTileId = backTargetMap["back-enemy-3-square"];
                 target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
                 console.log("Back Rank Target 3 current HP: ", target.currentHitPoints);
@@ -203,8 +211,7 @@ class Battle {
                             src: enemy.artwork
                         };
                     enemy.placement = `#${frontRankTiles[index]}`;
-                    enemy.attackButton = `front-enemy-${index + 1}-square`
-                    console.log(enemy.attackButton);
+                    console.log(`Enemy ${index + 1} placement:`,enemy.placement)
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -220,8 +227,7 @@ class Battle {
                             src: enemy.artwork
                         };
                     enemy.placement = `#${frontRankTiles[index]}`;
-                    enemy.attackButton = `front-enemy-${index + 1}-square`
-                    console.log(enemy.attackButton)
+                    console.log(`Enemy ${index + 1} placement:`,enemy.placement)
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -236,7 +242,6 @@ class Battle {
                             src: this.mob.frontRank[0].artwork
                         };
                 this.mob.frontRank[0].placement = `#${frontRankTiles[1]}`;
-                this.mob.frontRank[0].placement = `front-enemy-1-square`;
                 console.log(this.mob.frontRank[0].placement)
                 for (const attribute in enemyImgAttributes) {
                     enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
@@ -256,8 +261,6 @@ class Battle {
                             src: enemy.artwork
                         };
                     enemy.placement = `#${backRankTiles[index]}`;
-                    enemy.attackButton = `back-enemy-${index + 1}-square`
-                    console.log(enemy.attackButton);
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -273,8 +276,6 @@ class Battle {
                             src: enemy.artwork
                         };
                     enemy.placement = `#${backRankTiles[index]}`;
-                    enemy.attackButton = `back-enemy-${index + 1}-square`
-                    console.log(enemy.attackButton);
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -289,8 +290,6 @@ class Battle {
                             src: this.mob.backRank[0].artwork
                         };
                 this.mob.backRank[0].placement = `#${backRankTiles[1]}`;
-                this.mob.frontRank[0].placement = `back-enemy-1-square`;
-                console.log(this.mob.frontRank[0].placement)
                 for (const attribute in enemyImgAttributes) {
                     enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                 }
@@ -329,7 +328,51 @@ class Battle {
             controlPanel.append(potionButton);
         }
     }
-    // Method to map 
+    // Method to map buttons to tiles. Takes the rank array to mapp and it's position "front or "back"
+    mapButtonsToFrontRank(rank) {
+        const rankLen = rank.length;
+        console.log("Front length: ", rankLen)
+        if (rankLen === 3) {
+            return {
+                "front-enemy-1-square": "#col-2-4",
+                "front-enemy-2-square": "#col-3-4",
+                "front-enemy-3-square": "#col-4-4" 
+            }
+        }
+        if (rankLen === 2) {
+            return {
+                "front-enemy-1-square": "#col-2-4",
+                "front-enemy-2-square": "#col-3-4",
+            }
+        }
+        if (rankLen === 1) {
+            return {
+                "front-enemy-1-square": "#col-3-4",
+            }
+        }
+    }
+    mapButtonsToBackRank(rank) {
+        const rankLen = rank.length;
+        console.log("Back length: ", rankLen)
+        if (rankLen === 3) {
+            return {
+                "back-enemy-1-square": "#col-2-5",
+                "back-enemy-2-square": "#col-3-5",
+                "back-enemy-3-square": "#col-4-5" 
+            }
+        }
+        if (rankLen === 2) {
+            return {
+                "back-enemy-1-square": "#col-2-5",
+                "back-enemy-2-square": "#col-3-5",
+            }
+        }
+        if (rankLen === 1) {
+            return {
+                "back-enemy-1-square": "#col-3-5",
+            }
+        }
+    }
 }
 
 export { Battle };
