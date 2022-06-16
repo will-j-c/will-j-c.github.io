@@ -20,10 +20,10 @@ class Game {
         this.currentBattle = "";
     }
     // Initiates a new battle object and loops until the battle is over.
-    async newBattle() {
+    newBattle() {
         const battle = new Battle(this.player, this.currentLevel[0], this.currentLevel[1], this.currentLevel[2], this.currentLevel[3]);
         this.currentBattle = battle;
-        await battle.battleSequence();
+        battle.battleSequence();
     }
     start() {
         //

@@ -13,39 +13,64 @@ class Battle {
     }
     // The below method is called to launch a new battle and run the whole logic for the battle.
     async battleSequence() {
-        await this.buildBattlefield();
-        // do {
+        this.buildBattlefield();
+        // for(let i = 0; i < 10; i++) {
+        while(this.isOver === false) {
             this.buildActionButtons();
-            this.playerTurn();
-            this.enemyTurn(); 
-    //     } while(this.isOver === false);
+            const messageBox = controls.getMessageBox()
+            this.player.isDefending = false;
+            messageBox.innerText = "Choose an action"
+            // const controlPanel = document.querySelector("#control-panel");
+            // controlPanel.onclick = event => {
+            // this.playerTurn(event);
+            // console.log("Player turn " + (i+1));
+            // this.enemyTurn();
+            // console.log("Enemy turn " + (i+1));
+            // // }
+            await this.awaitPlayerTurn();
+        }
+        console.log("done")
     }
-    async playerTurn() {
-        // Display a message that it is the players turn
-        const messageBox = controls.getMessageBox()
-        this.player.isDefending = false;
-        messageBox.innerText = "Choose an action"
+
+    awaitPlayerTurn() {
         const controlPanel = document.querySelector("#control-panel");
-        // Set event listener to listen for the button press. Need to use arrow function to inherit "this" from class
-        controlPanel.onclick = event => {
+        return new Promise(resolve => {
+            function handleClick() {
+                document.removeEventListener('click', handleClick);
+                resolve();
+            }
+            controlPanel.onclick = event => {
+                this.playerTurn(event);
+                handleClick();
+            }
+        })
+    }
+
+    playerTurn(event) {
+        // Display a message that it is the players turn
+        // const messageBox = controls.getMessageBox()
+        // this.player.isDefending = false;
+        // messageBox.innerText = "Choose an action"
+        // const controlPanel = document.querySelector("#control-panel");
+        // // Set event listener to listen for the button press. Need to use arrow function to inherit "this" from class
+        // controlPanel.onclick = event => {
             if (event.target.id === "control-panel") {
                 return;
             }
             const playerAction = String(event.target.id);
-            console.log(playerAction)
             if (playerAction === "defend") {
                 this.player.defend();
-                messageBox.innerText = "You are defending!"
+                controls.getMessageBox().innerText = "You are defending!"
                 return;
             }
             if (playerAction === "take-potion") {
                 this.player.drinkPotion();
-                messageBox.innerText = "You drank a potion!"
+                controls.getMessageBox().innerText = "You drank a potion!"
                 return;
             }
             const attackStatus = this.player.attack()
             if (attackStatus[0] === false) {
-                messageBox.innerText = "You missed your target!"
+                controls.getMessageBox().innerText = "You missed your target!"
                 return;
             }
             let target = "";
@@ -129,11 +154,11 @@ class Battle {
                 return;
             }
             this.buildActionButtons();
-        }
+        // }
     }
     // Method that sets the logic for the enemy turn
-    async enemyTurn() {
-        // Detemine which enemies are alive
+    enemyTurn() {
+        // Determine which enemies are alive
         const frontRankAlive = this.mob.frontRank.filter(enemy => enemy.isAlive);
         const backRankAlive = this.mob.backRank.filter(enemy => enemy.isAlive);
         // alive enemies choose action
@@ -170,7 +195,7 @@ class Battle {
         //
     }
     // Method that adds the divs for the game board. Grid is 6x5 and adds a co-ordinate for each box. Grid also adds art for the enemies.
-    async buildBattlefield() {
+    buildBattlefield() {
         // Create the 5 rows
         const battleContainer = document.querySelector("#battle-container");
         for (let i = 1; i <= 5; i++) {
@@ -308,7 +333,7 @@ class Battle {
         }
     }
     // Method determines the available actions of the player and add relevant buttons to the DOM for that action
-    async buildActionButtons() {
+    buildActionButtons() {
         const controlPanel = controls.getControlPanelDiv();
         //Clear the HTML each time this is called
         controlPanel.innerHTML = "";
