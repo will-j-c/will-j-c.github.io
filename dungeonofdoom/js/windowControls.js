@@ -18,6 +18,13 @@ class WindowControls {
     resetControlPanelDiv() {
         this.getControlPanelDiv().innerHTML = "";
     }
+    deathAnimation(targetTileId) {
+        const tileImg = controls.getSquare(targetTileId).firstChild;
+        tileImg.classList.add("dead");
+        tileImg.addEventListener("animationend", () => {
+            tileImg.setAttribute("class", "hidden");
+        })
+    }
 }
 const controls = new WindowControls;
 export { WindowControls, controls };

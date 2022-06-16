@@ -63,80 +63,67 @@ class Battle {
             return;
         }
         let target = "";
+        let targetTileId = "";
         controls.getMessageBox().innerText = "You hit your target!"
         switch(playerAction) {   
             case "front-enemy-1-square":
-                const targetTileId = "#col-2-4";
+                targetTileId = "#col-2-4";
                 target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
-                console.log(target)
                 target.takeDamage(attackStatus[1]);
-               target.checkDeathStatus();
+                console.log("Front Rank Target 1 current HP: ", target.currentHitPoints);
+                target.checkDeathStatus();
                 if (target.isAlive === false) {
-                    const tileImg = controls.getSquare(targetTileId).firstChild;
-                    tileImg.classList.add("dead");
-                    tileImg.addEventListener("animationend", () => {
-                        tileImg.setAttribute("class", "hidden");
-                    })
+                    controls.deathAnimation(targetTileId);
                 }
                 break;
             case "front-enemy-2-square":
-                target = this.mob.frontRank[1]
+                targetTileId = "#col-3-4";
+                target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                this. mob.frontRank[1].checkDeathStatus();
-                if (this.mob.frontRank[1].isAlive === false) {
-                    const tileImg = controls.getSquare(`#col-3-4`).firstChild;
-                    tileImg.classList.add("dead");
-                    tileImg.addEventListener("animationend", () => {
-                        tileImg.setAttribute("class", "hidden");
-                    })
+                console.log("Front Rank Target 2 current HP: ", target.currentHitPoints);
+                target.checkDeathStatus();
+                if (target.isAlive === false) {
+                    controls.deathAnimation(targetTileId);
                 }
                 break;
             case "front-enemy-3-square":
-                target = this.mob.frontRank[2]
+                targetTileId = "#col-4-4";
+                target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                this. mob.frontRank[2].checkDeathStatus();
-                if (this.mob.frontRank[2].isAlive === false) {
-                    const tileImg = controls.getSquare(`#col-4-4`).firstChild;
-                    tileImg.classList.add("dead");
-                    tileImg.addEventListener("animationend", () => {
-                        tileImg.setAttribute("class", "hidden");
-                    })
+                console.log("Front Rank Target 3 current HP: ", target.currentHitPoints);
+                target.checkDeathStatus();
+                if (target.isAlive === false) {
+                    controls.deathAnimation(targetTileId);
                 }
                 break;
             case "back-enemy-1-square":
-                target = this.mob.backRank[0]
+                targetTileId = "#col-2-5";
+                target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                this. mob.backRank[0].checkDeathStatus();
-                if (this.mob.backRank[0].isAlive === false) {
-                    const tileImg = controls.getSquare(`#col-2-5`).firstChild;
-                    tileImg.classList.add("dead");
-                    tileImg.addEventListener("animationend", () => {
-                        tileImg.setAttribute("class", "hidden");
-                    })
+                console.log("Back Rank Target 1 current HP: ", target.currentHitPoints);
+                target.checkDeathStatus();
+                if (target.isAlive === false) {
+                    controls.deathAnimation(targetTileId);
                 }
                 break;
             case "back-enemy-2-square":
-                target = this.mob.backRank[1]
+                targetTileId = "#col-3-5";
+                target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                this. mob.backRank[1].checkDeathStatus();
-                if (this.mob.backRank[1].isAlive === false) {
-                    const tileImg = controls.getSquare(`#col-3-5`).firstChild;
-                    tileImg.classList.add("dead");
-                    tileImg.addEventListener("animationend", () => {
-                        tileImg.setAttribute("class", "hidden");
-                    })
+                console.log("Back Rank Target 2 current HP: ", target.currentHitPoints);
+                target.checkDeathStatus();
+                if (target.isAlive === false) {
+                    controls.deathAnimation(targetTileId);
                 }
                 break;
             case "back-enemy-3-square":
-                target = this.mob.backRank[2]
+                targetTileId = "#col-4-5";
+                target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                this. mob.backRank[2].checkDeathStatus();
-                if (this.mob.backRank[2].isAlive === false) {
-                    const tileImg = controls.getSquare(`#col-4-5`).firstChild;
-                    tileImg.classList.add("dead");
-                    tileImg.addEventListener("animationend", () => {
-                        tileImg.setAttribute("class", "hidden");
-                    })
+                console.log("Back Rank Target 3 current HP: ", target.currentHitPoints);
+                target.checkDeathStatus();
+                if (target.isAlive === false) {
+                    controls.deathAnimation(targetTileId);
                 }
                 break;
         }
@@ -243,7 +230,6 @@ class Battle {
                             src: enemy.artwork
                         };
                     enemy.placement = `#${frontRankTiles[index]}`;
-                    console.log(enemy)
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
