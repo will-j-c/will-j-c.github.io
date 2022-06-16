@@ -22,14 +22,13 @@ class Battle {
             await this.awaitPlayerTurn();
             this.enemyTurn();
         }
-        console.log("done")
+        console.log("BATTLE OVER");
     }
 
     awaitPlayerTurn() {
         const controlPanel = document.querySelector("#control-panel");
         return new Promise(resolve => {
             function handleClick() {
-                document.removeEventListener('click', handleClick);
                 resolve();
             }
             controlPanel.onclick = event => {
