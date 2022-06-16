@@ -15,6 +15,9 @@ class WindowControls {
     getSquare(id) {
         return document.querySelector(`${id}`);
     }
+    resetControlPanelDiv() {
+        this.getControlPanelDiv().innerHTML = "";
+    }
 }
 const controls = new WindowControls;
 export { WindowControls, controls };

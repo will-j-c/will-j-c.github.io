@@ -13,7 +13,7 @@ import { WindowControls } from "./windowControls.js";
 
 // Define the Game class. This will start the game, initiate battles and all other game logic.
 class Game {
-    static levelOne = [Skeleton, 3, Skeleton, 3];
+    static levelOne = [Skeleton, 3, Skeleton, 1];
     constructor() {
         this.player = new Player();
         this.currentLevel = Game.levelOne;

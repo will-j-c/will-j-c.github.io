@@ -14,19 +14,11 @@ class Battle {
     // The below method is called to launch a new battle and run the whole logic for the battle.
     async battleSequence() {
         this.buildBattlefield();
-        // for(let i = 0; i < 10; i++) {
+        const messageBox = controls.getMessageBox();
+        messageBox.innerText = "Choose an action"
         while(this.isOver === false) {
             this.buildActionButtons();
-            const messageBox = controls.getMessageBox()
             this.player.isDefending = false;
-            messageBox.innerText = "Choose an action"
-            // const controlPanel = document.querySelector("#control-panel");
-            // controlPanel.onclick = event => {
-            // this.playerTurn(event);
-            // console.log("Player turn " + (i+1));
-            // this.enemyTurn();
-            // console.log("Enemy turn " + (i+1));
-            // // }
             await this.awaitPlayerTurn();
         }
         console.log("done")
@@ -47,114 +39,111 @@ class Battle {
     }
 
     playerTurn(event) {
-        // Display a message that it is the players turn
-        // const messageBox = controls.getMessageBox()
-        // this.player.isDefending = false;
-        // messageBox.innerText = "Choose an action"
-        // const controlPanel = document.querySelector("#control-panel");
-        // // Set event listener to listen for the button press. Need to use arrow function to inherit "this" from class
-        // controlPanel.onclick = event => {
-            if (event.target.id === "control-panel") {
-                return;
-            }
-            const playerAction = String(event.target.id);
-            if (playerAction === "defend") {
-                this.player.defend();
-                controls.getMessageBox().innerText = "You are defending!"
-                return;
-            }
-            if (playerAction === "take-potion") {
-                this.player.drinkPotion();
-                controls.getMessageBox().innerText = "You drank a potion!"
-                return;
-            }
-            const attackStatus = this.player.attack()
-            if (attackStatus[0] === false) {
-                controls.getMessageBox().innerText = "You missed your target!"
-                return;
-            }
-            let target = "";
-            switch(playerAction) {   
-                case "front-enemy-1-square":
-                    target = this.mob.frontRank[0]
-                    target.takeDamage(attackStatus[1]);
-                    this. mob.frontRank[0].checkDeathStatus();
-                    if (this.mob.frontRank[0].isAlive === false) {
-                        const tileImg = controls.getSquare(`#col-2-4`).firstChild;
-                        tileImg.classList.add("dead");
-                        tileImg.addEventListener("animationend", () => {
-                            tileImg.setAttribute("class", "hidden");
-                        })
-                    }
-                    break;
-                case "front-enemy-2-square":
-                    target = this.mob.frontRank[1]
-                    target.takeDamage(attackStatus[1]);
-                    this. mob.frontRank[1].checkDeathStatus();
-                    if (this.mob.frontRank[1].isAlive === false) {
-                        const tileImg = controls.getSquare(`#col-3-4`).firstChild;
-                        tileImg.classList.add("dead");
-                        tileImg.addEventListener("animationend", () => {
-                            tileImg.setAttribute("class", "hidden");
-                        })
-                    }
-                    break;
-                case "front-enemy-3-square":
-                    target = this.mob.frontRank[2]
-                    target.takeDamage(attackStatus[1]);
-                    this. mob.frontRank[2].checkDeathStatus();
-                    if (this.mob.frontRank[2].isAlive === false) {
-                        const tileImg = controls.getSquare(`#col-4-4`).firstChild;
-                        tileImg.classList.add("dead");
-                        tileImg.addEventListener("animationend", () => {
-                            tileImg.setAttribute("class", "hidden");
-                        })
-                    }
-                    break;
-                case "back-enemy-1-square":
-                    target = this.mob.backRank[0]
-                    target.takeDamage(attackStatus[1]);
-                    this. mob.backRank[0].checkDeathStatus();
-                    if (this.mob.backRank[0].isAlive === false) {
-                        const tileImg = controls.getSquare(`#col-2-5`).firstChild;
-                        tileImg.classList.add("dead");
-                        tileImg.addEventListener("animationend", () => {
-                            tileImg.setAttribute("class", "hidden");
-                        })
-                    }
-                    break;
-                case "back-enemy-2-square":
-                    target = this.mob.backRank[1]
-                    target.takeDamage(attackStatus[1]);
-                    this. mob.backRank[1].checkDeathStatus();
-                    if (this.mob.backRank[1].isAlive === false) {
-                        const tileImg = controls.getSquare(`#col-3-5`).firstChild;
-                        tileImg.classList.add("dead");
-                        tileImg.addEventListener("animationend", () => {
-                            tileImg.setAttribute("class", "hidden");
-                        })
-                    }
-                    break;
-                case "back-enemy-3-square":
-                    target = this.mob.backRank[2]
-                    target.takeDamage(attackStatus[1]);
-                    this. mob.backRank[2].checkDeathStatus();
-                    if (this.mob.backRank[2].isAlive === false) {
-                        const tileImg = controls.getSquare(`#col-4-5`).firstChild;
-                        tileImg.classList.add("dead");
-                        tileImg.addEventListener("animationend", () => {
-                            tileImg.setAttribute("class", "hidden");
-                        })
-                    }
-                    break;
-            }
-            this.battleOver();
-            if (this.isOver) {
-                setTimeout(this.endBattleMessage(true), 2000);
-                return;
-            }
-            this.buildActionButtons();
-        // }
+        if (event.target.id === "control-panel") {
+            controls.resetControlPanelDiv();
+            return;
+        }
+        const playerAction = String(event.target.id);
+        if (playerAction === "defend") {
+            this.player.defend();
+            controls.getMessageBox().innerText = "You are defending!"
+            controls.resetControlPanelDiv();
+            return;
+        }
+        if (playerAction === "take-potion") {
+            this.player.drinkPotion();
+            controls.getMessageBox().innerText = "You drank a potion!"
+            controls.resetControlPanelDiv();
+            return;
+        }
+        const attackStatus = this.player.attack()
+        if (attackStatus[0] === false) {
+            controls.getMessageBox().innerText = "You missed your target!"
+            controls.resetControlPanelDiv();
+            return;
+        }
+        let target = "";
+        controls.getMessageBox().innerText = "You hit your target!"
+        switch(playerAction) {   
+            case "front-enemy-1-square":
+                target = this.mob.frontRank[0]
+                target.takeDamage(attackStatus[1]);
+                this. mob.frontRank[0].checkDeathStatus();
+                if (this.mob.frontRank[0].isAlive === false) {
+                    const tileImg = controls.getSquare(`#col-2-4`).firstChild;
+                    tileImg.classList.add("dead");
+                    tileImg.addEventListener("animationend", () => {
+                        tileImg.setAttribute("class", "hidden");
+                    })
+                }
+                break;
+            case "front-enemy-2-square":
+                target = this.mob.frontRank[1]
+                target.takeDamage(attackStatus[1]);
+                this. mob.frontRank[1].checkDeathStatus();
+                if (this.mob.frontRank[1].isAlive === false) {
+                    const tileImg = controls.getSquare(`#col-3-4`).firstChild;
+                    tileImg.classList.add("dead");
+                    tileImg.addEventListener("animationend", () => {
+                        tileImg.setAttribute("class", "hidden");
+                    })
+                }
+                break;
+            case "front-enemy-3-square":
+                target = this.mob.frontRank[2]
+                target.takeDamage(attackStatus[1]);
+                this. mob.frontRank[2].checkDeathStatus();
+                if (this.mob.frontRank[2].isAlive === false) {
+                    const tileImg = controls.getSquare(`#col-4-4`).firstChild;
+                    tileImg.classList.add("dead");
+                    tileImg.addEventListener("animationend", () => {
+                        tileImg.setAttribute("class", "hidden");
+                    })
+                }
+                break;
+            case "back-enemy-1-square":
+                target = this.mob.backRank[0]
+                target.takeDamage(attackStatus[1]);
+                this. mob.backRank[0].checkDeathStatus();
+                if (this.mob.backRank[0].isAlive === false) {
+                    const tileImg = controls.getSquare(`#col-2-5`).firstChild;
+                    tileImg.classList.add("dead");
+                    tileImg.addEventListener("animationend", () => {
+                        tileImg.setAttribute("class", "hidden");
+                    })
+                }
+                break;
+            case "back-enemy-2-square":
+                target = this.mob.backRank[1]
+                target.takeDamage(attackStatus[1]);
+                this. mob.backRank[1].checkDeathStatus();
+                if (this.mob.backRank[1].isAlive === false) {
+                    const tileImg = controls.getSquare(`#col-3-5`).firstChild;
+                    tileImg.classList.add("dead");
+                    tileImg.addEventListener("animationend", () => {
+                        tileImg.setAttribute("class", "hidden");
+                    })
+                }
+                break;
+            case "back-enemy-3-square":
+                target = this.mob.backRank[2]
+                target.takeDamage(attackStatus[1]);
+                this. mob.backRank[2].checkDeathStatus();
+                if (this.mob.backRank[2].isAlive === false) {
+                    const tileImg = controls.getSquare(`#col-4-5`).firstChild;
+                    tileImg.classList.add("dead");
+                    tileImg.addEventListener("animationend", () => {
+                        tileImg.setAttribute("class", "hidden");
+                    })
+                }
+                break;
+        }
+        controls.resetControlPanelDiv();
+        this.battleOver();
+        if (this.isOver) {
+            setTimeout(this.endBattleMessage(true), 5000);
+            return;
+        }
     }
     // Method that sets the logic for the enemy turn
     enemyTurn() {
@@ -335,8 +324,8 @@ class Battle {
     // Method determines the available actions of the player and add relevant buttons to the DOM for that action
     buildActionButtons() {
         const controlPanel = controls.getControlPanelDiv();
-        //Clear the HTML each time this is called
-        controlPanel.innerHTML = "";
+        // //Clear the HTML each time this is called
+        // controlPanel.innerHTML = "";
         //Create buttons to attack viable targets. Can only attack the front rank if it is still alive
         if (this.mob.frontRank.some(enemy => enemy.isAlive === true)) {
             this.mob.frontRank.forEach((enemy, index) => {
