@@ -28,10 +28,12 @@ class Player {
     }
     takeDamage(damage) {
         if (this.isDefending === true) {
-            this.currentHitPoints -= 0.5 * damage;
-            return;
+            const halfDamage = damage * 0.5;
+            this.currentHitPoints -= halfDamage;
+            return halfDamage;
         }
         this.currentHitPoints -= damage;
+        return damage;
     }
     // Check is the player is alive
     checkDeathStatus() {

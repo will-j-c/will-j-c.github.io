@@ -11,6 +11,7 @@ class Skeleton extends Monster {
         super(Skeleton.totalHitPoints);
         this.name = "Skeleton";
         this.artwork = "assets/monster/skeletal_warrior.png"
+        this.basicAttackName = "Shuffle Attack";
     }
     basicAttack() {
         const isHit = Math.random() <= Skeleton.accuracy ? true : false;

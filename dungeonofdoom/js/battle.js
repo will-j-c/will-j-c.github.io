@@ -20,6 +20,7 @@ class Battle {
             this.buildActionButtons();
             this.player.isDefending = false;
             await this.awaitPlayerTurn();
+            this.enemyTurn();
         }
         console.log("done")
     }
@@ -147,11 +148,16 @@ class Battle {
         // Determine which enemies are alive
         const frontRankAlive = this.mob.frontRank.filter(enemy => enemy.isAlive);
         const backRankAlive = this.mob.backRank.filter(enemy => enemy.isAlive);
-        // alive enemies choose action
-        // enemies cycle through and put that action into effect
-        // display result message of that action
-        // Check if the battle is over
-        // Display defeat message
+        frontRankAlive.forEach(enemy => {
+            controls.getMessageBox.innerText = `A ${enemy.name} used ${enemy.basicAttackName}`
+            const basicAttackResult = enemy.basicAttack()
+            if (basicAttackResult[0]) {
+                const damage = this.player.takeDamage(basicAttackResult[1]);
+                controls.getMessageBox.innerText = `You are hit! You lost ${damage} hit points!`
+                this.player.checkDeathStatus();
+                this.battleOver();
+            }
+        })
     }
     // Check if the battle is over and update the status of the battle if it is
     battleOver() {
