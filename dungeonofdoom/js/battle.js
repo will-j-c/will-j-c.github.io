@@ -66,11 +66,13 @@ class Battle {
         controls.getMessageBox().innerText = "You hit your target!"
         switch(playerAction) {   
             case "front-enemy-1-square":
-                target = this.mob.frontRank[0]
+                const targetTileId = "#col-2-4";
+                target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
+                console.log(target)
                 target.takeDamage(attackStatus[1]);
-                this. mob.frontRank[0].checkDeathStatus();
-                if (this.mob.frontRank[0].isAlive === false) {
-                    const tileImg = controls.getSquare(`#col-2-4`).firstChild;
+               target.checkDeathStatus();
+                if (target.isAlive === false) {
+                    const tileImg = controls.getSquare(targetTileId).firstChild;
                     tileImg.classList.add("dead");
                     tileImg.addEventListener("animationend", () => {
                         tileImg.setAttribute("class", "hidden");
@@ -240,6 +242,8 @@ class Battle {
                             id: `fr-enemy-${index + 1}-img`, 
                             src: enemy.artwork
                         };
+                    enemy.placement = `#${frontRankTiles[index]}`;
+                    console.log(enemy)
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
