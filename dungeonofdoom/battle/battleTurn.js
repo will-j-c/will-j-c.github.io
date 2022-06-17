@@ -2,24 +2,27 @@ class BattleTurn {
     constructor(battle, onNewEvent) {
         this.battle = battle;
         this.onNewEvent = onNewEvent;
-        this.currentCombatant = "player"; // Player starts
+        this.turnOrder = [this.battle.player];
     }
     // Method that determines the actions completed in the turn
     async turn() {
         //Get the current active combatant
-        const currentCombatant = this.battle[this.currentCombatant];
-        // If it is the player turn, build the available actions
-        if (this.currentCombatant === "player") {
+        let currentIndex = 0;
+        const currentCombatant = this.turnOrder[currentIndex];
+        let currentCombatantTarget = this.battle.player;
+        // If it is the player turn, build the available actions and listen for the choice, then submit to the battleTurnSubmission
+        if (currentCombatant.type === "player") {
             this.buildPlayerActions();
+            const controlPanel = document.querySelector("#control-panel");
+            currentCombatantTarget = await this.playerAction();
+            console.log(currentCombatantTarget);
         }
-        // const enemyId = this.battle.activeCombatants[caster.team === "player" ? "enemy" : "player"]
-        // const enemy = this.battle.combatants[enemyId];
-    
-        // const submission = await this.onNewEvent({
-        //   type: "submissionMenu",
-        //   caster,
-        //   enemy
-        // })
+            
+        const submission = await this.onNewEvent({
+        type: "submission",
+        currentCombatant,
+        currentCombatantTarget
+        })
         // const resultingEvents = submission.action.success;
         // for (let i=0; i<resultingEvents.length; i++) {
         //   const event = {
@@ -32,29 +35,31 @@ class BattleTurn {
         //   await this.onNewEvent(event);
         // }
     
-        // this.currentTeam = this.currentTeam === "player" ? "enemy" : "player";
+       if (currentIndex < this.turnOrder) {
+        currentIndex++;
+       } else {
+        currentIndex = 0;
+       }
         // this.turn();
     }
     buildPlayerActions() {
         const controlPanel = document.querySelector("#control-panel");
         // Clear any previous buttons
         const toClear = document.querySelectorAll("#control-panel button");
-        console.log(toClear);
+        for (let button of toClear) {
+            button.remove();
+        }
         // Create an array of alive enemies
-        console.log(this.battle.enemies);
-        const aliveEnemies = this.battle.enemies.filter(enemy => {
-            console.log("enemy.isAlive: ", enemy.isAlive);
-            enemy.isAlive === true;
-        })
-        console.log("aliveEnemies: ", aliveEnemies);
+        const aliveEnemies = this.battle.enemies.filter(enemy => enemy.isAlive);
         // Create available actions based on player actions
         const actions = this.battle.player.actions;
         for (let action of actions) {
             if (action.type === "attack") {
                 let enemyNumber = 1;
-                for (enemy of aliveEnemies) {
+                for (let enemy of aliveEnemies) {
                     const button = document.createElement("button");
                     button.innerText = `${action.name} ${enemy.name} ${enemyNumber}`;
+                    button.setAttribute("id", `attack-enemy-${enemyNumber}`);
                     controlPanel.append(button);
                     enemyNumber++;
                 }
@@ -62,6 +67,7 @@ class BattleTurn {
             if (action.type === "utility") {
                 const button = document.createElement("button");
                 button.innerText = action.name;
+                button.setAttribute("id", action.id);
                 controlPanel.append(button);
             }
         }
@@ -76,8 +82,31 @@ class BattleTurn {
     //         button.innerText = ``
     //     }
     }
+    playerAction() {
+        return new Promise(resolve => {
+            const controlPanel = document.querySelector("#control-panel");
+            controlPanel.onclick = event => {
+                if(event.target.tagName !== "BUTTON") {
+                    this.playerAction();
+                }
+            const utilityIdArr = ["defend", "health-potion"];
+                if (utilityIdArr.some(id => id === event.target.id)) {
+                    resolve(this.battle.player);
+                }
+            const attacksIdArr = ["attack-enemy-1", "attack-enemy-2", "attack-enemy-3"]
+            if (attacksIdArr.some(id => id === event.target.id)) {
+                const index = event.target.id.replace(/^\D+/g, '');
+                resolve(this.turnOrder[index]);
+            }
+        }
+        }) 
+    }
 
     async start() {
+        // Push battle enemies into the turn order
+        for (let enemy of this.battle.enemies) {
+            this.turnOrder.push(enemy);
+        }
         // await this.onNewEvent({
         //     type: "messageBoxText",
         //     text: "The enemy approaches....."

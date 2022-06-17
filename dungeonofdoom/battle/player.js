@@ -10,6 +10,7 @@ class Player {
         this.isDefending = false;
         this.potions = Player.startPotion;
         this.artwork = "assets/player/daeva.png";
+        this.type = "player";
         this.actions = [
             {
                 name: "Sword Attack",
@@ -23,13 +24,15 @@ class Player {
                 name: "Defend",
                 type: "utility",
                 action: this.defend(),
-                text: "You raise your shield and defend yourself!"
+                text: "You raise your shield and defend yourself!",
+                id: "defend"
             },
             {
                 name: "Take Health Potion",
                 type: "utility",
                 action: this.drinkPotion(),
-                text: "You drink a health potion."
+                text: "You drink a health potion.",
+                id: "health-potion"
             }
         ];
     }

@@ -4,6 +4,7 @@ class Monster {
         this.totalHitPoints = hp;
         this.currentHitPoints = this.totalHitPoints;
         this.isAlive = true;
+        this.type = "enemy";
     }
     // Method that applies damaged received to monster
     takeDamage(damage) {
