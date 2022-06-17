@@ -3,6 +3,9 @@ class WindowControls {
     getMessageBox() {
         return document.querySelector("#message-box");
     }
+    message(string) {
+        this.getMessageBox.innerText = string;
+    }
     getControlPanelDiv() {
         return document.querySelector("#control-panel");
     }

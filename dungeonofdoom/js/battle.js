@@ -14,13 +14,18 @@ class Battle {
     // The below method is called to launch a new battle and run the whole logic for the battle.
     async battleSequence() {
         this.buildBattlefield();
-        const messageBox = controls.getMessageBox();
-        messageBox.innerText = "Choose an action"
         while(this.isOver === false) {
             this.buildActionButtons();
             this.player.isDefending = false;
+            console.log("Awaiting player click")
+            controls.getMessageBox().innerText = "Choose an action";
             await this.awaitPlayerTurn();
+            console.log(this.isOver)
+            controls.resetControlPanelDiv();
+            console.log("resetting controls")
             this.enemyTurn();
+            console.log(this.isOver)
+            console.log("Enemy turn")
         }
         console.log("BATTLE OVER");
     }
@@ -44,8 +49,6 @@ class Battle {
             return;
         }
         const playerAction = String(event.target.id);
-        console.log("Player action: ", playerAction)
-        console.log(this.mob.frontRank)
         if (playerAction === "defend") {
             this.player.defend();
             controls.getMessageBox().innerText = "You are defending!"
@@ -65,77 +68,66 @@ class Battle {
             return;
         }
         const frontTargetMap = this.mapButtonsToFrontRank(this.mob.frontRank);
-        console.log("Front Target Map: ", frontTargetMap);
         const backTargetMap = this.mapButtonsToBackRank(this.mob.backRank);
-        console.log("Back Target Map: ", backTargetMap)
         let target = "";
         let targetTileId = "";
         controls.getMessageBox().innerText = "You hit your target!"
         switch(playerAction) {   
             case "front-enemy-1-square":
                 targetTileId = frontTargetMap["front-enemy-1-square"];
-                console.log("front-enemy-1-square target: ", targetTileId)
                 target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
-                console.log(target)
                 target.takeDamage(attackStatus[1]);
-                console.log("Front Rank Target 1 current HP: ", target.currentHitPoints);
                 target.checkDeathStatus();
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                break;
+                return;
             case "front-enemy-2-square":
                 targetTileId = frontTargetMap["front-enemy-2-square"];
                 target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                console.log("Front Rank Target 2 current HP: ", target.currentHitPoints);
                 target.checkDeathStatus();
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                break;
+                return;
             case "front-enemy-3-square":
                 targetTileId = frontTargetMap["front-enemy-3-square"];
                 target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                console.log("Front Rank Target 3 current HP: ", target.currentHitPoints);
                 target.checkDeathStatus();
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                break;
+                return;
             case "back-enemy-1-square":
                 targetTileId = backTargetMap["back-enemy-1-square"];
                 target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                console.log("Back Rank Target 1 current HP: ", target.currentHitPoints);
                 target.checkDeathStatus();
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                break;
+                return;
             case "back-enemy-2-square":
                 targetTileId = backTargetMap["back-enemy-2-square"];
                 target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                console.log("Back Rank Target 2 current HP: ", target.currentHitPoints);
                 target.checkDeathStatus();
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                break;
+                return;
             case "back-enemy-3-square":
                 targetTileId = backTargetMap["back-enemy-3-square"];
                 target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
                 target.takeDamage(attackStatus[1]);
-                console.log("Back Rank Target 3 current HP: ", target.currentHitPoints);
                 target.checkDeathStatus();
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                break;
+                return;
         }
-        controls.resetControlPanelDiv();
         this.battleOver();
         if (this.isOver) {
             setTimeout(this.endBattleMessage(true), 5000);
@@ -156,6 +148,18 @@ class Battle {
                 this.player.checkDeathStatus();
                 this.battleOver();
             }
+            controls.getMessageBox.innerText = `The ${enemy.name} missed with their ${enemy.basicAttackName}`
+        })
+        backRankAlive.forEach(enemy => {
+            controls.getMessageBox.innerText = `A ${enemy.name} used ${enemy.basicAttackName}`
+            const basicAttackResult = enemy.basicAttack()
+            if (basicAttackResult[0]) {
+                const damage = this.player.takeDamage(basicAttackResult[1]);
+                controls.getMessageBox.innerText = `You are hit! You lost ${damage} hit points!`
+                this.player.checkDeathStatus();
+                this.battleOver();
+            }
+            controls.getMessageBox.innerText = `The ${enemy.name} missed with their ${enemy.basicAttackName}`
         })
     }
     // Check if the battle is over and update the status of the battle if it is
@@ -206,7 +210,9 @@ class Battle {
         const backRankTiles = ["col-2-5", "col-3-5", "col-4-5"];
         const frontRankLen = this.mob.frontRank.length;
         const backRankLen = this.mob.backRank.length;
+        console.log(backRankLen)
         // Determine how many enemies in the rank and place the enemies according to this
+        console.log("Creating front rank")
         switch(frontRankLen) {
             case 3:
                 this.mob.frontRank.forEach((enemy, index) => {
@@ -216,7 +222,6 @@ class Battle {
                             src: enemy.artwork
                         };
                     enemy.placement = `#${frontRankTiles[index]}`;
-                    console.log(`Enemy ${index + 1} placement:`,enemy.placement)
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -232,7 +237,6 @@ class Battle {
                             src: enemy.artwork
                         };
                     enemy.placement = `#${frontRankTiles[index]}`;
-                    console.log(`Enemy ${index + 1} placement:`,enemy.placement)
                     for (const attribute in enemyImgAttributes) {
                         enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                     }
@@ -247,7 +251,6 @@ class Battle {
                             src: this.mob.frontRank[0].artwork
                         };
                 this.mob.frontRank[0].placement = `#${frontRankTiles[1]}`;
-                console.log(this.mob.frontRank[0].placement)
                 for (const attribute in enemyImgAttributes) {
                     enemyImg.setAttribute(`${attribute}`, `${enemyImgAttributes[attribute]}`)
                 }
@@ -257,6 +260,7 @@ class Battle {
             case 0:
                 break;
         }
+        console.log("Creating back rank")
         switch(backRankLen) {
             case 3:
                 this.mob.backRank.forEach((enemy, index) => {
@@ -275,6 +279,7 @@ class Battle {
                 break;
             case 2:
                 this.mob.backRank.forEach((enemy, index) => {
+                    console.log(enemy)
                     const enemyImg = document.createElement("img")
                     const enemyImgAttributes = {
                             id: `fr-enemy-${index + 1}-img`, 
@@ -336,7 +341,6 @@ class Battle {
     // Method to map buttons to tiles. Takes the rank array to mapp and it's position "front or "back"
     mapButtonsToFrontRank(rank) {
         const rankLen = rank.length;
-        console.log("Front length: ", rankLen)
         if (rankLen === 3) {
             return {
                 "front-enemy-1-square": "#col-2-4",
@@ -358,7 +362,6 @@ class Battle {
     }
     mapButtonsToBackRank(rank) {
         const rankLen = rank.length;
-        console.log("Back length: ", rankLen)
         if (rankLen === 3) {
             return {
                 "back-enemy-1-square": "#col-2-5",
