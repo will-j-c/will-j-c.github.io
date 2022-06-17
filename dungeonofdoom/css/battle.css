@@ -1,4 +1,4 @@
-img {
+.sprite {
     display: inline-block;
     animation: pulse;
     animation-duration: 1s;
@@ -16,7 +16,7 @@ img {
     background-image: url("../assets/tiles/mud.jpg");
     background-size: cover;
 }
-.row {
+.battlefield-row {
     height: 20%;
 }
 #battle-container {

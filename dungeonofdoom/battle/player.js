@@ -10,6 +10,28 @@ class Player {
         this.isDefending = false;
         this.potions = Player.startPotion;
         this.artwork = "assets/player/daeva.png";
+        this.actions = [
+            {
+                name: "Sword Attack",
+                type: "attack",
+                action: this.attack(),
+                text: "You strike with your sword!",
+                success: "You hit the enemy",
+                failure: "You missed"
+            },
+            {
+                name: "Defend",
+                type: "utility",
+                action: this.defend(),
+                text: "You raise your shield and defend yourself!"
+            },
+            {
+                name: "Take Health Potion",
+                type: "utility",
+                action: this.drinkPotion(),
+                text: "You drink a health potion."
+            }
+        ];
     }
     // Method for player attacking. Returns array of whether it is a hit and the damage inflicted.
     attack() {
