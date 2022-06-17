@@ -11,15 +11,22 @@ class Battle {
     // The below method is called to launch a new battle and run the whole logic for the battle.
     start() {
         this.buildBattlefield();
-        this.battleTurn = new BattleTurn (
-            this,
-            ""
-        )
+        this.battleTurn = new BattleTurn ({
+            battle: this,
+            onNewEvent: event => {
+                return new Promise(resolve => {
+                    const battleEvent = new BattleEvent(event, this);
+                    battleEvent.start(resolve);
+                })
+            }
+    })
         this.battleTurn.start();
     }
+
     quitBattle() {
         //
     }
+    
     // Method that adds the divs for the game board. Grid is 6x5 and adds a co-ordinate for each box. Grid also adds art for the enemies.
     buildBattlefield() {
         const playScreen = document.querySelector("#play-screen");

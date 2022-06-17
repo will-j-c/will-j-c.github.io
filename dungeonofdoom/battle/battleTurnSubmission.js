@@ -1,10 +1,10 @@
-class BattleTurnSubmission {
-    constructor({currentCombatant, onComplete}) {
+class BattleTurnAction {
+    constructor({currentCombatant, currentCombatantTarget, onComplete}) {
         this.currentCombatant = currentCombatant;
         this.onComplete = onComplete;
-        this.target = target;
+        this.currentCombatantTarget = currentCombatantTarget;
     }
-    
+
     start() {
         //
     }

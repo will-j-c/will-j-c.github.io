@@ -3,14 +3,20 @@ class BattleEvent {
       this.event = event;
       this.battle = battle;
     }
-    submission(resolve) {
-        const submission = new BattleTurnSubmission({
-            currentCombatant: this.event.currentCombatant,
-            onComplete: submission => {
-                // submission {what move to use}
-                resolve(submission);
-            }
-        })
-        submission.start()
+
+    messageBoxText(resolve) {
+        const text = this.event.text;
+        const messageBox = document.querySelector("#message-box");
+        messageBox.innerText = text;
+        resolve();
+    }
+
+    defend(resolve) {
+        // 
+    }
+
+    //Start the battle event
+    start(resolve) {
+        this[this.event.type](resolve);
     }
 }

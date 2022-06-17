@@ -1,5 +1,5 @@
 class BattleTurn {
-    constructor(battle, onNewEvent) {
+    constructor({battle, onNewEvent}) {
         this.battle = battle;
         this.onNewEvent = onNewEvent;
         this.turnOrder = [this.battle.player];
@@ -10,36 +10,31 @@ class BattleTurn {
         let currentIndex = 0;
         const currentCombatant = this.turnOrder[currentIndex];
         let currentCombatantTarget = this.battle.player;
+        let action = "basic-attack";
         // If it is the player turn, build the available actions and listen for the choice, then submit to the battleTurnSubmission
         if (currentCombatant.type === "player") {
             this.buildPlayerActions();
             const controlPanel = document.querySelector("#control-panel");
-            currentCombatantTarget = await this.playerAction();
+            const result = await this.playerAction();
+            currentCombatantTarget = result[0];
+            action = result[1];
             console.log(currentCombatantTarget);
         }
-            
-        const submission = await this.onNewEvent({
-        type: "submission",
-        currentCombatant,
-        currentCombatantTarget
-        })
-        // const resultingEvents = submission.action.success;
-        // for (let i=0; i<resultingEvents.length; i++) {
-        //   const event = {
-        //     ...resultingEvents[i],
-        //     submission,
-        //     action: submission.action,
-        //     caster,
-        //     target: submission.target,
-        //   }
-        //   await this.onNewEvent(event);
-        // }
-    
+       
+        const event = {
+            currentCombatant: currentCombatant,
+            currentCombatantTarget: currentCombatantTarget,
+            action: action
+        }
+        console.log(event);
+        // await this.onNewEvent(event);
+       // Set the turn counter to the next object in the battle order 
        if (currentIndex < this.turnOrder) {
         currentIndex++;
        } else {
         currentIndex = 0;
        }
+       // Rerun the turn
         // this.turn();
     }
     buildPlayerActions() {
@@ -71,17 +66,8 @@ class BattleTurn {
                 controlPanel.append(button);
             }
         }
-        // Create an array of alive enemies
-    //     const aliveEnemies = this.battle.enemies.filter(enemy => {
-    //         enemy.isAlive === true;
-    //     })
-    //     // Create a button for each alive enemy
-    //     for (enemy of aliveEnemies) {
-    //         let index = 1;
-    //         const button = document.createElement("button");
-    //         button.innerText = ``
-    //     }
     }
+
     playerAction() {
         return new Promise(resolve => {
             const controlPanel = document.querySelector("#control-panel");
@@ -91,26 +77,26 @@ class BattleTurn {
                 }
             const utilityIdArr = ["defend", "health-potion"];
                 if (utilityIdArr.some(id => id === event.target.id)) {
-                    resolve(this.battle.player);
+                    resolve([this.battle.player, event.target.id]);
                 }
             const attacksIdArr = ["attack-enemy-1", "attack-enemy-2", "attack-enemy-3"]
             if (attacksIdArr.some(id => id === event.target.id)) {
                 const index = event.target.id.replace(/^\D+/g, '');
-                resolve(this.turnOrder[index]);
+                resolve([this.turnOrder[index], "sword-attack"]);
             }
         }
         }) 
     }
-
+    // Start the turn event
     async start() {
         // Push battle enemies into the turn order
         for (let enemy of this.battle.enemies) {
             this.turnOrder.push(enemy);
         }
-        // await this.onNewEvent({
-        //     type: "messageBoxText",
-        //     text: "The enemy approaches....."
-        // })
+        await this.onNewEvent({
+            type: "messageBoxText",
+            text: "The enemy approaches....."
+        })
         // // Start the first turn
         this.turn();
     }
