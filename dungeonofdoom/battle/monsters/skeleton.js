@@ -1,6 +1,3 @@
-// Import the basic Monster template class
-import { Monster } from "./basicMonster.js";
-
 // Create a Skeleton
 class Skeleton extends Monster {
     static totalHitPoints = 10;
@@ -26,4 +23,3 @@ class Skeleton extends Monster {
     //     return Math.random() > Skeleton.criticalChance ? true : false;
     // }
 }
-export { Skeleton };

@@ -38,6 +38,13 @@ class WindowControls {
         logEntry.innerText = string;
         battleLog.append(logEntry);
     }
+    wait(ms) {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve()
+          }, ms)
+        })
+    }
     createBattleFieldGrid() {
         // Create the 5 rows
         const battleContainer = document.querySelector("#battle-container");

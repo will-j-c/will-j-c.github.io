@@ -14,5 +14,3 @@ class Mob {
         return rank;
     }
 }
-
-export { Mob };

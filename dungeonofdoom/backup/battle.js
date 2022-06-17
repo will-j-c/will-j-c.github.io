@@ -1,8 +1,8 @@
 //Import Mob to be used in the battle
-import { Mob } from "./mob.js";
+import { Mob } from "../js/mob.js";
 
 //Import the initialised instance of the window controls
-import { controls } from "./windowControls.js";
+import { controls } from "../js/windowControls.js";
 
 // Initiate a battle class. This will encapsulate all logic around a battle.
 class Battle {
@@ -154,41 +154,45 @@ class Battle {
         const frontRankAlive = this.mob.frontRank.filter(enemy => enemy.isAlive);
         const backRankAlive = this.mob.backRank.filter(enemy => enemy.isAlive);
         frontRankAlive.forEach(async enemy => {
+            await controls.wait(5000);
             controls.getMessageBox.innerText = `A ${enemy.name} used ${enemy.basicAttackName}`
             const basicAttackResult = enemy.basicAttack()
             if (basicAttackResult[0]) {
                 const damage = this.player.takeDamage(basicAttackResult[1]);
                 const message = `You are hit! You lost ${damage} hit points!`
+                controls.currentHitPoints(this.player.currentHitPoints, this.player.totalHitPoints);
                 controls.message(message);
                 controls.addItemToBattleLog(message);
                 this.player.checkDeathStatus();
                 this.battleOver();
-                await this.continue();
+                await controls.wait(5000);
             }
-            const message = `The ${enemy.name} missed with their ${enemy.basicAttackName}`;
-            await this.continue();
+            const message = `The ${enemy.name} missed with their ${enemy.basicAttackName}`
+            controls.message(message);
+            controls.addItemToBattleLog(message);
+            controls.message(message);
+            await controls.wait(5000);
         })
+        await controls.wait(5000);
         backRankAlive.forEach(async enemy => {
+            await controls.wait(5000);
             controls.getMessageBox.innerText = `A ${enemy.name} used ${enemy.basicAttackName}`
             const basicAttackResult = enemy.basicAttack()
             if (basicAttackResult[0]) {
                 const damage = this.player.takeDamage(basicAttackResult[1]);
                 const message = `You are hit! You lost ${damage} hit points!`
-                controls.message(message);
-                controls.addItemToBattleLog(message);
+                controls.currentHitPoints(this.player.currentHitPoints, this.player.totalHitPoints);
                 controls.message(message);
                 controls.addItemToBattleLog(message);
                 this.player.checkDeathStatus();
                 this.battleOver();
-                await this.continue();
-                console.log("Waiting to continue")
+                await controls.wait(5000);
             }
             const message = `The ${enemy.name} missed with their ${enemy.basicAttackName}`
             controls.message(message);
             controls.addItemToBattleLog(message);
             console.log("Waiting to continue")
-            await this.continue();
-            console.log("Waiting to continue")
+            await controls.wait(5000);
         })
     }
     continue() {

@@ -1,5 +1,5 @@
 // Import the game player modules
-import { Battle } from "./battle.js";
+import { Battle } from "../battle/battle.js";
 
 // Import the player character
 import { Player } from "./player.js";
