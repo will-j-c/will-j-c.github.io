@@ -51,5 +51,3 @@ class Player {
         }
     }
 }
-
-export { Player };
