@@ -14,6 +14,7 @@ class Battle {
     // The below method is called to launch a new battle and run the whole logic for the battle.
     async battleSequence() {
         this.buildBattlefield();
+        controls.currentHitPoints(this.player.currentHitPoints, this.player.totalHitPoints);
         while(this.isOver === false) {
             this.buildActionButtons();
             this.player.isDefending = false;
@@ -21,15 +22,19 @@ class Battle {
             controls.getMessageBox().innerText = "Choose an action";
             await this.awaitPlayerTurn();
             console.log(this.isOver)
+            if (this.isOver) {
+                break;
+            }
             controls.resetControlPanelDiv();
             console.log("resetting controls")
-            this.enemyTurn();
+            console.log("Waiting for enemy turn")
+            await this.enemyTurn();
             console.log(this.isOver)
             console.log("Enemy turn")
         }
         console.log("BATTLE OVER");
     }
-
+    // Method that returns a promise so the loop delays until the player chooses an action
     awaitPlayerTurn() {
         const controlPanel = document.querySelector("#control-panel");
         return new Promise(resolve => {
@@ -51,19 +56,26 @@ class Battle {
         const playerAction = String(event.target.id);
         if (playerAction === "defend") {
             this.player.defend();
-            controls.getMessageBox().innerText = "You are defending!"
+            const message = "You are defending!";
+            controls.message(message);
+            controls.addItemToBattleLog(message);
             controls.resetControlPanelDiv();
             return;
         }
         if (playerAction === "take-potion") {
-            this.player.drinkPotion();
-            controls.getMessageBox().innerText = "You drank a potion!"
+            const lifeGain = this.player.drinkPotion();
+            const message = `You drank a potions and gained ${lifeGain} hit points`;
+            controls.currentHitPoints(this.player.currentHitPoints, this.player.totalHitPoints);
+            controls.message(message);
+            controls.addItemToBattleLog(message);
             controls.resetControlPanelDiv();
             return;
         }
         const attackStatus = this.player.attack()
         if (attackStatus[0] === false) {
-            controls.getMessageBox().innerText = "You missed your target!"
+            const message = "You missed your target!";
+            controls.message(message);
+            controls.addItemToBattleLog(message);
             controls.resetControlPanelDiv();
             return;
         }
@@ -71,7 +83,9 @@ class Battle {
         const backTargetMap = this.mapButtonsToBackRank(this.mob.backRank);
         let target = "";
         let targetTileId = "";
-        controls.getMessageBox().innerText = "You hit your target!"
+        const message = "You hit the target!";
+        controls.message(message);
+        controls.addItemToBattleLog(message);
         switch(playerAction) {   
             case "front-enemy-1-square":
                 targetTileId = frontTargetMap["front-enemy-1-square"];
@@ -81,7 +95,7 @@ class Battle {
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                return;
+                break;
             case "front-enemy-2-square":
                 targetTileId = frontTargetMap["front-enemy-2-square"];
                 target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
@@ -90,7 +104,7 @@ class Battle {
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                return;
+                break;
             case "front-enemy-3-square":
                 targetTileId = frontTargetMap["front-enemy-3-square"];
                 target = this.mob.frontRank.filter(enemy => enemy.placement === targetTileId)[0];
@@ -99,7 +113,7 @@ class Battle {
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                return;
+                break;
             case "back-enemy-1-square":
                 targetTileId = backTargetMap["back-enemy-1-square"];
                 target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
@@ -108,7 +122,7 @@ class Battle {
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                return;
+                break;
             case "back-enemy-2-square":
                 targetTileId = backTargetMap["back-enemy-2-square"];
                 target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
@@ -117,7 +131,7 @@ class Battle {
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                return;
+                break;
             case "back-enemy-3-square":
                 targetTileId = backTargetMap["back-enemy-3-square"];
                 target = this.mob.backRank.filter(enemy => enemy.placement === targetTileId)[0];
@@ -126,7 +140,7 @@ class Battle {
                 if (target.isAlive === false) {
                     controls.deathAnimation(targetTileId);
                 }
-                return;
+                break;
         }
         this.battleOver();
         if (this.isOver) {
@@ -135,31 +149,61 @@ class Battle {
         }
     }
     // Method that sets the logic for the enemy turn
-    enemyTurn() {
+    async enemyTurn() {
         // Determine which enemies are alive
         const frontRankAlive = this.mob.frontRank.filter(enemy => enemy.isAlive);
         const backRankAlive = this.mob.backRank.filter(enemy => enemy.isAlive);
-        frontRankAlive.forEach(enemy => {
+        frontRankAlive.forEach(async enemy => {
             controls.getMessageBox.innerText = `A ${enemy.name} used ${enemy.basicAttackName}`
             const basicAttackResult = enemy.basicAttack()
             if (basicAttackResult[0]) {
                 const damage = this.player.takeDamage(basicAttackResult[1]);
-                controls.getMessageBox.innerText = `You are hit! You lost ${damage} hit points!`
+                const message = `You are hit! You lost ${damage} hit points!`
+                controls.message(message);
+                controls.addItemToBattleLog(message);
                 this.player.checkDeathStatus();
                 this.battleOver();
+                await this.continue();
             }
-            controls.getMessageBox.innerText = `The ${enemy.name} missed with their ${enemy.basicAttackName}`
+            const message = `The ${enemy.name} missed with their ${enemy.basicAttackName}`;
+            await this.continue();
         })
-        backRankAlive.forEach(enemy => {
+        backRankAlive.forEach(async enemy => {
             controls.getMessageBox.innerText = `A ${enemy.name} used ${enemy.basicAttackName}`
             const basicAttackResult = enemy.basicAttack()
             if (basicAttackResult[0]) {
                 const damage = this.player.takeDamage(basicAttackResult[1]);
-                controls.getMessageBox.innerText = `You are hit! You lost ${damage} hit points!`
+                const message = `You are hit! You lost ${damage} hit points!`
+                controls.message(message);
+                controls.addItemToBattleLog(message);
+                controls.message(message);
+                controls.addItemToBattleLog(message);
                 this.player.checkDeathStatus();
                 this.battleOver();
+                await this.continue();
+                console.log("Waiting to continue")
             }
-            controls.getMessageBox.innerText = `The ${enemy.name} missed with their ${enemy.basicAttackName}`
+            const message = `The ${enemy.name} missed with their ${enemy.basicAttackName}`
+            controls.message(message);
+            controls.addItemToBattleLog(message);
+            console.log("Waiting to continue")
+            await this.continue();
+            console.log("Waiting to continue")
+        })
+    }
+    continue() {
+        const controlPanel = document.querySelector("#control-panel");
+        controlPanel.innerHTML ==- "";
+        const continueButton = document.createElement("button");
+        controlPanel.append(continueButton);
+        return new Promise(resolve => {
+            function handleClick() {
+                resolve();
+            }
+            continueButton.onclick = () => {
+                handleClick();
+                continueButton.remove();
+            }
         })
     }
     // Check if the battle is over and update the status of the battle if it is
@@ -210,9 +254,7 @@ class Battle {
         const backRankTiles = ["col-2-5", "col-3-5", "col-4-5"];
         const frontRankLen = this.mob.frontRank.length;
         const backRankLen = this.mob.backRank.length;
-        console.log(backRankLen)
         // Determine how many enemies in the rank and place the enemies according to this
-        console.log("Creating front rank")
         switch(frontRankLen) {
             case 3:
                 this.mob.frontRank.forEach((enemy, index) => {
@@ -260,7 +302,6 @@ class Battle {
             case 0:
                 break;
         }
-        console.log("Creating back rank")
         switch(backRankLen) {
             case 3:
                 this.mob.backRank.forEach((enemy, index) => {
@@ -333,7 +374,7 @@ class Battle {
         const defendButton = controls.createButton("Defend", "defend");
         controlPanel.append(defendButton);
         // Allow the potion action if player has potions. Creates a take potion button and appends to the control panel
-        if (this.player.potions > 0) {
+        if (this.player.potions > 0 && this.player.currentHitPoints !== this.player.totalHitPoints) {
             const potionButton = controls.createButton("Take potion", "take-potion");
             controlPanel.append(potionButton);
         }

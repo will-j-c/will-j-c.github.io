@@ -6,6 +6,10 @@ class WindowControls {
     message(string) {
         this.getMessageBox.innerText = string;
     }
+    currentHitPoints(currentHp, startingHp) {
+        const hitPoints = document.querySelector("#current-hit-points")
+        hitPoints.innerText = `${currentHp}/${startingHp}`;
+    }
     getControlPanelDiv() {
         return document.querySelector("#control-panel");
     }
@@ -27,6 +31,12 @@ class WindowControls {
         tileImg.addEventListener("animationend", () => {
             tileImg.setAttribute("class", "hidden");
         })
+    }
+    addItemToBattleLog(string) {
+        const battleLog = document.querySelector("#battle-log");
+        const logEntry = document.createElement("li");
+        logEntry.innerText = string;
+        battleLog.append(logEntry);
     }
     createBattleFieldGrid() {
         // Create the 5 rows

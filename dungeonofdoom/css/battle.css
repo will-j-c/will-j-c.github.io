@@ -13,7 +13,7 @@ img {
     display: none;
 }
 .tile {
-    background-image: url("assets/tiles/mud.jpg");
+    background-image: url("../assets/tiles/mud.jpg");
     background-size: cover;
 }
 .row {
@@ -21,4 +21,11 @@ img {
 }
 #battle-container {
     height: 80vh;
+}
+#battle-log {
+    list-style: none;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /* overflow: scroll; */
 }

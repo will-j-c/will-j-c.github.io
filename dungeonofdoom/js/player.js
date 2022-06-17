@@ -24,7 +24,16 @@ class Player {
         this.isDefending = true;
     }
     drinkPotion() {
-        //
+        const lifeGained = Math.floor(Math.random() * 20);
+        if (this.currentHitPoints + lifeGained > this.totalHitPoints) {
+            const revisedLifeGain = this.totalHitPoints - this.currentHitPoints;
+            this.currentHitPoints = this.totalHitPoints;
+            this.potions -= 1;
+            return revisedLifeGain;
+        }
+        this.currentHitPoints += lifeGained;
+        this.potions -= 1;
+        return lifeGained;
     }
     takeDamage(damage) {
         if (this.isDefending === true) {
