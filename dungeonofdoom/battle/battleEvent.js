@@ -90,10 +90,23 @@ class BattleEvent {
         //Handle the state change for a hit
         // Handle the animation for a hit
         if (attackResult[0] === true) {
-            console.log("Hit: ", this.event.currentCombatantTarget)
+            console.log("Before Hit: ", attackTarget)
             attackTarget.takeDamage(attackResult[1]);
-            // const targetSprite = document.querySelector(`#${attackTarget}`);
+            attackTarget.checkDeathStatus();
+            console.log("After Hit: ", attackTarget)
+            const targetSprite = document.querySelector(`#${attackTarget.location}`);
+            setTimeout(() => window["flash"](targetSprite), 1200);
+            // Check if the target is dead, if so, do death animation
+            if (attackTarget.isAlive === false) {
+                const targetSprite = document.querySelector(`#${attackTarget.location}`);
+                setTimeout(() => window["death"](targetSprite), 1500);
+            }
         }
+        resolve();
+    }
+    // Enemy basic attack
+    basicAttack(resolve) {
+        console.log("Enemy turn");
         resolve();
     }
 

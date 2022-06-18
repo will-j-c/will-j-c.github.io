@@ -3,12 +3,12 @@ class BattleTurn {
         this.battle = battle;
         this.onNewEvent = onNewEvent;
         this.turnOrder = [this.battle.player];
+        this.currentTurnIndex = 0;
     }
     // Method that determines the actions completed in the turn
     async turn() {
         //Get the current active combatant
-        let currentIndex = 0;
-        const currentCombatant = this.turnOrder[currentIndex];
+        const currentCombatant = this.turnOrder[this.currentTurnIndex];
         let currentCombatantTarget = this.battle.player;
         let action = "basicAttack";
 
@@ -16,6 +16,7 @@ class BattleTurn {
         if (currentCombatant.type === "player") {
             this.buildPlayerActions();
             const controlPanel = document.querySelector("#control-panel");
+            console.log("Waiting")
             const result = await this.playerAction();
             currentCombatantTarget = result[0];
             action = result[1];
@@ -26,15 +27,23 @@ class BattleTurn {
             currentCombatantTarget: currentCombatantTarget,
             action: action
         }
+        console.log("Waiting 2")
         await this.onNewEvent(event);
-        // Set the turn counter to the next object in the battle order 
-        if (currentIndex < this.turnOrder) {
-            currentIndex++;
+
+        // Set the turn counter to the next object in the battle order
+        console.log(this.turnOrder) 
+        console.log(this.turnOrder.length) 
+        if (this.currentTurnIndex < this.turnOrder.length - 1) {
+            this.currentTurnIndex++;
         } else {
-            currentIndex = 0;
+            this.currentTurnIndex = 0;
         }
-       // Rerun the turn for the next player
-        // this.turn();
+        
+        
+        console.log(this.currentTurnIndex)
+        console.log(this.turnOrder[this.currentTurnIndex])
+        // Rerun the turn for the next player
+        this.turn();
     }
     buildPlayerActions() {
         const controlPanel = document.querySelector("#control-panel");

@@ -33,3 +33,10 @@ function flash(targetElement) {
         targetElement.classList.remove("flash");
     }, 1500)
 }
+// Death animation
+function death(targetElement) {
+    targetElement.classList.add("dead");
+    setTimeout(() => {
+        targetElement.classList.add("hidden");
+    }, 2000)
+}

@@ -8,7 +8,7 @@
 }
 #battle-container {
     height: 80vh;
-    /* max-width: 1000px; */
+    max-width: auto;
 }
 /* Custom animations */
 @keyframes newBounceOutRight {
@@ -54,6 +54,6 @@
     animation-duration: 1s;
 }
 .flash {
-    animation: rubberBand;
+    animation: flash;
     animation-duration: 1s;
 }
