@@ -14,67 +14,109 @@ class BattleTurn {
 
         // If it is the player turn, build the available actions and listen for the choice, then submit to the battleTurnSubmission
         if (currentCombatant.type === "player") {
-            this.buildPlayerActions();
+            this.buildInitialPlayerActions();
+            this.updatePlayerActions();
             const controlPanel = document.querySelector("#control-panel");
             console.log("Waiting")
             const result = await this.playerAction();
             currentCombatantTarget = result[0];
             action = result[1];
         }
-       
+        
         const event = {
             currentCombatant: currentCombatant,
             currentCombatantTarget: currentCombatantTarget,
             action: action
         }
-        console.log("Waiting 2")
         await this.onNewEvent(event);
 
         // Set the turn counter to the next object in the battle order
-        console.log(this.turnOrder) 
-        console.log(this.turnOrder.length) 
         if (this.currentTurnIndex < this.turnOrder.length - 1) {
             this.currentTurnIndex++;
         } else {
             this.currentTurnIndex = 0;
         }
-        
-        
-        console.log(this.currentTurnIndex)
-        console.log(this.turnOrder[this.currentTurnIndex])
+
         // Rerun the turn for the next player
         this.turn();
     }
-    buildPlayerActions() {
+    buildInitialPlayerActions() {
         const controlPanel = document.querySelector("#control-panel");
-        // Clear any previous buttons
-        const toClear = document.querySelectorAll("#control-panel button");
-        for (let button of toClear) {
-            button.remove();
-        }
-        // Create an array of alive enemies
-        const aliveEnemies = this.battle.enemies.filter(enemy => enemy.isAlive);
+        // Create an array of enemies
+        const enemies = this.battle.enemies;
         // Create available actions based on player actions
         const actions = this.battle.player.actions;
         for (let action of actions) {
             if (action.type === "attack") {
                 let enemyNumber = 1;
-                for (let enemy of aliveEnemies) {
+                for (let enemy of enemies) {
                     const button = document.createElement("button");
                     button.innerText = `${action.name} ${enemy.name} ${enemyNumber}`;
                     button.setAttribute("id", `attack-enemy-${enemyNumber}`);
+                    enemy.buttonRef = `attack-enemy-${enemyNumber}`;
+                    enemy.numberRef = `${enemyNumber}`;
                     controlPanel.append(button);
                     enemyNumber++;
                 }
             }
-            if (action.type === "utility") {
+            if (action.type === "utility" && action.id !== "health-potion") {
                 const button = document.createElement("button");
                 button.innerText = action.name;
                 button.setAttribute("id", action.id);
                 controlPanel.append(button);
             }
+            if (action.id === "health-potion") {
+                if (this.battle.player.currentHItPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
+                    const button = document.createElement("button");
+                    button.innerText = action.name;
+                    button.setAttribute("id", action.id);
+                    controlPanel.append(button);
+                }
+            }
         }
     }
+    
+    updatePlayerActions() {
+        // Clear any previous buttons
+        const toClear = document.querySelectorAll("#control-panel button");
+        console.log("Buttons to clear: ", toClear)
+        for (let button of toClear) {
+            button.remove();
+        }
+        const controlPanel = document.querySelector("#control-panel");
+        // Create an array of enemies
+        const enemies = this.battle.enemies;
+        // Create available actions based on player actions
+        const actions = this.battle.player.actions;
+        // Create array of alive enemies
+        const aliveEnemies = this.battle.enemies.filter(enemy => enemy.isAlive);
+        // Create the buttons from the alive enemies
+        for (let action of actions) {
+            if (action.type === "attack") {
+                for (let enemy of aliveEnemies) {
+                    const button = document.createElement("button");
+                    button.innerText = `${action.name} ${enemy.name} ${enemy.numberRef}`;
+                    button.setAttribute("id", `${enemy.buttonRef}`);
+                    controlPanel.append(button);
+                }
+            }
+            if (action.type === "utility" && action.id !== "health-potion") {
+                const button = document.createElement("button");
+                button.innerText = action.name;
+                button.setAttribute("id", action.id);
+                controlPanel.append(button);
+            }
+            if (action.id === "health-potion") {
+                if (this.battle.player.currentHItPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
+                    const button = document.createElement("button");
+                    button.innerText = action.name;
+                    button.setAttribute("id", action.id);
+                    controlPanel.append(button);
+                }
+            }
+        }
+    }
+
     // Method to return a promise that resolves when a player clicks the button for the action they want to take
     playerAction() {
         return new Promise(resolve => {

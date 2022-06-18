@@ -106,7 +106,6 @@ class BattleEvent {
     }
     // Enemy basic attack
     basicAttack(resolve) {
-        console.log("Enemy turn");
         resolve();
     }
 
