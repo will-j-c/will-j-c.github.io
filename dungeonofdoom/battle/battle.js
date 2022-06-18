@@ -36,7 +36,7 @@ class Battle {
                 <h3>Some battle controls go here</h3>
             </header>
             <main class="text-center">
-                <div id="battle-container">
+                <div id="battle-container" class="justify-center">
                 </div>
                 <div class="row">
                     <h3 id="message-box"></h3>
@@ -85,6 +85,7 @@ class Battle {
         const playerSprite = document.createElement("img");
         playerSprite.setAttribute("src", this.player.artwork);
         playerSprite.setAttribute("class", "sprite");
+        playerSprite.setAttribute("id", "player");
         playerTile.append(playerSprite);
         // Add the enemies to the the battlefield
         const enemyTiles = ["#col-2-3", "#col-3-3", "#col-4-3"];

@@ -18,14 +18,17 @@ class Player {
                 action: this.attack(),
                 text: "You strike with your sword!",
                 success: "You hit the enemy",
-                failure: "You missed"
+                failure: "You missed",
+                id: "sword-attack",
+                animation: "bounce"
             },
             {
                 name: "Defend",
                 type: "utility",
                 action: this.defend(),
                 text: "You raise your shield and defend yourself!",
-                id: "defend"
+                id: "defend",
+                animation: "bounce"
             },
             {
                 name: "Take Health Potion",

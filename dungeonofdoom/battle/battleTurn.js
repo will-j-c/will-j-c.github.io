@@ -11,6 +11,7 @@ class BattleTurn {
         const currentCombatant = this.turnOrder[currentIndex];
         let currentCombatantTarget = this.battle.player;
         let action = "basic-attack";
+
         // If it is the player turn, build the available actions and listen for the choice, then submit to the battleTurnSubmission
         if (currentCombatant.type === "player") {
             this.buildPlayerActions();
@@ -27,14 +28,14 @@ class BattleTurn {
             action: action
         }
         console.log(event);
-        // await this.onNewEvent(event);
+        await this.onNewEvent(event);
        // Set the turn counter to the next object in the battle order 
        if (currentIndex < this.turnOrder) {
         currentIndex++;
        } else {
         currentIndex = 0;
        }
-       // Rerun the turn
+       // Rerun the turn for the next player
         // this.turn();
     }
     buildPlayerActions() {
@@ -67,7 +68,7 @@ class BattleTurn {
             }
         }
     }
-
+    // Method to return a promise that resolves when a player clicks the button for the action they want to take
     playerAction() {
         return new Promise(resolve => {
             const controlPanel = document.querySelector("#control-panel");
@@ -94,8 +95,9 @@ class BattleTurn {
             this.turnOrder.push(enemy);
         }
         await this.onNewEvent({
-            type: "messageBoxText",
-            text: "The enemy approaches....."
+            action: "messageBoxText",
+            text: "The enemy approaches.....",
+            animation: "text"
         })
         // // Start the first turn
         this.turn();
