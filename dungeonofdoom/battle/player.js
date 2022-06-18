@@ -15,32 +15,33 @@ class Player {
             {
                 name: "Sword Attack",
                 type: "attack",
-                action: this.attack(),
+                action: "swordAttack",
                 text: "You strike with your sword!",
                 success: "You hit the enemy",
                 failure: "You missed",
-                id: "sword-attack",
-                animation: "bounce"
+                id: "swordAttack",
+                animation: "bounceOutRight"
             },
             {
                 name: "Defend",
                 type: "utility",
-                action: this.defend(),
+                action: "defend",
                 text: "You raise your shield and defend yourself!",
                 id: "defend",
-                animation: "bounce"
+                animation: "bounce",
+                statusOnComplete: "Defending"
             },
             {
                 name: "Take Health Potion",
                 type: "utility",
-                action: this.drinkPotion(),
+                action: "drinkPotion",
                 text: "You drink a health potion.",
                 id: "health-potion"
             }
         ];
     }
     // Method for player attacking. Returns array of whether it is a hit and the damage inflicted.
-    attack() {
+    swordAttack() {
         const isHit = Math.random() <= Player.accuracy ? true : false;
         const damage = Player.strength;
         if (isHit) {

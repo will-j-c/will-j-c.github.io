@@ -43,8 +43,15 @@ class Battle {
                 </div>
                 <div class="row">
                     <div class="col m-3">
-                        <h2>Player Status</h2>
-                        <h3 id="current-hit-points"></h3>
+                        <div class="row">
+                            <h2>Player Status</h2>
+                            <h3 id="current-hit-points"></h3>
+                            <h3 id="current-status-effect"></h3>
+                        </div>
+                        <div class="row">
+                            <h2>Player Inventory</h2>
+                            <h3 id="current-health-potions"></h3>
+                        </div>
                     </div>
                     <div class="col m-3" id="control-panel">
                     <h2>Actions<h2>
@@ -95,9 +102,19 @@ class Battle {
             const enemySprite = document.createElement("img");
             enemySprite.setAttribute("src", enemy.artwork);
             enemySprite.setAttribute("class", "sprite");
+            enemySprite.setAttribute("id", `enemy-${i + 1}`);
+            enemy.location = `enemy-${i + 1}`;
             enemyTile.append(enemySprite);
         }
-
+        // Add player HP
+        const hpElement = document.querySelector("#current-hit-points");
+        hpElement.innerText = `Current Hit Points: ${this.player.currentHitPoints}/${this.player.totalHitPoints}`;
+        // Add player starting status
+        const statusElement = document.querySelector("#current-status-effect");
+        statusElement.innerText = "Current Status Effect: None"
+        //Add player available inventory
+        const healthPotionsElement = document.querySelector("#current-health-potions");
+        healthPotionsElement.innerText = `Health Potions: ${this.player.potions}`
     }
     // Method determines the available actions of the player and add relevant buttons to the DOM for that action
     buildActionButtons() {

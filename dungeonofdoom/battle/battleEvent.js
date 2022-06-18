@@ -6,19 +6,20 @@ class BattleEvent {
     // Find index of action in Object's list of actions by the id that the event returns
     findAction(id) {
         const actions = this.event.currentCombatant.actions;
-        let actionControlObject = "EMPTY"; // Initalise the variable to hold the action control object
-        actions.forEach(action => {
+        let actionControlObject = "EMPTY";
+        let actionIndex = ""; // Initalise the variable to hold the action control object
+        actions.forEach((action, index) => {
             for (let key in action) {
                 if (key === "id"){
                     if (action[key] === id) {
                         actionControlObject = action;
+                        actionIndex = index;
                     }
                 }
             }
         })
-        return actionControlObject;        
+        return [actionControlObject, actionIndex];        
     }
-    // Start a new event
 
     // Method that displays text in the message box
     messageBoxText(resolve) {
@@ -29,18 +30,70 @@ class BattleEvent {
         resolve();
     }
 
+    // Update status of player
+    updateStatus(resolve) {
+        const text = this.event.text;
+        const statusElement = document.querySelector("#current-status-effect");
+        statusElement.innerText = text;
+        window[this.event.animation](statusElement);
+        resolve();
+    }
+
     defend(resolve) {
-        const actionControlObject = this.findAction(this.event.action);
-        this.event.currentCombatant.actions[actionControlObject.action];
-        // Overwrite the current event and initialise the new event
+        // Get the action data object for the event and initialise the defend() method on the player
+        const actionControlArr = this.findAction(this.event.action);
+        const actionControlObject = actionControlArr[0];
+        const actionControlIndex = actionControlArr[1];
+        const actionMethod = this.event.currentCombatant.actions[actionControlIndex].action;
+        this.event.currentCombatant[actionMethod]();
+        // Overwrite the current event and initialise the message box event to update the text
         this.event = {
             action: "messageBoxText",
             text: `${actionControlObject.text}`,
             animation: "text"
         }
         this.start(resolve);
+        // Handle updating the status bar
+        this.event = {
+            action: "updateStatus",
+            text: `Current Status Effect: ${actionControlObject.statusOnComplete}`,
+            animation: "rubberBand"
+        }
+        this.start(resolve);
+        // Handle the animation
         const playerSprite = document.querySelector("#player")
         window[actionControlObject.animation](playerSprite);
+        resolve();
+    }
+
+    swordAttack(resolve) {
+        // Get the action data object for the event and initialise the defend() method on the player
+        const actionControlArr = this.findAction(this.event.action);
+        const actionControlObject = actionControlArr[0];
+        const actionControlIndex = actionControlArr[1];
+        const actionMethod = this.event.currentCombatant.actions[actionControlIndex].action;
+        const attackResult = this.event.currentCombatant[actionMethod]();
+        const attackTarget = this.event.currentCombatantTarget;
+        // // Handle the animation for attacking
+        const playerSprite = document.querySelector("#player")
+        window[actionControlObject.animation](playerSprite);
+ 
+        // Overwrite the current event and initialise the message box event to update the text
+        // Wait a second for the animation to resolve
+        this.event = {
+            action: "messageBoxText",
+            text: attackResult[0] ? `${actionControlObject.success}` : `${actionControlObject.failure}`,
+            animation: "text"
+        }
+        setTimeout(() => this.start(resolve), 1200);
+
+        //Handle the state change for a hit
+        // Handle the animation for a hit
+        if (attackResult[0] === true) {
+            console.log("Hit: ", this.event.currentCombatantTarget)
+            attackTarget.takeDamage(attackResult[1]);
+            // const targetSprite = document.querySelector(`#${attackTarget}`);
+        }
         resolve();
     }
 

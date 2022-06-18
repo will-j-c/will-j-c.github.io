@@ -10,7 +10,7 @@ class BattleTurn {
         let currentIndex = 0;
         const currentCombatant = this.turnOrder[currentIndex];
         let currentCombatantTarget = this.battle.player;
-        let action = "basic-attack";
+        let action = "basicAttack";
 
         // If it is the player turn, build the available actions and listen for the choice, then submit to the battleTurnSubmission
         if (currentCombatant.type === "player") {
@@ -19,7 +19,6 @@ class BattleTurn {
             const result = await this.playerAction();
             currentCombatantTarget = result[0];
             action = result[1];
-            console.log(currentCombatantTarget);
         }
        
         const event = {
@@ -27,14 +26,13 @@ class BattleTurn {
             currentCombatantTarget: currentCombatantTarget,
             action: action
         }
-        console.log(event);
         await this.onNewEvent(event);
-       // Set the turn counter to the next object in the battle order 
-       if (currentIndex < this.turnOrder) {
-        currentIndex++;
-       } else {
-        currentIndex = 0;
-       }
+        // Set the turn counter to the next object in the battle order 
+        if (currentIndex < this.turnOrder) {
+            currentIndex++;
+        } else {
+            currentIndex = 0;
+        }
        // Rerun the turn for the next player
         // this.turn();
     }
@@ -83,7 +81,7 @@ class BattleTurn {
             const attacksIdArr = ["attack-enemy-1", "attack-enemy-2", "attack-enemy-3"]
             if (attacksIdArr.some(id => id === event.target.id)) {
                 const index = event.target.id.replace(/^\D+/g, '');
-                resolve([this.turnOrder[index], "sword-attack"]);
+                resolve([this.turnOrder[index], "swordAttack"]);
             }
         }
         }) 
