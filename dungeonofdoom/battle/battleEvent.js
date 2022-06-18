@@ -65,6 +65,17 @@ class BattleEvent {
         window[actionControlObject.animation](playerSprite);
         resolve();
     }
+    // Remove defend status
+    removeDefend(resolve) {
+        this.battle.player.isDefending = false;
+        // Handle updating the status bar
+        this.event = {
+            action: "updateStatus",
+            text: `Current Status Effect: None`,
+            animation: "rubberBand"
+        }
+        setTimeout(() => this.start(resolve), 2000);
+    }
 
     swordAttack(resolve) {
         // Get the action data object for the event and initialise the defend() method on the player
@@ -106,7 +117,8 @@ class BattleEvent {
     }
     // Enemy basic attack
     basicAttack(resolve) {
-        resolve();
+        console.log("Enemy attacks")
+        setTimeout(() => resolve(), 5000);
     }
 
     //Start the battle event

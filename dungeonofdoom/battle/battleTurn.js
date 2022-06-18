@@ -16,7 +16,14 @@ class BattleTurn {
         if (currentCombatant.type === "player") {
             this.buildInitialPlayerActions();
             this.updatePlayerActions();
-            const controlPanel = document.querySelector("#control-panel");
+            // Update the is defending status of the player
+            if (this.battle.player.isDefending) {
+                const event = {
+                action: "removeDefend"
+                }
+                await this.onNewEvent(event);
+            }
+            console.log(this.battle.player.isDefending)
             console.log("Waiting")
             const result = await this.playerAction();
             currentCombatantTarget = result[0];
@@ -79,7 +86,6 @@ class BattleTurn {
     updatePlayerActions() {
         // Clear any previous buttons
         const toClear = document.querySelectorAll("#control-panel button");
-        console.log("Buttons to clear: ", toClear)
         for (let button of toClear) {
             button.remove();
         }
