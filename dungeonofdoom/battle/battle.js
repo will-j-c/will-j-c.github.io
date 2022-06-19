@@ -22,7 +22,6 @@ class Battle {
     })
         this.battleTurn.start();
     }
-
     quitBattle() {
         //
     }

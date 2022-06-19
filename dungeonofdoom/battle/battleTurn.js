@@ -39,7 +39,6 @@ class BattleTurn {
                 currentCombatantTarget = result[0];
                 action = result[1];
             }
-
             const event = {
                 currentCombatant: currentCombatant,
                 currentCombatantTarget: currentCombatantTarget,
@@ -53,10 +52,16 @@ class BattleTurn {
         } else {
             this.currentTurnIndex = 0;
         }
-
-        // Rerun the turn for the next player
-        // Set a small timeout so that the animations fire correctly
-        setTimeout(() => this.turn(), 1000);
+        // Check if the battle is over over
+        this.checkIsOver();
+        // If the battle is over
+        if (this.battle.isOver) {
+            // Do something
+        } else {
+            // Rerun the turn for the next player
+            // Set a small timeout so that the animations fire correctly
+            setTimeout(() => this.turn(), 1000);
+        }
     }
     buildInitialPlayerActions() {
         const controlPanel = document.querySelector("#control-panel");
@@ -93,7 +98,7 @@ class BattleTurn {
             }
         }
     }
-    
+    // Method maps specific enemies to buttons after the initial assignment.
     updatePlayerActions() {
         // Clear any previous buttons
         const toClear = document.querySelectorAll("#control-panel button");
@@ -133,7 +138,6 @@ class BattleTurn {
             }
         }
     }
-
     // Method to return a promise that resolves when a player clicks the button for the action they want to take
     playerAction() {
         return new Promise(resolve => {
@@ -153,6 +157,18 @@ class BattleTurn {
             }
         }
         }) 
+    }
+    // Check to see if the battle is over
+    checkIsOver() {
+        console.log(`Player Alive: ${this.battle.player.isAlive}`)
+        if (this.battle.player.isAlive === false) {
+            this.battle.isOver = true;
+        }
+        console.log(`All enemies dead: ${this.battle.enemies.every(enemy => enemy.isAlive === false)}`)
+        if (this.battle.enemies.every(enemy => enemy.isAlive === false)) {
+            this.battle.isOver = true;
+        }
+        console.log(`Battle over: ${this.battle.isOver}`)
     }
     // Start the turn event
     async start() {
