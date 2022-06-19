@@ -22,25 +22,32 @@ class BattleEvent {
     }
     // Update text on screen methods
     // Method that displays text in the message box
-    messageBoxText(resolve) {
+    async messageBoxText(resolve) {
         const text = this.event.text;
         const messageBox = document.querySelector("#message-box");
         messageBox.innerText = text;
-        window[this.event.animation](messageBox);
-        messageBox.onanimationend = () => resolve();
+        await window[this.event.animation](messageBox);
+        console.log("messageBoxText waiting to resolve")
+        // messageBox.onanimationend = () => {
+            resolve()
+            console.log("messageBoxText resolved")
+        // };
     }
 
     // Update status of player
-    updateStatus(resolve) {
+    async updateStatus(resolve) {
         const text = this.event.text;
         const statusElement = document.querySelector("#current-status-effect");
         statusElement.innerText = text;
-        window[this.event.animation](statusElement);
-        statusElement.onanimationend = () => resolve();
+        await window[this.event.animation](statusElement);
+        console.log("updateStatus waiting to resolve")
+        resolve();
+        console.log("updateStatus resolved")
     }
+
     // Player action methods
 
-    defend(resolve) {
+    async defend(resolve) {
         // Get the action data object for the event and initialise the defend() method on the player
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
@@ -63,8 +70,12 @@ class BattleEvent {
         this.start(resolve);
         // Handle the animation
         const playerSprite = document.querySelector("#player")
-        window[actionControlObject.animation](playerSprite);
-        playerSprite.onanimationend = () => resolve();
+        await window[actionControlObject.animation](playerSprite);
+        console.log("defend waiting to resolve")
+        // playerSprite.onanimationend = () => {
+            resolve()
+            console.log("defend resolved")
+        // };
     }
     // Remove defend status
     removeDefend(resolve) {
@@ -75,10 +86,14 @@ class BattleEvent {
             text: `Current Status Effect: None`,
             animation: "rubberBand"
         }
-        setTimeout(() => this.start(resolve), 1000);
+        console.log("removeDefend waiting to resolve")
+        setTimeout(() => {
+            this.start(resolve)
+            console.log("removeDefend resolved")
+        }, 1000);
     }
 
-    swordAttack(resolve) {
+    async swordAttack(resolve) {
         // Get the action data object for the event and initialise the swordAttack() method on the player
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
@@ -88,7 +103,7 @@ class BattleEvent {
         const attackTarget = this.event.currentCombatantTarget;
         // // Handle the animation for attacking
         const playerSprite = document.querySelector("#player")
-        window[actionControlObject.animation](playerSprite);
+        await window[actionControlObject.animation](playerSprite);
  
         // Overwrite the current event and initialise the message box event to update the text
         // Wait a second for the animation to resolve
@@ -97,7 +112,7 @@ class BattleEvent {
             text: attackResult[0] ? `${actionControlObject.success}` : `${actionControlObject.failure}`,
             animation: "text"
         }
-        playerSprite.onanimationend = () => this.start(resolve);
+        this.start(resolve);
 
         //Handle the state change for a hit
         // Handle the animation for a hit
@@ -105,18 +120,23 @@ class BattleEvent {
             attackTarget.takeDamage(attackResult[1]);
             attackTarget.checkDeathStatus();
             const targetSprite = document.querySelector(`#${attackTarget.location}`);
-            setTimeout(() => window["flash"](targetSprite), 1200);
+            await window["flash"](targetSprite);
             // Check if the target is dead, if so, do death animation
             if (attackTarget.isAlive === false) {
                 const targetSprite = document.querySelector(`#${attackTarget.location}`);
-                setTimeout(() => window["death"](targetSprite), 1500);
+                await window["death"](targetSprite);
             }
         }
-        playerSprite.onanimationend = () => resolve();
+        console.log("swordAttack waiting to resolve")
+        // playerSprite.onanimationend = () => {
+            resolve()
+            console.log("swordAttack resolved")
+        // };
+        
     }
-    // ENemy action methods
+    // Enemy action methods
     // Enemy basic attack
-    basicAttack(resolve) {
+    async basicAttack(resolve) {
         // Get the action data object for the event and initialise the swordAttack() method on the player
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
@@ -126,8 +146,12 @@ class BattleEvent {
         const attackTarget = this.event.currentCombatantTarget;
         // // Handle the animation for attacking
         const enemySprite = document.querySelector(`#${this.event.currentCombatant.location}`)
-        window[actionControlObject.animation](enemySprite);
-        enemySprite.onanimationend = () => resolve();
+        await window[actionControlObject.animation](enemySprite);
+        console.log("basicAttack waiting to resolve")
+        // enemySprite.onanimationend = () => {
+        resolve()
+        console.log("basicAttack resolved")
+        // };
     }
 
     //Start the battle event

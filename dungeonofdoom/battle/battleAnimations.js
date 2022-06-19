@@ -1,49 +1,85 @@
 // Function that animates the message text
 function text(targetElement) {
-    targetElement.classList.add("text");
-    targetElement.onanimationend = () => {
-        targetElement.classList.remove("text");
-    }
+    return new Promise(resolve => {
+        targetElement.classList.add("text");
+        console.log("text animation waiting to complete")
+        targetElement.onanimationend = () => {
+            targetElement.classList.remove("text")
+            console.log("text animation complete")
+            resolve();
+        }
+    })
 }
 // Bounce animation
 function bounce(targetElement) {
-    targetElement.classList.add("bounce");
-    targetElement.onanimationend = () => {
-        targetElement.classList.remove("bounce");
-    }
+    return new Promise(resolve => {
+        targetElement.classList.add("bounce");
+        console.log("bounceOutLeft animation waiting to complete")
+        targetElement.onanimationend = () => {
+            targetElement.classList.remove("bounce");
+            console.log("bounce animation complete")
+            resolve();
+        }
+    })
 }
 // Rubber band animation
 function rubberBand(targetElement) {
-    targetElement.classList.add("rubberBand");
-    targetElement.onanimationend = () => {
-        targetElement.classList.remove("rubberBand");
-    }
+    return new Promise(resolve => {
+        targetElement.classList.add("rubberBand");
+        console.log("rubberBand animation waiting to complete")
+        targetElement.onanimationend = () => {
+            targetElement.classList.remove("rubberBand");
+            console.log("rubberBand animation complete")
+            resolve();
+        }
+    
+    })
 }
 // Attack right animation bounceOutRight
 function bounceOutRight(targetElement) {
-    targetElement.classList.add("bounceOutRight");
-    targetElement.onanimationend = () => {
-        targetElement.classList.remove("bounceOutRight");
-    }
+    return new Promise(resolve => {
+        targetElement.classList.add("bounceOutRight");
+        console.log("bounceOutRight animation waiting to complete")
+        targetElement.onanimationend = () => {
+            targetElement.classList.remove("bounceOutRight");
+            console.log("bounceOutRight animation complete")
+            resolve();
+        }
+    })
 }
 // Hit animation
 function flash(targetElement) {
-    targetElement.classList.add("flash");
-    targetElement.onanimationend = () => {
-        targetElement.classList.remove("flash");
-    }
+    return new Promise(resolve => {
+        targetElement.classList.add("flash");
+        console.log("flash animation waiting to complete")
+        targetElement.onanimationend = () => {
+            targetElement.classList.remove("flash");
+            console.log("flash animation complete")
+            resolve();
+        }
+    })    
 }
 // Death animation
 function death(targetElement) {
-    targetElement.classList.add("dead");
-    targetElement.onanimationend = () => {
-        targetElement.classList.add("hidden");
-    }
+    return new Promise(resolve => {
+        targetElement.classList.add("dead");
+        console.log("death animation waiting to complete")
+        setTimeout(() => {
+            targetElement.classList.add("hidden");
+            console.log("death animation complete")
+            resolve();
+        }, 1000)
+    })
 }
 // Enemy attack
 function bounceOutLeft(targetElement) {
-    targetElement.classList.add("bounceOutLeft");
-    targetElement.onanimationend = () => {
-        targetElement.classList.remove("bounceOutLeft");
-    }
+    return new Promise(resolve => {
+        targetElement.classList.add("bounceOutLeft");
+        console.log("bounceOutLeft animation waiting to complete")
+        targetElement.onanimationend = () => {
+            targetElement.classList.remove("bounceOutLeft");
+            console.log("bounceOutLeft animation complete")
+            resolve();
+        }
+    })
 }
