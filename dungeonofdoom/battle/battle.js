@@ -99,6 +99,14 @@ class Battle {
         for (let i = 0, len = enemyTiles.length; i < len; i++) {
             const enemyTile = document.querySelector(enemyTiles[i]);
             const enemy = this.enemies[i];
+            // Create enemy health indicators for testing
+            const enemyHealth = document.createElement("p");
+            enemyHealth.innerText = `${enemy.currentHitPoints}/${enemy.totalHitPoints}`
+            enemyHealth.setAttribute("class", `enemy-health`);
+            enemyHealth.setAttribute("id", `enemy-health-${i + 1}`);
+            enemy.p = `enemy-health-${i + 1}`;
+            //
+            enemyTile.append(enemyHealth);
             const enemySprite = document.createElement("img");
             enemySprite.setAttribute("src", enemy.artwork);
             enemySprite.setAttribute("class", "sprite");

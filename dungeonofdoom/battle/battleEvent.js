@@ -86,6 +86,9 @@ class BattleEvent {
         // Handle the animation for a hit
         if (attackResult[0] === true) {
             attackTarget.takeDamage(attackResult[1]);
+            // Testing method
+            this.enemyHealthPUpdate(`${attackTarget.p}`, attackTarget);
+            //
             attackTarget.checkDeathStatus();
             const targetSprite = document.querySelector(`#${attackTarget.location}`);
             await window["flash"](targetSprite);
@@ -134,12 +137,13 @@ class BattleEvent {
         resolve()
         console.log("BattleEvent method: basicAttack resolved")
     }
-
+    // Testing methods
+    enemyHealthPUpdate(pId, enemy) {
+        const p = document.querySelector(`#${pId}`)
+        p.innerText = `${enemy.currentHitPoints}/${enemy.totalHitPoints}`;
+    }
     //Start the battle event
     start(resolve) {
-        // return new Promise( r => {
-            this[this.event.action](resolve);
-            // r();
-        // })
+        this[this.event.action](resolve);
     }
 }
