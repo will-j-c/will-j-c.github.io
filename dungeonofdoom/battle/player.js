@@ -20,6 +20,7 @@ class Player {
                 success: "You hit the enemy",
                 failure: "You missed",
                 id: "swordAttack",
+                methodId: "swordAttack",
                 animation: "bounceOutRight"
             },
             {
@@ -35,8 +36,9 @@ class Player {
                 name: "Take Health Potion",
                 type: "utility",
                 action: "drinkPotion",
-                text: "You drink a health potion.",
-                id: "health-potion"
+                text: "You drink a health potion and gain",
+                id: "health-potion",
+                methodId: "healthPotion",
             }
         ];
     }

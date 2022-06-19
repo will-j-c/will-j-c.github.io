@@ -38,13 +38,21 @@ class BattleEvent {
         await window["text"](statusElement);
         console.log("BattleEvent method: updateStatus resolved")
     }
-    // Update healthbar of player
+    // Update health bar of player
     async updatePlayerHealth() {
         console.log("BattleEvent method: updatePlayerHealth started")
+        const healthPotionsElement = document.querySelector("#current-health-potions");
+        healthPotionsElement.innerText = `Health Potions: ${this.battle.player.potions}`
+        await window["text"](healthPotionsElement);
+        console.log("BattleEvent method: updatePlayerHealth resolved")
+    }
+    // Update health bar of player
+    async updatePlayerPotions() {
+        console.log("BattleEvent method: updatePlayerPotions started")
         const hpElement = document.querySelector("#current-hit-points");
         hpElement.innerText = `Current Hit Points: ${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`;
         await window["text"](hpElement);
-        console.log("BattleEvent method: updatePlayerHealth resolved")
+        console.log("BattleEvent method: updatePlayerPotions resolved")
     }
     // Player action methods
     async defend(resolve) {
@@ -112,9 +120,16 @@ class BattleEvent {
         console.log("BattleEvent method: swordAttack resolved")
     }
     // Take potion
-    healthPotion(resolve) {
-        console.log("take potion");
+    async healthPotion(resolve) {
+        console.log("BattleEvent method: healthPotion started")
+        const actionControlArr = this.findAction(this.event.action);
+        const actionControlObject = actionControlArr[0];
+        const lifeGained = this.battle.player.drinkPotion();
+        this.updatePlayerPotions();
+        this.messageBoxText(`${actionControlObject.text} ${lifeGained} hit points`);
+        await this.updatePlayerHealth();
         resolve();
+        console.log("BattleEvent method: healthPotion resolved")
     }
     // Enemy action methods
     // Enemy basic attack
@@ -138,7 +153,7 @@ class BattleEvent {
             const targetSprite = document.querySelector(`#player`);
             await window["flash"](targetSprite);
             await this.messageBoxText(`${actionControlObject.success}`);
-            this.updatePlayerHealth();
+            await this.updatePlayerHealth();
             // Check if the target is dead, if so, do death animation
             if (attackTarget.isAlive === false) {
                 const targetSprite = document.querySelector(`#player`);
@@ -157,6 +172,7 @@ class BattleEvent {
     }
     //Start the battle event
     start(resolve) {
-        this[this.event.action](resolve);
+        const actionControlObject = this.findAction(this.event.action)[0]
+        this[actionControlObject.methodId](resolve);
     }
 }

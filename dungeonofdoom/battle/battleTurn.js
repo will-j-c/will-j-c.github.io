@@ -146,7 +146,7 @@ class BattleTurn {
                 if(event.target.tagName !== "BUTTON") {
                     this.playerAction();
                 }
-            const utilityIdArr = ["defend", "healthPotion"];
+            const utilityIdArr = ["defend", "health-potion"];
                 if (utilityIdArr.some(id => id === event.target.id)) {
                     resolve([this.battle.player, event.target.id]);
                 }

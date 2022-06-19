@@ -17,7 +17,8 @@ class Skeleton extends Monster {
                 success: "You are hit",
                 failure: "It missed",
                 animation: "bounceOutLeft",
-                id: "basicAttack"
+                id: "basicAttack",
+                methodId: "basicAttack"
             },
             // {
             //     name: "Grab Attack",
