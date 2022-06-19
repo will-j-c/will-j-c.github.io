@@ -9,45 +9,45 @@ class BattleTurn {
     async turn() {
         //Get the current active combatant
         const currentCombatant = this.turnOrder[this.currentTurnIndex];
-        console.log(`Current turn: ${currentCombatant.type} ${this.currentTurnIndex}`)
-        let currentCombatantTarget = this.battle.player;
-        let action = "basicAttack";
-
-        // If it is the player turn, build the available actions and listen for the choice, then submit to the battleTurnSubmission
-        if (currentCombatant.type === "player") {
-            console.log("Building initIal buttons")
-            this.buildInitialPlayerActions();
-            console.log("Updating buttons")
-            this.updatePlayerActions();
-            // Update the is defending status of the player
-            if (this.battle.player.isDefending) {
-                const event = {
-                action: "removeDefend"
+        if (currentCombatant.isAlive) {
+            console.log(`Current turn: ${currentCombatant.type} ${this.currentTurnIndex}`)
+            let currentCombatantTarget = this.battle.player;
+            let action = "basicAttack";
+            
+            // If it is the player turn, build the available actions and listen for the choice, then submit to the battleTurnSubmission
+            if (currentCombatant.type === "player") {
+                console.log("Building initIal buttons")
+                this.buildInitialPlayerActions();
+                console.log("Updating buttons")
+                this.updatePlayerActions();
+                // Update the is defending status of the player
+                if (this.battle.player.isDefending) {
+                    const event = {
+                    action: "removeDefend"
+                    }
+                    console.log("Waiting to update defend status")
+                    await this.onNewEvent(event);
+                    console.log("updated defend status")
                 }
-                console.log("Waiting to update defend status")
-                await this.onNewEvent(event);
-                console.log("updated defend status")
+                console.log("Waiting for player input")
+                const result = await this.playerAction();
+                currentCombatantTarget = result[0];
+                action = result[1];
             }
-            console.log("Waiting for player input")
-            const result = await this.playerAction();
-            currentCombatantTarget = result[0];
-            action = result[1];
+            
+            const event = {
+                currentCombatant: currentCombatant,
+                currentCombatantTarget: currentCombatantTarget,
+                action: action
+            }
+            await this.onNewEvent(event);
         }
-        
-        const event = {
-            currentCombatant: currentCombatant,
-            currentCombatantTarget: currentCombatantTarget,
-            action: action
-        }
-        await this.onNewEvent(event);
-
         // Set the turn counter to the next object in the battle order
         if (this.currentTurnIndex < this.turnOrder.length - 1) {
             this.currentTurnIndex++;
         } else {
             this.currentTurnIndex = 0;
         }
-
         // Rerun the turn for the next player
         this.turn();
     }
