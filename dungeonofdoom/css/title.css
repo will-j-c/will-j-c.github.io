@@ -1,0 +1,21 @@
+body {
+    background-color: #080808;
+}
+#title-screen-main {
+    height: 100%;
+}
+#title {
+    font-family: 'Passion One', cursive;
+    font-size: 6em;
+    color: #480707;
+}
+#image-container {
+    height: 75%;
+    padding: 1em;
+}
+#image-container img {
+    height: 100%;
+}
+#mute-button {
+    color: #480707;
+}

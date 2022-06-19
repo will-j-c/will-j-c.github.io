@@ -129,5 +129,5 @@ class Battle {
     }
 }
 
-const battle = new Battle(new Player, new Skeleton, new Skeleton, new Skeleton);
-battle.start();
+// const battle = new Battle(new Player, new Skeleton, new Skeleton, new Skeleton);
+// battle.start();
