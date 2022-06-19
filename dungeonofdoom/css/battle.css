@@ -8,7 +8,7 @@
 }
 #battle-container {
     height: 80vh;
-    max-width: auto;
+    max-width: 1000px;
 }
 /* Custom animations */
 @keyframes newBounceOutRight {
@@ -22,12 +22,19 @@
       transform: translate3d(800px, 0, 0) scaleX(1.1);
     }
 }
+@keyframes newBounceOutLeft {
+    20% {
+      opacity: 1;
+      transform: translate3d(20px, 0, 0) scaleX(0.9);
+    }
+  
+    to {
+      opacity: 1;
+      transform: translate3d(-800px, 0, 0) scaleX(1.1);
+    }
+  }
 /* Animations */
 .sprite {
-    display: inline-block;
-    animation: pulse;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
     height: 95%;
 }
 .dead {
@@ -55,5 +62,9 @@
 }
 .flash {
     animation: flash;
+    animation-duration: 1s;
+}
+.bounceOutLeft {
+    animation: newBounceOutLeft;
     animation-duration: 1s;
 }

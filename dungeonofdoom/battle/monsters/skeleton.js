@@ -8,7 +8,27 @@ class Skeleton extends Monster {
         super(Skeleton.totalHitPoints);
         this.name = "Skeleton";
         this.artwork = "assets/monster/skeletal_warrior.png"
-        this.basicAttackName = "Shuffle Attack";
+        this.actions = [
+            {
+                name: "Shuffle Attack",
+                type: "attack",
+                action: "basicAttack",
+                text: "The skeleton shuffles forward and lunges at you!",
+                success: "You are hit",
+                failure: "It missed",
+                animation: "bounceOutLeft",
+                id: "basicAttack"
+            },
+            // {
+            //     name: "Grab Attack",
+            //     type: "attack",
+            //     action: "specialAttack",
+            //     text: "The skeleton tries to !",
+            //     success: "You are hit",
+            //     failure: "It missed",
+            //     animation: "bounceOutRight"
+            // }
+        ];
     }
     basicAttack() {
         const isHit = Math.random() <= Skeleton.accuracy ? true : false;

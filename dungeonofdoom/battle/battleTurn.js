@@ -9,6 +9,8 @@ class BattleTurn {
     async turn() {
         //Get the current active combatant
         const currentCombatant = this.turnOrder[this.currentTurnIndex];
+        console.log("Current combatant: ", currentCombatant)
+        console.log(this.currentTurnIndex)
         let currentCombatantTarget = this.battle.player;
         let action = "basicAttack";
 

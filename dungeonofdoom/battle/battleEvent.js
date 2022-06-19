@@ -20,14 +20,14 @@ class BattleEvent {
         })
         return [actionControlObject, actionIndex];        
     }
-
+    // Update text on screen methods
     // Method that displays text in the message box
     messageBoxText(resolve) {
         const text = this.event.text;
         const messageBox = document.querySelector("#message-box");
         messageBox.innerText = text;
         window[this.event.animation](messageBox);
-        resolve();
+        messageBox.onanimationend = () => resolve();
     }
 
     // Update status of player
@@ -36,8 +36,9 @@ class BattleEvent {
         const statusElement = document.querySelector("#current-status-effect");
         statusElement.innerText = text;
         window[this.event.animation](statusElement);
-        resolve();
+        statusElement.onanimationend = () => resolve();
     }
+    // Player action methods
 
     defend(resolve) {
         // Get the action data object for the event and initialise the defend() method on the player
@@ -63,7 +64,7 @@ class BattleEvent {
         // Handle the animation
         const playerSprite = document.querySelector("#player")
         window[actionControlObject.animation](playerSprite);
-        resolve();
+        playerSprite.onanimationend = () => resolve();
     }
     // Remove defend status
     removeDefend(resolve) {
@@ -74,11 +75,11 @@ class BattleEvent {
             text: `Current Status Effect: None`,
             animation: "rubberBand"
         }
-        setTimeout(() => this.start(resolve), 2000);
+        setTimeout(() => this.start(resolve), 1000);
     }
 
     swordAttack(resolve) {
-        // Get the action data object for the event and initialise the defend() method on the player
+        // Get the action data object for the event and initialise the swordAttack() method on the player
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
         const actionControlIndex = actionControlArr[1];
@@ -96,15 +97,13 @@ class BattleEvent {
             text: attackResult[0] ? `${actionControlObject.success}` : `${actionControlObject.failure}`,
             animation: "text"
         }
-        setTimeout(() => this.start(resolve), 1200);
+        playerSprite.onanimationend = () => this.start(resolve);
 
         //Handle the state change for a hit
         // Handle the animation for a hit
         if (attackResult[0] === true) {
-            console.log("Before Hit: ", attackTarget)
             attackTarget.takeDamage(attackResult[1]);
             attackTarget.checkDeathStatus();
-            console.log("After Hit: ", attackTarget)
             const targetSprite = document.querySelector(`#${attackTarget.location}`);
             setTimeout(() => window["flash"](targetSprite), 1200);
             // Check if the target is dead, if so, do death animation
@@ -113,12 +112,22 @@ class BattleEvent {
                 setTimeout(() => window["death"](targetSprite), 1500);
             }
         }
-        resolve();
+        playerSprite.onanimationend = () => resolve();
     }
+    // ENemy action methods
     // Enemy basic attack
     basicAttack(resolve) {
-        console.log("Enemy attacks")
-        setTimeout(() => resolve(), 5000);
+        // Get the action data object for the event and initialise the swordAttack() method on the player
+        const actionControlArr = this.findAction(this.event.action);
+        const actionControlObject = actionControlArr[0];
+        const actionControlIndex = actionControlArr[1];
+        const actionMethod = this.event.currentCombatant.actions[actionControlIndex].action;
+        const attackResult = this.event.currentCombatant[actionMethod]();
+        const attackTarget = this.event.currentCombatantTarget;
+        // // Handle the animation for attacking
+        const enemySprite = document.querySelector(`#${this.event.currentCombatant.location}`)
+        window[actionControlObject.animation](enemySprite);
+        enemySprite.onanimationend = () => resolve();
     }
 
     //Start the battle event
