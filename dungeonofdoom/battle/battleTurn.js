@@ -13,7 +13,7 @@ class BattleTurn {
             console.log(`Current turn: ${currentCombatant.type} ${this.currentTurnIndex}`)
             let currentCombatantTarget = this.battle.player;
             let action = "basicAttack";
-            
+
             // If it is the player turn, build the available actions and listen for the choice, then submit to the battleTurnSubmission
             if (currentCombatant.type === "player") {
                 console.log("Building initIal buttons")
@@ -29,12 +29,17 @@ class BattleTurn {
                     await this.onNewEvent(event);
                     console.log("updated defend status")
                 }
+                console.log("Start player turn message started")
+                const messageBox = document.querySelector("#message-box");
+                messageBox.innerText = "Select an action";
+                await window["text"](messageBox);
+                console.log("Start player turn message resolved")
                 console.log("Waiting for player input")
                 const result = await this.playerAction();
                 currentCombatantTarget = result[0];
                 action = result[1];
             }
-            
+
             const event = {
                 currentCombatant: currentCombatant,
                 currentCombatantTarget: currentCombatantTarget,
@@ -48,8 +53,10 @@ class BattleTurn {
         } else {
             this.currentTurnIndex = 0;
         }
+
         // Rerun the turn for the next player
-        this.turn();
+        // Set a small timeout so that the animations fire correctly
+        setTimeout(() => this.turn(), 1000);
     }
     buildInitialPlayerActions() {
         const controlPanel = document.querySelector("#control-panel");
@@ -153,12 +160,13 @@ class BattleTurn {
         for (let enemy of this.battle.enemies) {
             this.turnOrder.push(enemy);
         }
-        await this.onNewEvent({
-            action: "messageBoxText",
-            text: "The enemy approaches.....",
-            animation: "text"
-        })
+        console.log("Starting message started")
+        const messageBox = document.querySelector("#message-box");
+        messageBox.innerText = "The enemy approaches....";
+        await window["text"](messageBox);
+        console.log("Starting message resolved")
         // // Start the first turn
-        this.turn();
+        // Set a small timeout so that the animations fire correctly
+        setTimeout(() => this.turn(), 1000);
     }
 }

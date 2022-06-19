@@ -66,9 +66,9 @@ function death(targetElement) {
         console.log("death animation waiting to complete")
         setTimeout(() => {
             targetElement.classList.add("hidden");
-            console.log("death animation complete")
-            resolve();
+            console.log("death animation complete")  
         }, 1000)
+        resolve();
     })
 }
 // Enemy attack
