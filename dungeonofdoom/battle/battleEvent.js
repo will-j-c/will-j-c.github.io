@@ -41,17 +41,17 @@ class BattleEvent {
     // Update health bar of player
     async updatePlayerHealth() {
         console.log("BattleEvent method: updatePlayerHealth started")
-        const healthPotionsElement = document.querySelector("#current-health-potions");
-        healthPotionsElement.innerText = `Health Potions: ${this.battle.player.potions}`
-        await window["text"](healthPotionsElement);
-        console.log("BattleEvent method: updatePlayerHealth resolved")
-    }
-    // Update health bar of player
-    async updatePlayerPotions() {
-        console.log("BattleEvent method: updatePlayerPotions started")
         const hpElement = document.querySelector("#current-hit-points");
         hpElement.innerText = `Current Hit Points: ${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`;
         await window["text"](hpElement);
+        console.log("BattleEvent method: updatePlayerHealth resolved")
+    }
+    // Update potion stock of player
+    async updatePlayerPotions() {
+        console.log("BattleEvent method: updatePlayerPotions started")
+        const healthPotionsElement = document.querySelector("#current-health-potions");
+        healthPotionsElement.innerText = `Health Potions: ${this.battle.player.potions}`
+        await window["text"](healthPotionsElement);
         console.log("BattleEvent method: updatePlayerPotions resolved")
     }
     // Player action methods
@@ -125,8 +125,8 @@ class BattleEvent {
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
         const lifeGained = this.battle.player.drinkPotion();
-        this.updatePlayerPotions();
-        this.messageBoxText(`${actionControlObject.text} ${lifeGained} hit points`);
+        await this.updatePlayerPotions();
+        await this.messageBoxText(`${actionControlObject.text} ${lifeGained} hit points`);
         await this.updatePlayerHealth();
         resolve();
         console.log("BattleEvent method: healthPotion resolved")
