@@ -89,7 +89,7 @@ class BattleTurn {
                 controlPanel.append(button);
             }
             if (action.id === "health-potion") {
-                if (this.battle.player.currentHItPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
+                if (this.battle.player.currentHitPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
                     const button = document.createElement("button");
                     button.innerText = action.name;
                     button.setAttribute("id", action.id);
@@ -129,7 +129,7 @@ class BattleTurn {
                 controlPanel.append(button);
             }
             if (action.id === "health-potion") {
-                if (this.battle.player.currentHItPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
+                if (this.battle.player.currentHitPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
                     const button = document.createElement("button");
                     button.innerText = action.name;
                     button.setAttribute("id", action.id);
@@ -146,7 +146,7 @@ class BattleTurn {
                 if(event.target.tagName !== "BUTTON") {
                     this.playerAction();
                 }
-            const utilityIdArr = ["defend", "health-potion"];
+            const utilityIdArr = ["defend", "healthPotion"];
                 if (utilityIdArr.some(id => id === event.target.id)) {
                     resolve([this.battle.player, event.target.id]);
                 }

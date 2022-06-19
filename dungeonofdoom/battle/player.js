@@ -5,7 +5,7 @@ class Player {
     static startPotion = 3;
     constructor() {
         this.totalHitPoints = 100;
-        this.currentHitPoints = this.totalHitPoints;
+        this.currentHitPoints = 90;//this.totalHitPoints;
         this.isAlive = true;
         this.isDefending = false;
         this.potions = Player.startPotion;

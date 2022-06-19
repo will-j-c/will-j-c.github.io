@@ -1,7 +1,7 @@
 // Create a Skeleton
 class Skeleton extends Monster {
     static totalHitPoints = 10;
-    static accuracy = 0.4;
+    static accuracy = 1;
     static strength = 2;
     // static criticalChance = 0.9
     constructor() {
