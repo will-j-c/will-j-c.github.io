@@ -20,15 +20,12 @@ class BattleTurn {
                 this.buildInitialPlayerActions();
                 console.log("Updating buttons")
                 this.updatePlayerActions();
-                // Update the is defending status of the player
-                if (this.battle.player.isDefending) {
-                    const event = {
-                    action: "removeDefend"
-                    }
-                    console.log("Waiting to update defend status")
-                    await this.onNewEvent(event);
-                    console.log("updated defend status")
-                }
+                this.showButtons();
+                console.log(`Player defending status: ${this.battle.player.isDefending}`)
+                console.log("Waiting to update status effects")
+                this.updateStatusEffects();
+                console.log("Status effects updated");
+                console.log(`Player defending status: ${this.battle.player.isDefending}`)
                 console.log("Start player turn message started")
                 const messageBox = document.querySelector("#message-box");
                 messageBox.innerText = "Select an action";
@@ -36,6 +33,7 @@ class BattleTurn {
                 console.log("Start player turn message resolved")
                 console.log("Waiting for player input")
                 const result = await this.playerAction();
+                this.hideButtons();
                 currentCombatantTarget = result[0];
                 action = result[1];
             }
@@ -64,36 +62,41 @@ class BattleTurn {
         }
     }
     buildInitialPlayerActions() {
-        const controlPanel = document.querySelector("#control-panel");
         // Create an array of enemies
         const enemies = this.battle.enemies;
         // Create available actions based on player actions
         const actions = this.battle.player.actions;
         for (let action of actions) {
             if (action.type === "attack") {
+                const attackButtons = document.querySelector("#attack-buttons");
                 let enemyNumber = 1;
                 for (let enemy of enemies) {
                     const button = document.createElement("button");
                     button.innerText = `${action.name} ${enemy.name} ${enemyNumber}`;
                     button.setAttribute("id", `attack-enemy-${enemyNumber}`);
+                    button.setAttribute("class", "btn col-4");
                     enemy.buttonRef = `attack-enemy-${enemyNumber}`;
                     enemy.numberRef = `${enemyNumber}`;
-                    controlPanel.append(button);
+                    attackButtons.append(button);
                     enemyNumber++;
                 }
             }
             if (action.type === "utility" && action.id !== "health-potion") {
+                const abilityButtons = document.querySelector("#ability-buttons");
                 const button = document.createElement("button");
                 button.innerText = action.name;
                 button.setAttribute("id", action.id);
-                controlPanel.append(button);
+                button.setAttribute("class", "btn col-4");
+                abilityButtons.append(button);
             }
             if (action.id === "health-potion") {
                 if (this.battle.player.currentHitPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
+                    const abilityButtons = document.querySelector("#consumable-buttons");
                     const button = document.createElement("button");
                     button.innerText = action.name;
                     button.setAttribute("id", action.id);
-                    controlPanel.append(button);
+                    button.setAttribute("class", "btn col-4");
+                    abilityButtons.append(button);
                 }
             }
         }
@@ -105,7 +108,6 @@ class BattleTurn {
         for (let button of toClear) {
             button.remove();
         }
-        const controlPanel = document.querySelector("#control-panel");
         // Create an array of enemies
         const enemies = this.battle.enemies;
         // Create available actions based on player actions
@@ -116,24 +118,30 @@ class BattleTurn {
         for (let action of actions) {
             if (action.type === "attack") {
                 for (let enemy of aliveEnemies) {
+                    const attackButtons = document.querySelector("#attack-buttons");
                     const button = document.createElement("button");
                     button.innerText = `${action.name} ${enemy.name} ${enemy.numberRef}`;
                     button.setAttribute("id", `${enemy.buttonRef}`);
-                    controlPanel.append(button);
+                    button.setAttribute("class", "btn col");
+                    attackButtons.append(button);
                 }
             }
             if (action.type === "utility" && action.id !== "health-potion") {
+                const abilityButtons = document.querySelector("#ability-buttons");
                 const button = document.createElement("button");
                 button.innerText = action.name;
                 button.setAttribute("id", action.id);
-                controlPanel.append(button);
+                button.setAttribute("class", "btn col");
+                abilityButtons.append(button);
             }
             if (action.id === "health-potion") {
                 if (this.battle.player.currentHitPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
+                    const abilityButtons = document.querySelector("#consumable-buttons");
                     const button = document.createElement("button");
                     button.innerText = action.name;
                     button.setAttribute("id", action.id);
-                    controlPanel.append(button);
+                    button.setAttribute("class", "btn col");
+                    abilityButtons.append(button);
                 }
             }
         }
@@ -169,6 +177,25 @@ class BattleTurn {
             this.battle.isOver = true;
         }
         console.log(`Battle over: ${this.battle.isOver}`)
+    }
+    // Update status effects
+    async updateStatusEffects() {
+        if (this.battle.player.isDefending) {
+            this.battle.player.isDefending = false;
+            const defendLi = document.querySelector("#defend");
+            defendLi.remove();
+            await window["text"](defendLi);
+        }
+    }
+    // Hide buttons
+    hideButtons() {
+        const buttonPanel = document.querySelector("#buttons-panel");
+        buttonPanel.style.display = "none";
+    }
+    // Show buttons
+    showButtons() {
+        const buttonPanel = document.querySelector("#buttons-panel");
+        buttonPanel.style.display = "initial";
     }
     // Start the turn event
     async start() {

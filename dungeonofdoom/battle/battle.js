@@ -31,29 +31,52 @@ class Battle {
         const playScreen = document.querySelector("#play-screen");
         // Create the bare skeleton of the battle screen
         playScreen.innerHTML = `
-            <header class="row">
+            <header class="row mb-3 mx-3">
                 <h3>Some battle controls go here</h3>
             </header>
-            <main class="text-center">
-                <div id="battle-container" class="justify-center">
+            <main>
+                <div id="battle-container" class="row m-3 text-center container">
                 </div>
-                <div class="row">
+                <div class="row m-3 text-center">
                     <h3 id="message-box"></h3>
                 </div>
                 <div class="row">
-                    <div class="col m-3">
+                    <div class="col m-3" id="status-panel">
+                        <h2 class="text-center">Player Status</h2>
                         <div class="row">
-                            <h2>Player Status</h2>
-                            <h3 id="current-hit-points"></h3>
-                            <h3 id="current-status-effect"></h3>
+                            <h3>Current Hit Points</h3>
+                            <h4 id="current-hit-points"></h4>
                         </div>
+
                         <div class="row">
-                            <h2>Player Inventory</h2>
-                            <h3 id="current-health-potions"></h3>
+                            <h3>Status effects</h3>
+                            <ul id="current-status-effect"></ul>
                         </div>
+
+                        <div class="row">
+                            <h3>Player Inventory</h3>
+                            <ul id="inventory"></ul>
+                        </div>
+
                     </div>
                     <div class="col m-3" id="control-panel">
-                    <h2>Actions<h2>
+                        <h2 class="text-center">Actions Pane<h2>
+                        <div id="buttons-panel">
+                            <div class="row justify-content-center text-center">
+
+                                <div class="btn-group btn-group-sm col-4 d-inline-block my-1" role="group" aria-label="First group" id="attack-buttons">
+                                <h4>Attack actions</h4>
+                                </div>
+
+                                <div class="btn-group btn-group-sm col-4 d-inline-block my-1" role="group" aria-label="Second group" id="ability-buttons">
+                                <h4>Abilities</h4>
+                                </div>
+
+                                <div class="btn-group btn-group-sm col-4 d-inline-block my-1" role="group" aria-label="Third group" id="consumable-buttons">
+                                <h4>Consumables</h4>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>`
@@ -115,19 +138,18 @@ class Battle {
         }
         // Add player HP
         const hpElement = document.querySelector("#current-hit-points");
-        hpElement.innerText = `Current Hit Points: ${this.player.currentHitPoints}/${this.player.totalHitPoints}`;
-        // Add player starting status
-        const statusElement = document.querySelector("#current-status-effect");
-        statusElement.innerText = "Current Status Effect: None"
+        hpElement.innerText = `${this.player.currentHitPoints}/${this.player.totalHitPoints}`;
         //Add player available inventory
-        const healthPotionsElement = document.querySelector("#current-health-potions");
-        healthPotionsElement.innerText = `Health Potions: ${this.player.potions}`
-    }
-    // Method determines the available actions of the player and add relevant buttons to the DOM for that action
-    buildActionButtons() {
-        //
+        const inventory = document.querySelector("#inventory");
+        const liElement = document.createElement("li")
+        liElement.setAttribute("id", "health-potions")
+        liElement.innerHTML = `
+            <img src="./assets/consumables/ruby.png">
+            ${this.player.potions}
+        `
+        inventory.append(liElement);
     }
 }
 
-// const battle = new Battle(new Player, new Skeleton, new Skeleton, new Skeleton);
-// battle.start();
+const battle = new Battle(new Player, new Skeleton, new Skeleton, new Skeleton);
+battle.start();

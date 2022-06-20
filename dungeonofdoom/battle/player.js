@@ -30,6 +30,7 @@ class Player {
                 text: "You raise your shield and defend yourself!",
                 id: "defend",
                 animation: "bounce",
+                methodId: "defend",
                 statusOnComplete: "Defending"
             },
             {

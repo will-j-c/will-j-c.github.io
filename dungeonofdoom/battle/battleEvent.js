@@ -31,10 +31,14 @@ class BattleEvent {
     }
 
     // Update status of player
-    async updateStatus(text) {
+    async addStatus(text, id) {
         console.log("BattleEvent method: updateStatus started")
-        const statusElement = document.querySelector("#current-status-effect");
+        const currentStatusEffects = document.querySelector("#current-status-effect")
+        const statusElement = document.createElement("li");
+        statusElement.setAttribute("id", id);
         statusElement.innerText = text;
+        console.log(statusElement)
+        currentStatusEffects.append(statusElement);
         await window["text"](statusElement);
         console.log("BattleEvent method: updateStatus resolved")
     }
@@ -42,7 +46,7 @@ class BattleEvent {
     async updatePlayerHealth() {
         console.log("BattleEvent method: updatePlayerHealth started")
         const hpElement = document.querySelector("#current-hit-points");
-        hpElement.innerText = `Current Hit Points: ${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`;
+        hpElement.innerText = `${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`;
         await window["text"](hpElement);
         console.log("BattleEvent method: updatePlayerHealth resolved")
     }
@@ -69,9 +73,9 @@ class BattleEvent {
         const playerSprite = document.querySelector("#player")
         await window[actionControlObject.animation](playerSprite);
         // Handle updating the status bar
-        await this.updateStatus(`Current Status Effect: ${actionControlObject.statusOnComplete}`);
+        await this.addStatus(actionControlObject.name, actionControlObject.id);
         resolve()
-        console.log("BattleEvent method: defend resolved")
+        console.log("BattleEvent method: defend resolved");
     }
     // Remove defend status
     async removeDefend(resolve) {

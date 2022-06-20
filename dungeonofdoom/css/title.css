@@ -17,5 +17,35 @@ body {
     height: 100%;
 }
 #mute-button {
+    height: 3em;
+}
+#mute-button:hover {
+    cursor: pointer;
+}
+#img-container {
+    display: flex;
+    justify-content: left;
+}
+.btn-group {
+    font-family: 'Passion One', cursive;
     color: #480707;
+}
+#start-button {
+    color: #480707;
+    font-size: 2em;
+}
+/* Animations */
+.fadeIn {
+    animation: fadeIn;
+    animation-duration: 3s;
+}
+.pulse {
+    animation: pulse;
+    animation-duration: 5s;
+    animation-delay: 5s;
+    animation-iteration-count: infinite;
+}
+.fadeOut {
+    animation: fadeOut;
+    animation-duration: 3s;
 }
