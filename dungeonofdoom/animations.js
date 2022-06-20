@@ -50,6 +50,23 @@ function pulse(targetElement) {
             duration: 0.5,
             ease: Power0.easeNone
         })
+        resolve();
+    })
+}
+
+// Typewriter effect
+function typewriter(targetElement, text) {
+    return new Promise(resolve =>  {
+        const timeAdjustment = text.length/350;
+        gsap.to(targetElement, {
+            duration: (7 * timeAdjustment),
+            text: {
+                value: text,
+                delimiter: " "
+            },
+            ease: "none",
+            onComplete: resolve
+        });
     })
 }
 
