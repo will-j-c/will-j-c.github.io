@@ -9,6 +9,7 @@ class Level {
     }
     async start() {
         const playScreen = document.querySelector("#play-screen");
+        window["fadeIn"](playScreen);
         // Create the basic HTML for the rest of the screen to interact with
         playScreen.innerHTML = `
             <main class="text-center" id="title-screen-main">
@@ -23,6 +24,7 @@ class Level {
             </main>
             `
         this.storyBoard();
+        
     }
     initiateBattle() {
         //

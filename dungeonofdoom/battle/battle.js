@@ -150,6 +150,3 @@ class Battle {
         inventory.append(liElement);
     }
 }
-
-const battle = new Battle(new Player, new Skeleton, new Skeleton, new Skeleton);
-battle.start();
