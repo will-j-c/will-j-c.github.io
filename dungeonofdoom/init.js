@@ -9,4 +9,4 @@ const game = new Game(levelParams);
 // const battle = new Battle(new Player, new Skeleton, new Skeleton, new Skeleton);
 // battle.start();
 
-game.prologue();
+game.start()

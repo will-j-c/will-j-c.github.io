@@ -15,10 +15,12 @@ const prologue = {
 }
 const levelParams = [
     {
-        number: 1,
+        chapterTitle: "Chapter 1: Knock Knock",
         battleLineup: [new Skeleton, new Skeleton, new Skeleton],
-        storyPara1: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        storyPara2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        storyPara3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        text: [
+            "You arrive at the castle after three days forced march. The exterior is quiet and no light shows from the windows.",
+            "You approach wearily, knowing you are being watched. Crows flock and caw overhead, indicating the presence of carrion.",
+            "As you near the gate, there is a pulsing of energy, dark and sickly, it makes you want to vomit. As you recover and look up, you see three dead men things approach. Guardians of the castle with rusty weapons in hand….."
+        ]
     }
 ]

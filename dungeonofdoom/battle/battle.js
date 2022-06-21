@@ -1,15 +1,17 @@
 // Initiate a battle class. This will encapsulate all logic around a battle.
 class Battle {
-    constructor(player, enemy1, enemy2, enemy3) {
+    constructor({player, enemy1, enemy2, enemy3, onEnd}) {
         this.player = player; //The current instance of the player object within Game
         this.enemies = [enemy1, enemy2, enemy3];
         this.enemy1 = this.enemies[0];
         this.enemy2 = this.enemies[1];
         this.enemy3 = this.enemies[2];
         this.isOver = false;
+        this.onEnd = onEnd;
     }
     // The below method is called to launch a new battle and run the whole logic for the battle.
     start() {
+        console.log(this.player)
         this.buildBattlefield();
         this.battleTurn = new BattleTurn ({
             battle: this,
@@ -23,7 +25,7 @@ class Battle {
         this.battleTurn.start();
     }
     quitBattle() {
-        //
+        this.onEnd();
     }
     
     // Method that adds the divs for the game board. Grid is 6x5 and adds a co-ordinate for each box. Grid also adds art for the enemies.

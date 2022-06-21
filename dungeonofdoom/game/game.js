@@ -5,7 +5,7 @@ class Game {
     }
     // Start the game
     async start() {
-        const player = new Player();
+        this.player = new Player();
         const playScreen = document.querySelector("#play-screen");
         await window["fadeOut"](playScreen);
         this.prologue();
@@ -39,8 +39,12 @@ class Game {
             await window["typewriter"](paragraph, para);
         }
         await window["fadeIn"](continueButton);
-        // const level = new Level(player, this.levelParams[0]);
-        // level.start();
+        continueButton.onclick = () => {
+            console.log(this.player)
+            const level = new Level(this.player, this.levelParams[0]);
+            level.start();
+        }
+        
         
     }
     async init() {

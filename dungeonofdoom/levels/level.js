@@ -1,11 +1,9 @@
 class Level {
     constructor(player, levelParamObject) {
         this.player = player;
-        this.number = levelParamObject.number;
+        this.chapterTitle = levelParamObject.chapterTitle;
         this.battleLineup = levelParamObject.battleLineup;
-        this.storyPara1 = levelParamObject.storyPara1;
-        this.storyPara2 = levelParamObject.storyPara2;
-        this.storyPara3 = levelParamObject.storyPara3;
+        this.text = levelParamObject.text;
     }
     async start() {
         const playScreen = document.querySelector("#play-screen");
@@ -23,22 +21,55 @@ class Level {
                 </div>
             </main>
             `
-        this.storyBoard();
-        
+        await this.storyBoard();
     }
-    initiateBattle() {
-        //
+    async initiateBattle() {
+        console.log(this.player)
+        const battle = new Battle({
+            player: this.player, 
+            enemy1: this.battleLineup[0], 
+            enemy2: this.battleLineup[1], 
+            enemy3: this.battleLineup[2], 
+            onEnd: event => {
+                return new Promise(resolve => {
+                    console.log("Level class: Battle Resolved")
+                    resolve();
+                })
+            }
+        });
+        battle.start();
     }
     async storyBoard() {
-        const chapterTitle = document.querySelector("#chapter-title");
-        const paragraphElements = [document.querySelector("#para-1"), document.querySelector("#para-2"), document.querySelector("#para-3")];
-        let startPara = 1;
-        for (let paragraph of paragraphElements) {
-            const paragraphElement = document.createElement("p");
-            paragraphElement.innerText = this[`storyPara${startPara}`];
-            paragraphElement.classList.add("para-text");
-            paragraph.append(paragraphElement);
-            startPara++
+        const playScreen = document.querySelector("#play-screen");
+        // Create the basic HTML for the rest of the screen to interact with
+        playScreen.innerHTML = `
+            <main class="text-center">
+                <div class="row">
+                    <h1 class="chapter-title"></h1>
+                <div class="d-flex justify-content-center flex-column" id="para-container">              
+                </div>
+                <div class="d-flex justify-content-center flex-column btn-group">
+                    <button class="btn" id="continue-button">Continue</button>
+                </div>
+            </main>
+            `
+        const continueButton = document.querySelector("#continue-button");
+        gsap.set(continueButton, {opacity: 0});
+        const chapterTitle = document.querySelector(".chapter-title");
+        const paragraphContainer = document.querySelector("#para-container");
+        chapterTitle.innerText = this.chapterTitle;
+        
+        gsap.set(playScreen, {opacity: 1});
+        await window["fadeIn"](chapterTitle);
+        for (let para of this.text) {
+            const paragraph = document.createElement("p");
+            paragraph.setAttribute("class", "para-text");
+            paragraphContainer.append(paragraph)
+            await window["typewriter"](paragraph, para);
+        }
+        await window["fadeIn"](continueButton);
+        continueButton.onclick = () => {
+            this.initiateBattle();
         }
     }
 }

@@ -53,8 +53,11 @@ class BattleEvent {
     // Update potion stock of player
     async updatePlayerPotions() {
         console.log("BattleEvent method: updatePlayerPotions started")
-        const healthPotionsElement = document.querySelector("#current-health-potions");
-        healthPotionsElement.innerText = `Health Potions: ${this.battle.player.potions}`
+        const healthPotionsElement = document.querySelector("#health-potions");
+        healthPotionsElement.innerHTML = `
+            <img src="./assets/consumables/ruby.png">
+            ${this.player.potions}
+        `
         await window["text"](healthPotionsElement);
         console.log("BattleEvent method: updatePlayerPotions resolved")
     }

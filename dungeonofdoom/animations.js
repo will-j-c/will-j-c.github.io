@@ -58,8 +58,9 @@ function pulse(targetElement) {
 function typewriter(targetElement, text) {
     return new Promise(resolve =>  {
         const timeAdjustment = text.length/350;
+        scroll(0, 500)
         gsap.to(targetElement, {
-            duration: (7 * timeAdjustment),
+            duration: (1),
             text: {
                 value: text,
                 delimiter: " "
@@ -67,6 +68,7 @@ function typewriter(targetElement, text) {
             ease: "none",
             onComplete: resolve
         });
+        
     })
 }
 
