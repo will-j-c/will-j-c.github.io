@@ -41,11 +41,9 @@ class Game {
         await window["fadeIn"](continueButton);
         continueButton.onclick = () => {
             console.log(this.player)
-            const level = new Level(this.player, this.levelParams[0]);
+            const level = new Level(this.player, this.levelParams[0], this);
             level.start();
         }
-        
-        
     }
     async init() {
         const playScreen = document.querySelector("#play-screen");

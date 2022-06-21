@@ -56,7 +56,7 @@ class BattleEvent {
         const healthPotionsElement = document.querySelector("#health-potions");
         healthPotionsElement.innerHTML = `
             <img src="./assets/consumables/ruby.png">
-            ${this.player.potions}
+            ${this.battle.player.potions}
         `
         await window["text"](healthPotionsElement);
         console.log("BattleEvent method: updatePlayerPotions resolved")

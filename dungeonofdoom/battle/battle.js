@@ -24,8 +24,8 @@ class Battle {
     })
         this.battleTurn.start();
     }
-    quitBattle() {
-        this.onEnd();
+    quitBattle(event) {
+        this.onEnd(event);
     }
     
     // Method that adds the divs for the game board. Grid is 6x5 and adds a co-ordinate for each box. Grid also adds art for the enemies.
@@ -34,7 +34,8 @@ class Battle {
         // Create the bare skeleton of the battle screen
         playScreen.innerHTML = `
             <header class="row mb-3 mx-3">
-                <h3>Some battle controls go here</h3>
+
+
             </header>
             <main>
                 <div id="battle-container" class="row m-3 text-center container">

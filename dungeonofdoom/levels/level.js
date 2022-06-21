@@ -1,9 +1,10 @@
 class Level {
-    constructor(player, levelParamObject) {
+    constructor(player, levelParamObject, game) {
         this.player = player;
         this.chapterTitle = levelParamObject.chapterTitle;
         this.battleLineup = levelParamObject.battleLineup;
         this.text = levelParamObject.text;
+        this.game = game;
     }
     async start() {
         const playScreen = document.querySelector("#play-screen");
@@ -24,7 +25,6 @@ class Level {
         await this.storyBoard();
     }
     async initiateBattle() {
-        console.log(this.player)
         const battle = new Battle({
             player: this.player, 
             enemy1: this.battleLineup[0], 
@@ -32,6 +32,16 @@ class Level {
             enemy3: this.battleLineup[2], 
             onEnd: event => {
                 return new Promise(resolve => {
+                    switch(event) {
+                        case "quit":
+                            this.game.init();
+                            break;
+                        case "dead":
+                            
+                            break;
+                        case "proceed":
+                            break;
+                    }
                     console.log("Level class: Battle Resolved")
                     resolve();
                 })

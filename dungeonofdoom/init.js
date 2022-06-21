@@ -6,7 +6,10 @@ const game = new Game(levelParams);
 // startButton.onclick = () => game.start();
 
 // Init a battle
-// const battle = new Battle(new Player, new Skeleton, new Skeleton, new Skeleton);
+// const battle = new Battle(new Player(), new Skeleton(), new Skeleton(), new Skeleton(), onend);
+// function onend() {
+//     //
+// }
 // battle.start();
 
 game.start()

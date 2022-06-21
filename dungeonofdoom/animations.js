@@ -60,7 +60,7 @@ function typewriter(targetElement, text) {
         const timeAdjustment = text.length/350;
         scroll(0, 500)
         gsap.to(targetElement, {
-            duration: (1),
+            duration: (0.5),
             text: {
                 value: text,
                 delimiter: " "
