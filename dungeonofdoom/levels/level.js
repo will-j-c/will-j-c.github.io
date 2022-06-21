@@ -5,6 +5,7 @@ class Level {
         this.battleLineup = levelParamObject.battleLineup;
         this.text = levelParamObject.text;
         this.game = game;
+        this.tile = levelParamObject.tile,
         this.onEndLevel = onEndLevel;
     }
     async start() {
@@ -31,7 +32,8 @@ class Level {
             player: this.player, 
             enemy1: this.battleLineup[0], 
             enemy2: this.battleLineup[1], 
-            enemy3: this.battleLineup[2], 
+            enemy3: this.battleLineup[2],
+            level: this, 
             onEnd: event => {
                 return new Promise(resolve => {
                     this.onEndLevel(event);

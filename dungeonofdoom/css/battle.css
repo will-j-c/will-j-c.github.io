@@ -1,6 +1,6 @@
 /* Battlefield  */
 .tile {
-    background-image: url("../assets/tiles/mud.jpg");
+    /* background-image: url("../assets/tiles/mud.jpg"); */
     background-size: cover;
 }
 .battlefield-row {

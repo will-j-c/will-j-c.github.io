@@ -1,12 +1,13 @@
 // Initiate a battle class. This will encapsulate all logic around a battle.
 class Battle {
-    constructor({player, enemy1, enemy2, enemy3, onEnd}) {
+    constructor({player, enemy1, enemy2, enemy3, level, onEnd}) {
         this.player = player; //The current instance of the player object within Game
         this.enemies = [enemy1, enemy2, enemy3];
         this.enemy1 = this.enemies[0];
         this.enemy2 = this.enemies[1];
         this.enemy3 = this.enemies[2];
         this.isOver = false;
+        this.level = level;
         this.onEnd = onEnd;
     }
     // The below method is called to launch a new battle and run the whole logic for the battle.
@@ -140,7 +141,8 @@ class Battle {
                 const colDiv = document.createElement("div");
                 const colDivAttributes = {
                         id: `col-${i}-${j}`,
-                        class: "col pt-3 pb-3 tile"
+                        class: "col pt-3 pb-3 tile",
+                        style: `background-image: url(${this.level.tile})`
                     };
                 //Set the attributes for the columns
                 for (const attribute in colDivAttributes) {

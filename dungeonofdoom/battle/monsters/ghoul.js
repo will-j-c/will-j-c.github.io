@@ -1,10 +1,9 @@
 // Create a Ghoul
 class Ghoul extends Monster {
     constructor() {
-        this.totalHitPoints = 20;
+        super(25);
         this.accuracy = 0.6;
         this.strength = 10;
-        super(this.totalHitPoints);
         this.name = "Skeleton";
         this.artwork = "assets/monster/ghoul.png"
         this.actions = [
