@@ -1,10 +1,11 @@
 class Level {
-    constructor(player, levelParamObject, game) {
+    constructor({player, levelParamObject, game, onEndLevel}) {
         this.player = player;
         this.chapterTitle = levelParamObject.chapterTitle;
         this.battleLineup = levelParamObject.battleLineup;
         this.text = levelParamObject.text;
         this.game = game;
+        this.onEndLevel = onEndLevel;
     }
     async start() {
         const playScreen = document.querySelector("#play-screen");
@@ -25,6 +26,7 @@ class Level {
         await this.storyBoard();
     }
     async initiateBattle() {
+        
         const battle = new Battle({
             player: this.player, 
             enemy1: this.battleLineup[0], 
@@ -32,16 +34,7 @@ class Level {
             enemy3: this.battleLineup[2], 
             onEnd: event => {
                 return new Promise(resolve => {
-                    switch(event) {
-                        case "quit":
-                            this.game.init();
-                            break;
-                        case "dead":
-
-                            break;
-                        case "proceed":
-                            break;
-                    }
+                    this.onEndLevel(event);
                     resolve();
                     console.log("Level class: Battle Resolved")
                 })
@@ -58,9 +51,7 @@ class Level {
                     <h1 class="chapter-title"></h1>
                 <div class="d-flex justify-content-center flex-column" id="para-container">              
                 </div>
-                <div class="d-flex justify-content-center flex-column btn-group">
-                    <button class="btn" id="continue-button">Continue</button>
-                </div>
+                <button class="btn" id="continue-button">Continue</button>
             </main>
             `
         const continueButton = document.querySelector("#continue-button");

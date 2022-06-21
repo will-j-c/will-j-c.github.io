@@ -2,6 +2,7 @@ class Game {
     constructor(levelParams) {
         this.levelParams = levelParams;
         this.prologueObject = prologue;
+        this.levelIndex = 0;
     }
     // Start the game
     async start() {
@@ -17,11 +18,10 @@ class Game {
             <main class="text-center">
                 <div class="row">
                     <h1 class="chapter-title"></h1>
+                <div/>
                 <div class="d-flex justify-content-center flex-column" id="para-container">              
                 </div>
-                <div class="d-flex justify-content-center flex-column btn-group">
-                    <button class="btn" id="continue-button">Continue</button>
-                </div>
+                <button class="btn" id="continue-button">Continue</button>
             </main>
             `
         const continueButton = document.querySelector("#continue-button");
@@ -40,10 +40,33 @@ class Game {
         }
         await window["fadeIn"](continueButton);
         continueButton.onclick = () => {
-            console.log(this.player)
-            const level = new Level(this.player, this.levelParams[0], this);
-            level.start();
+            this.initiateLevel();
         }
+    }
+    initiateLevel() {
+        const level = new Level({
+            player: this.player, 
+            levelParamObject: this.levelParams[this.levelIndex], 
+            game: this, 
+            onEndLevel: event => {
+                return new Promise(resolve => {
+                    switch(event) {
+                        case "quit":
+                            this.init();
+                            break;
+                        case "dead":
+                            this.gameOver();
+                            break;
+                        case "proceed":
+                            this.levelIndex++;
+                            this.initiateLevel();
+                            break;
+                    }
+                    resolve();
+                })
+            }
+        });
+        level.start();
     }
     async init() {
         const playScreen = document.querySelector("#play-screen");
@@ -59,10 +82,9 @@ class Game {
                 <div class="justify-content-center row" id="image-container">
                         <img src="./assets/title/castleinthedark.gif">                    
                 </div>
-                <div class="row justify-content-center btn-group">
-                    <button class="btn" id="start-button">Start New Game</button>
-                </div>
-                    <audio src="./assets/sounds/title.wav" loop>                    
+
+                <button class="btn" id="start-button">Start New Game</button>
+                <audio src="./assets/sounds/title.wav" loop>                    
                 </audio>
             </main>
             `
@@ -72,6 +94,25 @@ class Game {
         window["pulse"]("#title");
         startButton.onclick = () => this.start();
     }
+    async gameOver() {
+        const playScreen = document.querySelector("#play-screen");
+        // Create the basic HTML for the rest of the screen to interact with
+        playScreen.innerHTML = `
+            <main class="text-center">
+                <div class="row">
+                    <h1>You Died</h1>
+                <div class="d-flex justify-content-center flex-column" id="para-container">              
+                </div>
+                <button class="btn">Quit</button>
+            </main>
+        `
+        window["fadeIn"]("h1");
+        // Listen for a click on the start button
+        const quitButton = document.querySelector("button");
+        window["fadeIn"](playScreen);
+        quitButton.onclick = () => this.init();
+    }        
+    
 }
 
 // Listen for the mute button

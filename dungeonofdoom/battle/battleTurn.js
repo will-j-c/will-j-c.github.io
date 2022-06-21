@@ -54,7 +54,11 @@ class BattleTurn {
         this.checkIsOver();
         // If the battle is over
         if (this.battle.isOver) {
-            this.battle.quitBattle();
+            if (this.battle.player.isAlive) {
+                this.battle.onEnd("proceed");
+            } else {
+                this.battle.onEnd("dead");
+            }
         } else {
             // Rerun the turn for the next player
             // Set a small timeout so that the animations fire correctly

@@ -4,7 +4,7 @@ class Player {
     static strength = 10;
     static startPotion = 3;
     constructor() {
-        this.totalHitPoints = 100;
+        this.totalHitPoints = 1;
         this.currentHitPoints = this.totalHitPoints;
         this.isAlive = true;
         this.isDefending = false;
