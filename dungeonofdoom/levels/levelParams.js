@@ -21,15 +21,27 @@ const levelParams = [
             "You arrive at the castle after three days forced march. The exterior is quiet and no light shows from the windows.",
             "You approach wearily, knowing you are being watched. Crows flock and caw overhead, indicating the presence of carrion.",
             "As you near the gate, there is a pulsing of energy, dark and sickly, it makes you want to vomit. As you recover and look up, you see three dead men things approach. Guardians of the castle with rusty weapons in hand….."
-        ]
+        ],
+        next: "continue"
     },
     {
-        chapterTitle: "Chapter 2: Something something",
+        chapterTitle: "Chapter 2: Hall of Horror",
         battleLineup: [new Skeleton, new Skeleton, new Skeleton],
         text: [
             "You arrive at the castle after three days forced march. The exterior is quiet and no light shows from the windows.",
             "You approach wearily, knowing you are being watched. Crows flock and caw overhead, indicating the presence of carrion.",
             "As you near the gate, there is a pulsing of energy, dark and sickly, it makes you want to vomit. As you recover and look up, you see three dead men things approach. Guardians of the castle with rusty weapons in hand….."
-        ]
+        ],
+        next: "continue"
+    },
+    {
+        chapterTitle: "Chapter 3: Hall of Horror",
+        battleLineup: [new Skeleton, new Skeleton, new Skeleton],
+        text: [
+            "You arrive at the castle after three days forced march. The exterior is quiet and no light shows from the windows.",
+            "You approach wearily, knowing you are being watched. Crows flock and caw overhead, indicating the presence of carrion.",
+            "As you near the gate, there is a pulsing of energy, dark and sickly, it makes you want to vomit. As you recover and look up, you see three dead men things approach. Guardians of the castle with rusty weapons in hand….."
+        ],
+        next: "end"
     }
 ]

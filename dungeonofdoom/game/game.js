@@ -43,7 +43,31 @@ class Game {
             this.initiateLevel();
         }
     }
+
+    endingSequence() {
+        const playScreen = document.querySelector("#play-screen");
+        // Create the basic HTML for the rest of the screen to interact with
+        playScreen.innerHTML = `
+            <main class="text-center">
+                <div class="row">
+                    <h1>You Win!</h1>
+                <div class="d-flex justify-content-center flex-column" id="para-container">              
+                </div>
+                <button class="btn">Quit</button>
+            </main>
+        `
+        window["fadeIn"]("h1");
+        // Listen for a click on the start button
+        const quitButton = document.querySelector("button");
+        window["fadeIn"](playScreen);
+        quitButton.onclick = () => this.init();
+    }
+
     initiateLevel() {
+        if (this.levelIndex >= this.levelParams.length - 1) {
+            this.endingSequence();
+            return;
+        }
         const level = new Level({
             player: this.player, 
             levelParamObject: this.levelParams[this.levelIndex], 

@@ -9,7 +9,7 @@ class Player {
         this.isAlive = true;
         this.isDefending = false;
         this.potions = Player.startPotion;
-        this.artwork = "assets/player/daeva.png";
+        this.artwork = "assets/player/player.png";
         this.type = "player";
         this.actions = [
             {

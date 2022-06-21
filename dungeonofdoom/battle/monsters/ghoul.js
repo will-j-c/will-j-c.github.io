@@ -1,19 +1,18 @@
-// Create a Skeleton
-class Skeleton extends Monster {
-    // static criticalChance = 0.9
+// Create a Ghoul
+class Ghoul extends Monster {
     constructor() {
         this.totalHitPoints = 20;
         this.accuracy = 0.6;
         this.strength = 10;
         super(this.totalHitPoints);
         this.name = "Skeleton";
-        this.artwork = "assets/monster/skeletal_warrior.png"
+        this.artwork = "assets/monster/ghoul.png"
         this.actions = [
             {
-                name: "Shuffle Attack",
+                name: "Slash Attack",
                 type: "attack",
                 action: "basicAttack",
-                text: "The skeleton shuffles forward and lunges at you!",
+                text: "The gghoul darts forward, snarling!",
                 success: "You are hit",
                 failure: "It missed",
                 animation: "bounceOutLeft",
