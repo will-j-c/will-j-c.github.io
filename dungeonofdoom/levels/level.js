@@ -37,13 +37,13 @@ class Level {
                             this.game.init();
                             break;
                         case "dead":
-                            
+
                             break;
                         case "proceed":
                             break;
                     }
-                    console.log("Level class: Battle Resolved")
                     resolve();
+                    console.log("Level class: Battle Resolved")
                 })
             }
         });

@@ -66,9 +66,11 @@ class Game {
                 </audio>
             </main>
             `
-            
-    await window["fadeIn"](playScreen);
-    window["pulse"]("#title");
+        // Listen for a click on the start button
+        const startButton = document.querySelector("#start-button");
+        window["fadeIn"](playScreen);
+        window["pulse"]("#title");
+        startButton.onclick = () => this.start();
     }
 }
 

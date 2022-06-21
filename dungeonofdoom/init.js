@@ -1,9 +1,6 @@
 //Initiate game
-const game = new Game(levelParams);
-// game.init();
-// Listen for a click on the start button
-// const startButton = document.querySelector("#start-button");
-// startButton.onclick = () => game.start();
+let game = new Game(levelParams);
+game.init();
 
 // Init a battle
 // const battle = new Battle(new Player(), new Skeleton(), new Skeleton(), new Skeleton(), onend);
@@ -12,4 +9,4 @@ const game = new Game(levelParams);
 // }
 // battle.start();
 
-game.start()
+// game.start()

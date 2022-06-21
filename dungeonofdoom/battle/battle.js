@@ -50,7 +50,7 @@ class Battle {
                                 <h3>Are you sure you want to quit?</h3>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn" id="quit-button">Quit</button>
+                                <button type="button" class="btn" id="quit-button" data-dismiss="modal">Quit</button>
                                 <button type="button" class="btn" data-dismiss="modal">Close</button>
                             </div>
                         </div>
