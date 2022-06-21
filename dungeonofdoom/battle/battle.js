@@ -27,14 +27,52 @@ class Battle {
     quitBattle(event) {
         this.onEnd(event);
     }
-    
     // Method that adds the divs for the game board. Grid is 6x5 and adds a co-ordinate for each box. Grid also adds art for the enemies.
     buildBattlefield() {
         const playScreen = document.querySelector("#play-screen");
         // Create the bare skeleton of the battle screen
         playScreen.innerHTML = `
             <header class="row mb-3 mx-3">
-
+                <div class="btn-group" role="group">
+                    <!-- Button trigger modal battle log-->
+                    <button type="button" class="btn" data-toggle="modal" data-target="#log-modal">Battle Log</button>
+                    <!-- Small modal for quit-->
+                    <button type="button" class="btn" data-toggle="modal" data-target="#quit-modal">Quit</button>
+                </div>
+                <!-- Modal for battle log -->
+                <div class="modal fade bd-example-modal-sm" id="quit-modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modal-quit-long-title">Warning</h5>
+                            </div>
+                            <div class="modal-body" id="modal-quit-body">
+                                <h3>Are you sure you want to quit?</h3>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn" id="quit-button">Quit</button>
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Modal for battle log -->
+                <div class="modal fade" id="log-modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modal-battle-log-long-title">Battle Log</h5>
+                            </div>
+                            <div class="modal-body" id="modal-battle-log-body">
+                                <ul></ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </header>
             <main>
@@ -151,5 +189,10 @@ class Battle {
             ${this.player.potions}
         `
         inventory.append(liElement);
+        // Add event listener for quit button
+        const quitButton = document.querySelector("#quit-button");
+        quitButton.onclick = () => {
+            this.quitBattle("quit");
+        }
     }
 }
