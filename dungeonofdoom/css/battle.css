@@ -66,38 +66,3 @@ main {
       transform: translate3d(-800px, 0, 0) scaleX(1.1);
     }
   }
-/* Animations */
-.sprite {
-    height: 95%;
-}
-.dead {
-    animation: rotateOutDownLeft;
-    animation-duration: 1s;
-}
-.hidden {
-    display: none;
-}
-.text {
-    animation: heartBeat;
-    animation-duration: 1s;
-}
-.bounce {
-    animation: bounce;
-    animation-duration: 1s;
-}
-.rubberBand {
-    animation: rubberBand;
-    animation-duration: 1s;
-}
-.bounceOutRight {
-    animation: newBounceOutRight;
-    animation-duration: 1s;
-}
-.flash {
-    animation: flash;
-    animation-duration: 1s;
-}
-.bounceOutLeft {
-    animation: newBounceOutLeft;
-    animation-duration: 1s;
-}
