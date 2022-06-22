@@ -43,26 +43,3 @@ main {
 #health-potions {
     display: inline;
 }
-/* Custom animations */
-@keyframes newBounceOutRight {
-    20% {
-      opacity: 1;
-      transform: translate3d(-20px, 0, 0) scaleX(0.9);
-    }
-  
-    to {
-      opacity: 1;
-      transform: translate3d(800px, 0, 0) scaleX(1.1);
-    }
-}
-@keyframes newBounceOutLeft {
-    20% {
-      opacity: 1;
-      transform: translate3d(20px, 0, 0) scaleX(0.9);
-    }
-  
-    to {
-      opacity: 1;
-      transform: translate3d(-800px, 0, 0) scaleX(1.1);
-    }
-  }

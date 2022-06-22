@@ -75,9 +75,9 @@ class BattleTurn {
                 for (let enemy of enemies) {
                     const button = document.createElement("button");
                     button.innerText = `${action.name} ${enemy.name} ${enemyNumber}`;
-                    button.setAttribute("id", `attack-enemy-${enemyNumber}`);
+                    button.setAttribute("id", `${action.id}-${enemyNumber}`);
                     button.setAttribute("class", "btn col-4");
-                    enemy.buttonRef = `attack-enemy-${enemyNumber}`;
+                    enemy[`${action.action}ButtonRef`] = `${action.id}-${enemyNumber}`;
                     enemy.numberRef = `${enemyNumber}`;
                     attackButtons.append(button);
                     enemyNumber++;
@@ -110,8 +110,6 @@ class BattleTurn {
         for (let button of toClear) {
             button.remove();
         }
-        // Create an array of enemies
-        const enemies = this.battle.enemies;
         // Create available actions based on player actions
         const actions = this.battle.player.actions;
         // Create array of alive enemies
@@ -123,7 +121,7 @@ class BattleTurn {
                     const attackButtons = document.querySelector("#attack-buttons");
                     const button = document.createElement("button");
                     button.innerText = `${action.name} ${enemy.name} ${enemy.numberRef}`;
-                    button.setAttribute("id", `${enemy.buttonRef}`);
+                    button.setAttribute("id", enemy[`${action.action}ButtonRef`]);
                     button.setAttribute("class", "btn col");
                     attackButtons.append(button);
                 }
@@ -160,10 +158,11 @@ class BattleTurn {
                 if (utilityIdArr.some(id => id === event.target.id)) {
                     resolve([this.battle.player, event.target.id]);
                 }
-            const attacksIdArr = ["attack-enemy-1", "attack-enemy-2", "attack-enemy-3"]
+            const attacksIdArr = ["attack-enemy-1", "attack-enemy-2", "attack-enemy-3"] // This is where we need to pick
             if (attacksIdArr.some(id => id === event.target.id)) {
                 const index = event.target.id.replace(/^\D+/g, '');
-                resolve([this.turnOrder[index], "swordAttack"]);
+                resolve([this.turnOrder[index], event.target.id]);
+                console.log([this.turnOrder[index], event.target.id])
             }
         }
         }) 

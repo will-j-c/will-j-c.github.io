@@ -13,14 +13,14 @@ class Player {
         this.type = "player";
         this.actions = [
             {
-                name: "Sword Attack",
+                name: "Stab Attack",
                 type: "attack",
-                action: "swordAttack",
+                action: "stabAttack",
                 text: "You strike with your sword!",
                 success: "You hit the enemy",
                 failure: "You missed",
-                id: "swordAttack",
-                methodId: "swordAttack",
+                id: "stab-attack",
+                methodId: "stabAttack",
                 animation: "stabAttack"
             },
             {
@@ -44,7 +44,7 @@ class Player {
         ];
     }
     // Method for player attacking. Returns array of whether it is a hit and the damage inflicted.
-    swordAttack() {
+    stabAttack() {
         const isHit = Math.random() <= Player.accuracy ? true : false;
         const damage = Player.strength;
         if (isHit) {
