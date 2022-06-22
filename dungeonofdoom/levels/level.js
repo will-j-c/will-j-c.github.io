@@ -27,7 +27,6 @@ class Level {
         await this.storyBoard();
     }
     async initiateBattle() {
-        
         const battle = new Battle({
             player: this.player, 
             enemy1: this.battleLineup[0], 
@@ -43,6 +42,10 @@ class Level {
             }
         });
         battle.start();
+    }
+    async afterBattle() {
+        // On proceed go to after battle
+        // Load loot screen
     }
     async storyBoard() {
         const playScreen = document.querySelector("#play-screen");

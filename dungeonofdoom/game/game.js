@@ -108,11 +108,24 @@ class Game {
                 </div>
 
                 <button class="btn" id="start-button">Start New Game</button>
-                <audio src="./assets/sounds/title.wav" loop>                    
+                <audio src="./assets/sounds/crows-caw.mp3" loop>                    
                 </audio>
             </main>
             `
-        // Listen for a click on the start button
+            // Listen for the mute button
+            const muteButton = document.querySelector("#mute-button");
+            const audioElement = document.querySelector("audio");
+            muteButton.onclick = () => {
+                if (muteButton.getAttribute("src") === "./assets/icons/mute.png") {
+                    muteButton.setAttribute("src", "./assets/icons/unmute.png");
+                    audioElement.play();
+                    return;
+                }
+                muteButton.setAttribute("src", "./assets/icons/mute.png");
+                audioElement.pause();
+            }
+        
+            // Listen for a click on the start button
         const startButton = document.querySelector("#start-button");
         window["fadeIn"](playScreen);
         window["pulse"]("#title");

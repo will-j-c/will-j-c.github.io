@@ -27,9 +27,7 @@ class BattleTurn {
                 console.log("Status effects updated");
                 console.log(`Player defending status: ${this.battle.player.isDefending}`)
                 console.log("Start player turn message started")
-                const messageBox = document.querySelector("#message-box");
-                messageBox.innerText = "Select an action";
-                await window["text"](messageBox);
+                updateText("#message-box", "Select an action")
                 console.log("Start player turn message resolved")
                 console.log("Waiting for player input")
                 const result = await this.playerAction();
@@ -208,9 +206,7 @@ class BattleTurn {
             this.turnOrder.push(enemy);
         }
         console.log("Starting message started")
-        const messageBox = document.querySelector("#message-box");
-        messageBox.innerText = "The enemy approaches....";
-        await window["text"](messageBox);
+        updateText("#message-box", "The enemy approaches....")
         console.log("Starting message resolved")
         // // Start the first turn
         // Set a small timeout so that the animations fire correctly

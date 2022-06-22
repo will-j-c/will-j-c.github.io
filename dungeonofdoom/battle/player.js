@@ -1,10 +1,10 @@
 // Define our hero of the story
 class Player {
-    static accuracy = 1;
+    static accuracy = 0.5;
     static strength = 10;
     static startPotion = 3;
     constructor() {
-        this.totalHitPoints = 1;
+        this.totalHitPoints = 100;
         this.currentHitPoints = this.totalHitPoints;
         this.isAlive = true;
         this.isDefending = false;
@@ -21,7 +21,7 @@ class Player {
                 failure: "You missed",
                 id: "swordAttack",
                 methodId: "swordAttack",
-                animation: "bounceOutRight"
+                animation: "stabAttack"
             },
             {
                 name: "Defend",

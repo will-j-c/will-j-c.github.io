@@ -11,7 +11,7 @@ class Ghoul extends Monster {
                 name: "Slash Attack",
                 type: "attack",
                 action: "basicAttack",
-                text: "The gghoul darts forward, snarling!",
+                text: "The ghoul darts forward, snarling!",
                 success: "You are hit",
                 failure: "It missed",
                 animation: "bounceOutLeft",

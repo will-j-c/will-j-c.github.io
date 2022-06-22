@@ -12,7 +12,6 @@ class Battle {
     }
     // The below method is called to launch a new battle and run the whole logic for the battle.
     start() {
-        console.log(this.player)
         this.buildBattlefield();
         this.battleTurn = new BattleTurn ({
             battle: this,
@@ -164,14 +163,6 @@ class Battle {
         for (let i = 0, len = enemyTiles.length; i < len; i++) {
             const enemyTile = document.querySelector(enemyTiles[i]);
             const enemy = this.enemies[i];
-            // Create enemy health indicators for testing
-            const enemyHealth = document.createElement("p");
-            enemyHealth.innerText = `${enemy.currentHitPoints}/${enemy.totalHitPoints}`
-            enemyHealth.setAttribute("class", `enemy-health`);
-            enemyHealth.setAttribute("id", `enemy-health-${i + 1}`);
-            enemy.p = `enemy-health-${i + 1}`;
-            //
-            enemyTile.append(enemyHealth);
             const enemySprite = document.createElement("img");
             enemySprite.setAttribute("src", enemy.artwork);
             enemySprite.setAttribute("class", "sprite");
@@ -179,6 +170,9 @@ class Battle {
             enemy.location = `enemy-${i + 1}`;
             enemyTile.append(enemySprite);
         }
+        // Initialise bounce animations
+        // document.querySelectorAll(".sprite").forEach(sprite => bounce(sprite));
+
         // Add player HP
         const hpElement = document.querySelector("#current-hit-points");
         hpElement.innerText = `${this.player.currentHitPoints}/${this.player.totalHitPoints}`;

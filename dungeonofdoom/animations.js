@@ -73,31 +73,33 @@ function typewriter(targetElement, text) {
 }
 
 // Battle Animations
+// Player and enemy bounces
+function bounce(target) {
+    const rand = Math.random() * 1;
+    const t1 = gsap.timeline({repeat: -1, delay: rand});
+    t1.to(target, {animationTimingFunction: "cubic-bezier(0.215, 0.61, 0.355, 1)",transform: "translate3d(0, 0, 0)" , duration: 0.2});
+    t1.to(target, {animationTimingFunction: "cubic-bezier(0.755, 0.05, 0.855, 0.06)",transform: "translate3d(0, -10px, 0) scaleY(1)" , duration: 0.2});
+    t1.to(target, {animationTimingFunction: "cubic-bezier(0.755, 0.05, 0.855, 0.06)",transform: "translate3d(0, -15px, 0) scaleY(1)" , duration: 0.2});
+    t1.to(target, {animationTimingFunction: "cubic-bezier(0.215, 0.61, 0.355, 1)",transform: "translate3d(0, 0, 0) scaleY(0.95)" , duration: 0.2});
+    t1.to(target, {transform: "translate3d(0, -4px, 0) scaleY(1.02)" , duration: 0.1});
+    return t1;
+}
+// Pause the bounce animation when other actions are ongoing
+function pauseBounce(target) {
+    gsap.set(target, {y: 0}).kill();
+}
 
 // Function that animates the message text
-function text(targetElement) {
+function updateText(targetElementAsString, text) {
     return new Promise(resolve => {
-        targetElement.classList.add("text");
-        console.log("text animation waiting to complete")
-        targetElement.onanimationend = () => {
-            targetElement.classList.remove("text")
-            console.log("text animation complete")
-            resolve();
-        }
-    })
+        document.querySelector(targetElementAsString).innerText = text;
+        tl = gsap.timeline({onComplete: resolve()});
+        tl.to(targetElementAsString, {x: 10, duration: 0.1});
+        tl.to(targetElementAsString, {x: -10, duration: 0.1});
+        tl.to(targetElementAsString, {x: 0, duration: 0.1});
+        })
 }
-// Bounce animation
-function bounce(targetElement) {
-    return new Promise(resolve => {
-        targetElement.classList.add("bounce");
-        console.log("bounceOutLeft animation waiting to complete")
-        targetElement.onanimationend = () => {
-            targetElement.classList.remove("bounce");
-            console.log("bounce animation complete")
-            resolve();
-        }
-    })
-}
+
 // Rubber band animation
 function rubberBand(targetElement) {
     return new Promise(resolve => {
@@ -111,18 +113,39 @@ function rubberBand(targetElement) {
     
     })
 }
-// Attack right animation bounceOutRight
-function bounceOutRight(targetElement) {
-    return new Promise(resolve => {
-        targetElement.classList.add("bounceOutRight");
-        console.log("bounceOutRight animation waiting to complete")
-        targetElement.onanimationend = () => {
-            targetElement.classList.remove("bounceOutRight");
-            console.log("bounceOutRight animation complete")
-            resolve();
+
+// Stab attack animation
+async function stabAttack(attacker, target, isHit, startText, successFailText) {
+    return new Promise(async resolve => {
+        const attackerPosition = attacker.getBoundingClientRect();
+        const targetPosition = target.getBoundingClientRect();
+        const messageBox = document.querySelector("#message-box");
+        messageBox.innerText = startText;
+        const moveX = targetPosition.left - attackerPosition.right - 20;
+        const moveY = targetPosition.top - attackerPosition.top;
+        await text(messageBox);
+        const t1 = gsap.timeline(
+            {
+                onComplete: () => resolve(),
+            });
+        t1.to(attacker, {duration: 0.2, x: -attackerPosition.left / 3});
+        t1.to(attacker, {duration: 0.3, x: moveX, y: moveY, ease: Elastic.easeOut.config(1.2, 1)});
+        if (isHit) {
+            t1.to(messageBox, {onStart: ( () => text(messageBox))});
+            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), ">-0.3";
+            t1.to(target, {duration: 0.3, opacity: 1, repeat: 0});
+            t1.to(attacker, {duration: 1.5, x: 0, y: 0, ease: "power2.out"}, ">");
+        } else {
+            t1.to(target, {transform: "rotate3d(0, 0, 1, 15deg)", x: targetPosition.left/3, y: 10,duration: 0.1}, ">-0.3")
+            t1.to(target, {transform: "rotate3d(0, 0, 1, -10deg)", x: targetPosition.left/3, y: 0, duration: 0.1})
+            t1.to(target, {transform: "rotate3d(0, 0, 1, 5deg)", duration: 0.1})
+            t1.to(target, {transform: "rotate3d(0, 0, 1, -5deg)", duration: 0.1})
+            t1.to(target, {transform: "rotate3d(0, 0, 1, 0deg)", duration: 0.1})
+            t1.to(attacker, {duration: 1.5, x: 0, ease: "power2.out", y: 0}, ">-0.7");
         }
     })
 }
+
 // Hit animation
 function flash(targetElement) {
     return new Promise(resolve => {
@@ -159,3 +182,5 @@ function bounceOutLeft(targetElement) {
         }
     })
 }
+
+
