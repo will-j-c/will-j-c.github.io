@@ -43,7 +43,7 @@ class BattleEvent {
         const actionMethod = actionControlObject.action;
         const attackResult = this.event.currentCombatant[actionMethod]();
         const attackTarget = this.event.currentCombatantTarget;
-        const playerSprite = document.querySelector("#player")
+        const playerSprite = document.querySelector("#player");
         const targetSprite = document.querySelector(`#${attackTarget.location}`);
         //Handle the state change for a hit
         if (attackResult[0] === true) {
@@ -61,7 +61,9 @@ class BattleEvent {
         console.log("BattleEvent method: healthPotion started")
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
+        const playerSprite = document.querySelector("#player");
         const lifeGained = this.battle.player.drinkPotion();
+        await takePotionAnimation(playerSprite, `${actionControlObject.text} ${lifeGained}`, "#health-potions p", `${this.battle.player.potions}`, "#current-hit-points", `${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`);
         resolve();
         console.log("BattleEvent method: healthPotion resolved")
     }

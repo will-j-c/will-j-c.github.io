@@ -182,7 +182,7 @@ class Battle {
         liElement.setAttribute("id", "health-potions")
         liElement.innerHTML = `
             <img src="./assets/consumables/ruby.png">
-            ${this.player.potions}
+            <p>${this.player.potions}<p>
         `
         inventory.append(liElement);
         // Add event listener for quit button

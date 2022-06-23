@@ -40,7 +40,7 @@ main {
     list-style: none;
     display: inline;
 }
-#health-potions {
+#health-potions p{
     display: inline;
 }
 .sprite {

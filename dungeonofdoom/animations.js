@@ -133,3 +133,15 @@ async function stabAttackAnimation(attacker, target, isHit, startText, successFa
         }
     })
 }
+
+function takePotionAnimation(target, text, potionElement, potionStock, hitPointElement, hitPointText) {
+    return new Promise(async resolve => {
+        await updateText("#message-box", text);
+        await updateText(potionElement, potionStock);
+        const t1 = gsap.timeline({onComplete: () => resolve(), repeat: 2});
+        t1.to(target, {y: -10, duration: 0.1});
+        t1.to(target, {y: 0, duration: 0.1});
+        t1.to(target, {y: 10, duration: 0.1});
+        await updateText(hitPointElement, hitPointText);
+    })
+}
