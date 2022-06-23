@@ -9,7 +9,6 @@ game.init();
 //             resolve();
 //     }
 // })
-
 // level.initiateBattle();
 // Init a battle
 // const battle = new Battle(new Player(), new Skeleton(), new Skeleton(), new Skeleton(), onend);

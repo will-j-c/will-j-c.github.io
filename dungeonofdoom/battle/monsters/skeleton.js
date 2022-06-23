@@ -2,9 +2,9 @@
 class Skeleton extends Monster {
     // static criticalChance = 0.9
     constructor() {
-        super(10);
-        this.accuracy = 0;
-        this.strength = 10;
+        super(20);
+        this.accuracy = 0.5;
+        this.strength = 7;
         this.name = "Skeleton";
         this.artwork = "assets/monster/skeletal_warrior.png"
         this.deathText = "The skeleton disintegrates into a pile of bone"

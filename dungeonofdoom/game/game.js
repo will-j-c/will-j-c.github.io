@@ -64,7 +64,7 @@ class Game {
     }
 
     initiateLevel() {
-        if (this.levelIndex >= this.levelParams.length - 1) {
+        if (this.levelIndex > this.levelParams.length - 1) {
             this.endingSequence();
             return;
         }
@@ -151,21 +151,3 @@ class Game {
     }        
     
 }
-
-// Listen for the mute button
-// const muteButton = document.querySelector("#mute-button");
-// muteButton.onclick = () => {
-//     const currentAudioAttributes = [...document.querySelector("audio").attributes];
-//     if (currentAudioAttributes.some(attribute => attribute.name === "muted")) {
-//         const audioElement = document.querySelector("audio")
-//         audioElement.removeAttribute("muted");
-//         muteButton.setAttribute("src", "./assets/icons/unmute.png");
-//         // audioElement.play();
-//         return;
-//     }
-//     const audioElement = document.querySelector("audio");
-//     audioElement.setAttribute("muted", "");
-//     muteButton.setAttribute("src", "./assets/icons/mute.png");
-//     // audioElement.stop();
-// }
-
