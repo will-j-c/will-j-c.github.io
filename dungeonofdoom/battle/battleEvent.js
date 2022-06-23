@@ -20,6 +20,13 @@ class BattleEvent {
         })
         return [actionControlObject, actionIndex];        
     }
+    // Battle log text push
+    addBattleLog(text) {
+        const logBodyUl = document.querySelector("#modal-battle-log-body ul");
+        const li = document.createElement("li");
+        li.innerText = text;
+        logBodyUl.append(li);
+    }
 
     // Player action methods
     async defend(resolve) {
@@ -36,6 +43,7 @@ class BattleEvent {
         const playerSprite = document.querySelector("#player")
         console.log(statusEffect)
         await window[actionControlObject.animation](playerSprite, actionControlObject.text, "#defend-status", actionControlObject.statusOnComplete);
+        this.addBattleLog( actionControlObject.text);
         resolve()
         console.log("BattleEvent method: defend resolved");
     }
@@ -58,7 +66,12 @@ class BattleEvent {
         // Handle the animation
         const successFailText = attackResult[0] ? actionControlObject.success : actionControlObject.failure;
         await window[actionControlObject.animation](playerSprite, targetSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText);
-        resolve()
+        this.addBattleLog(actionControlObject.text);
+        this.addBattleLog(successFailText);
+        if (attackTarget.isAlive === false) {
+            this.addBattleLog(attackTarget.deathText);
+        }
+        resolve();
         console.log("BattleEvent method: swordAttack resolved")
     }
     // Take potion
@@ -69,6 +82,7 @@ class BattleEvent {
         const playerSprite = document.querySelector("#player");
         const lifeGained = this.battle.player.drinkPotion();
         await window[actionControlObject.animation](playerSprite, `${actionControlObject.text} ${lifeGained} hit points`, "#health-potions p", `${this.battle.player.potions}`, "#current-hit-points", `${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`);
+        this.addBattleLog(`${actionControlObject.text} ${lifeGained} hit points`);
         resolve();
         console.log("BattleEvent method: healthPotion resolved")
     }
@@ -94,6 +108,11 @@ class BattleEvent {
         const playerHP = `${Math.max(attackTarget.currentHitPoints, 0)}/${attackTarget.totalHitPoints}`
         console.log(this.event.currentCombatant.actions)
         await window[actionControlObject.animation](enemySprite, playerSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText, playerHP);
+        this.addBattleLog(actionControlObject.text);
+        this.addBattleLog(successFailText);
+        if (attackTarget.isAlive === false) {
+            this.addBattleLog(attackTarget.deathText);
+        }
         resolve()
         console.log("BattleEvent method: basicAttack resolved")
     }

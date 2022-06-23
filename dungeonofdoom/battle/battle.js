@@ -39,7 +39,7 @@ class Battle {
                     <!-- Small modal for quit-->
                     <button type="button" class="btn" data-toggle="modal" data-target="#quit-modal">Quit</button>
                 </div>
-                <!-- Modal for battle log -->
+                <!-- Modal for quit -->
                 <div class="modal fade bd-example-modal-sm" id="quit-modal" tabindex="-1" role="dialog">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
