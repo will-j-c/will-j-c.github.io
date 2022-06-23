@@ -16,7 +16,7 @@ class Skeleton extends Monster {
                 text: "The skeleton shuffles forward and lunges at you!",
                 success: "You are hit",
                 failure: "It missed",
-                animation: "bounceOutLeft",
+                animation: "shuffleAttackAnimation",
                 id: "basicAttack",
                 methodId: "basicAttack"
             },

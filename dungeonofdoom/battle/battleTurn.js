@@ -182,6 +182,7 @@ class BattleTurn {
         if (this.battle.player.isDefending) {
             this.battle.player.isDefending = false;
             const defendLi = document.querySelector("#defend-status");
+            await updateText("#defend-status", "");
             defendLi.remove();
         }
     }

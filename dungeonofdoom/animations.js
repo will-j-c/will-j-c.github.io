@@ -100,7 +100,7 @@ function updateText(targetElementAsString, text) {
         tl.to(targetElementAsString, {x: 0, duration: 0.01});
         })
 }
-
+// Player animations
 // Stab attack animation
 async function stabAttackAnimation(attacker, target, isHit, startText, successFailText, isAlive, deathText) {
     return new Promise(async resolve => {
@@ -124,7 +124,6 @@ async function stabAttackAnimation(attacker, target, isHit, startText, successFa
                 t1.to(target, {opacity: 0, duration: 0.2});
             }
         } else {
-            console.log((battlefieldPosition.right - targetPosition.right)/2)
             t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/2, y: -15,duration: 0.1}, ">");
             t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
             t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/3, y: -5,duration: 0.3}, ">-0.3");
@@ -146,7 +145,7 @@ function takePotionAnimation(target, text, potionId, potionStock, hitPointElemen
         await updateText(hitPointElement, hitPointText);
     })
 }
-
+// Defend animation
 function defendAnimation(target, text, statusEffectId, statusEffectText) {
     return new Promise(async resolve => {
         await updateText("#message-box", text);
@@ -155,5 +154,40 @@ function defendAnimation(target, text, statusEffectId, statusEffectText) {
         t1.to(target, {x: 0, duration: 0.1});
         t1.to(target, {x: 10, duration: 0.1});
         await updateText(statusEffectId, statusEffectText);
+    })
+}
+
+// Enemy animations
+
+function shuffleAttackAnimation(attacker, target, isHit, startText, successFailText, isAlive, deathText, playerHP) {
+    return new Promise(async resolve => {
+        const attackerPosition = attacker.getBoundingClientRect();
+        const targetPosition = target.getBoundingClientRect();
+        const battlefieldPosition = document.querySelector("#battle-container").getBoundingClientRect();
+        const moveX = targetPosition.right - attackerPosition.left - 20;
+        const moveY = targetPosition.top - attackerPosition.top;
+        const t1 = gsap.timeline({onComplete: () => resolve()});
+        t1.to("#message-box", {onStart: () => updateText("#message-box", startText), duration: 1.5});
+        t1.to(attacker, {duration: 0.4, x: -attackerPosition.left / 3, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})"}, "<25%");
+        t1.to(attacker, {duration: 0.5, x: moveX, y: moveY, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})"}, "<+=0.2");
+        if (isHit) {
+            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
+            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), "<+=0.2";
+            t1.to(target, {duration: 0.3, opacity: 1, repeat: 0});
+            t1.to("#message-box", {onStart: () => updateText("#current-hit-points", playerHP), duration: 1.5});
+            t1.to(attacker, {duration: 1.8, x: 0, y: 0, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})"}, ">");
+            if (isAlive === false) {
+                t1.to("#message-box", {onStart: () => updateText("#message-box", deathText), duration: 1.5});
+                t1.to(target, {transform: "rotate3d(0, 0, 1, -90deg)", duration: 0.4});
+                t1.to(target, {opacity: 0, duration: 0.2});
+            }
+        } else {
+            t1.to(target, {x: (battlefieldPosition.left - targetPosition.left)/2, y: 15,duration: 0.1}, ">");
+            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
+            t1.to(target, {x: (battlefieldPosition.left - targetPosition.left)/3, y: 5,duration: 0.3}, ">-0.3");
+            t1.to(target, {x: (battlefieldPosition.left - targetPosition.left)/3, y: 0, duration: 0.2});
+            t1.to(target, {x: 0, duration: 1});
+            t1.to(attacker, {duration: 1.8, x: 0, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})", y: 0}, ">-0.7");
+        }
     })
 }

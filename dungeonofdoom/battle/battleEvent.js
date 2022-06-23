@@ -68,7 +68,7 @@ class BattleEvent {
         const actionControlObject = actionControlArr[0];
         const playerSprite = document.querySelector("#player");
         const lifeGained = this.battle.player.drinkPotion();
-        await window[actionControlObject.animation](playerSprite, `${actionControlObject.text} ${lifeGained}`, "#health-potions p", `${this.battle.player.potions}`, "#current-hit-points", `${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`);
+        await window[actionControlObject.animation](playerSprite, `${actionControlObject.text} ${lifeGained} hit points`, "#health-potions p", `${this.battle.player.potions}`, "#current-hit-points", `${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`);
         resolve();
         console.log("BattleEvent method: healthPotion resolved")
     }
@@ -83,17 +83,17 @@ class BattleEvent {
         const actionMethod = this.event.currentCombatant.actions[actionControlIndex].action;
         const attackResult = this.event.currentCombatant[actionMethod]();
         const attackTarget = this.event.currentCombatantTarget;
+        const playerSprite = document.querySelector("#player");
         const enemySprite = document.querySelector(`#${this.event.currentCombatant.location}`)
         if (attackResult[0]) {
             attackTarget.takeDamage(attackResult[1]);
             attackTarget.checkDeathStatus();
-            const targetSprite = document.querySelector(`#player`);
-            if (attackTarget.isAlive === false) {
-                const targetSprite = document.querySelector(`#player`);
-            }
         }
         // Handle the animation
-        //
+        const successFailText = attackResult[0] ? actionControlObject.success : actionControlObject.failure;
+        const playerHP = `${Math.max(attackTarget.currentHitPoints, 0)}/${attackTarget.totalHitPoints}`
+        console.log(this.event.currentCombatant.actions)
+        await window[actionControlObject.animation](enemySprite, playerSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText, playerHP);
         resolve()
         console.log("BattleEvent method: basicAttack resolved")
     }
