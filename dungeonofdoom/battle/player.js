@@ -21,7 +21,7 @@ class Player {
                 failure: "You missed",
                 id: "stab-attack",
                 methodId: "stabAttack",
-                animation: "stabAttack"
+                animation: "stabAttackAnimation"
             },
             {
                 name: "Defend",
@@ -31,7 +31,8 @@ class Player {
                 id: "defend",
                 animation: "bounce",
                 methodId: "defend",
-                statusOnComplete: "Defending"
+                statusOnComplete: "Defending",
+                animation: "defendAnimation"
             },
             {
                 name: "Take Health Potion",

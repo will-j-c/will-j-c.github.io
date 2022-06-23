@@ -92,6 +92,7 @@ function pauseBounce(target) {
 // Function that animates the message text
 function updateText(targetElementAsString, text) {
     return new Promise(resolve => {
+        console.log(document.querySelector(targetElementAsString))
         document.querySelector(targetElementAsString).innerText = text;
         tl = gsap.timeline({onComplete: resolve()});
         tl.to(targetElementAsString, {x: 10, duration: 0.05});
@@ -134,14 +135,25 @@ async function stabAttackAnimation(attacker, target, isHit, startText, successFa
     })
 }
 
-function takePotionAnimation(target, text, potionElement, potionStock, hitPointElement, hitPointText) {
+function takePotionAnimation(target, text, potionId, potionStock, hitPointElement, hitPointText) {
     return new Promise(async resolve => {
         await updateText("#message-box", text);
-        await updateText(potionElement, potionStock);
+        await updateText(potionId, potionStock);
         const t1 = gsap.timeline({onComplete: () => resolve(), repeat: 2});
         t1.to(target, {y: -10, duration: 0.1});
         t1.to(target, {y: 0, duration: 0.1});
         t1.to(target, {y: 10, duration: 0.1});
         await updateText(hitPointElement, hitPointText);
+    })
+}
+
+function defendAnimation(target, text, statusEffectId, statusEffectText) {
+    return new Promise(async resolve => {
+        await updateText("#message-box", text);
+        const t1 = gsap.timeline({onComplete: () => resolve(), repeat: 2});
+        t1.to(target, {x: -10, duration: 0.1});
+        t1.to(target, {x: 0, duration: 0.1});
+        t1.to(target, {x: 10, duration: 0.1});
+        await updateText(statusEffectId, statusEffectText);
     })
 }

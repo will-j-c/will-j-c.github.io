@@ -30,7 +30,12 @@ class BattleEvent {
         const actionControlIndex = actionControlArr[1];
         const actionMethod = this.event.currentCombatant.actions[actionControlIndex].action;
         this.event.currentCombatant[actionMethod]();
+        const statusEffect = document.createElement("li");
+        statusEffect.setAttribute("id", "defend-status");
+        document.querySelector("#current-status-effect").append(statusEffect);
         const playerSprite = document.querySelector("#player")
+        console.log(statusEffect)
+        await window[actionControlObject.animation](playerSprite, actionControlObject.text, "#defend-status", actionControlObject.statusOnComplete);
         resolve()
         console.log("BattleEvent method: defend resolved");
     }
@@ -52,7 +57,7 @@ class BattleEvent {
         }
         // Handle the animation
         const successFailText = attackResult[0] ? actionControlObject.success : actionControlObject.failure;
-        await stabAttackAnimation(playerSprite, targetSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText);
+        await window[actionControlObject.animation](playerSprite, targetSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText);
         resolve()
         console.log("BattleEvent method: swordAttack resolved")
     }
@@ -63,7 +68,7 @@ class BattleEvent {
         const actionControlObject = actionControlArr[0];
         const playerSprite = document.querySelector("#player");
         const lifeGained = this.battle.player.drinkPotion();
-        await takePotionAnimation(playerSprite, `${actionControlObject.text} ${lifeGained}`, "#health-potions p", `${this.battle.player.potions}`, "#current-hit-points", `${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`);
+        await window[actionControlObject.animation](playerSprite, `${actionControlObject.text} ${lifeGained}`, "#health-potions p", `${this.battle.player.potions}`, "#current-hit-points", `${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`);
         resolve();
         console.log("BattleEvent method: healthPotion resolved")
     }

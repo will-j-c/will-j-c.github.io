@@ -181,7 +181,7 @@ class BattleTurn {
     async updateStatusEffects() {
         if (this.battle.player.isDefending) {
             this.battle.player.isDefending = false;
-            const defendLi = document.querySelector("#defend");
+            const defendLi = document.querySelector("#defend-status");
             defendLi.remove();
         }
     }
