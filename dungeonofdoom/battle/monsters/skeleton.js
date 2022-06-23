@@ -3,7 +3,7 @@ class Skeleton extends Monster {
     // static criticalChance = 0.9
     constructor() {
         super(10);
-        this.accuracy = 0.6;
+        this.accuracy = 0;
         this.strength = 10;
         this.name = "Skeleton";
         this.artwork = "assets/monster/skeletal_warrior.png"

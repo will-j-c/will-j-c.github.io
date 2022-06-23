@@ -126,9 +126,7 @@ async function stabAttackAnimation(attacker, target, isHit, startText, successFa
         } else {
             t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/2, y: -15,duration: 0.1}, ">");
             t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
-            t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/3, y: -5,duration: 0.3}, ">-0.3");
-            t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/3, y: 0, duration: 0.2});
-            t1.to(target, {x: 0, duration: 1});
+            t1.to(target, {x: 0, duration: 1}, "<");
             t1.to(attacker, {duration: 1.5, x: 0, ease: "power2.out", y: 0}, ">-0.7");
         }
     })
@@ -184,9 +182,7 @@ function shuffleAttackAnimation(attacker, target, isHit, startText, successFailT
         } else {
             t1.to(target, {x: (battlefieldPosition.left - targetPosition.left)/2, y: 15,duration: 0.1}, ">");
             t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
-            t1.to(target, {x: (battlefieldPosition.left - targetPosition.left)/3, y: 5,duration: 0.3}, ">-0.3");
-            t1.to(target, {x: (battlefieldPosition.left - targetPosition.left)/3, y: 0, duration: 0.2});
-            t1.to(target, {x: 0, duration: 1});
+            t1.to(target, {x: 0, y: 0, duration: 1}, "<");
             t1.to(attacker, {duration: 1.8, x: 0, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})", y: 0}, ">-0.7");
         }
     })
