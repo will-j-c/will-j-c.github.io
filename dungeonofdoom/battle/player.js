@@ -1,6 +1,6 @@
 // Define our hero of the story
 class Player {
-    static accuracy = 0.5;
+    static accuracy = 0;
     static strength = 10;
     static startPotion = 3;
     constructor() {
@@ -16,7 +16,7 @@ class Player {
                 name: "Stab Attack",
                 type: "attack",
                 action: "stabAttack",
-                text: "You strike with your sword!",
+                text: "You lunge forward and stab at the enemy!",
                 success: "You hit the enemy",
                 failure: "You missed",
                 id: "stab-attack",

@@ -19,7 +19,7 @@ class BattleTurn {
                 console.log("Building initIal buttons")
                 this.buildInitialPlayerActions();
                 console.log("Updating buttons")
-                this.updatePlayerActions();
+                // this.updatePlayerActions();
                 this.showButtons();
                 console.log(`Player defending status: ${this.battle.player.isDefending}`)
                 console.log("Waiting to update status effects")
@@ -31,6 +31,11 @@ class BattleTurn {
                 console.log("Start player turn message resolved")
                 console.log("Waiting for player input")
                 const result = await this.playerAction();
+                if (result[0] === "target") {
+                    console.log("Waiting for target selection")
+                    result[0] = await this.playerTarget();
+                }
+                console.log(result)
                 this.hideButtons();
                 currentCombatantTarget = result[0];
                 action = result[1];
@@ -64,26 +69,26 @@ class BattleTurn {
         }
     }
     buildInitialPlayerActions() {
-        // Create an array of enemies
-        const enemies = this.battle.enemies;
+        // Clear any previous buttons
+        const toClear = document.querySelectorAll("#control-panel button");
+        for (let button of toClear) {
+            button.remove();
+        }
         // Create available actions based on player actions
         const actions = this.battle.player.actions;
         for (let action of actions) {
             if (action.type === "attack") {
+                console.log(action.name)
                 const attackButtons = document.querySelector("#attack-buttons");
-                let enemyNumber = 1;
-                for (let enemy of enemies) {
                     const button = document.createElement("button");
-                    button.innerText = `${action.name} ${enemy.name} ${enemyNumber}`;
-                    button.setAttribute("id", `${action.id}-${enemyNumber}`);
+                    button.innerText = `${action.name}`;
+                    button.setAttribute("id", `${action.id}`);
                     button.setAttribute("class", "btn col-4");
-                    enemy[`${action.action}ButtonRef`] = `${action.id}-${enemyNumber}`;
-                    enemy.numberRef = `${enemyNumber}`;
+
                     attackButtons.append(button);
-                    enemyNumber++;
-                }
             }
             if (action.type === "utility" && action.id !== "health-potion") {
+                console.log(action.name)
                 const abilityButtons = document.querySelector("#ability-buttons");
                 const button = document.createElement("button");
                 button.innerText = action.name;
@@ -93,6 +98,7 @@ class BattleTurn {
             }
             if (action.id === "health-potion") {
                 if (this.battle.player.currentHitPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
+                    console.log(action.name)
                     const abilityButtons = document.querySelector("#consumable-buttons");
                     const button = document.createElement("button");
                     button.innerText = action.name;
@@ -103,49 +109,26 @@ class BattleTurn {
             }
         }
     }
-    // Method maps specific enemies to buttons after the initial assignment.
-    updatePlayerActions() {
+
+    buildTargetActionButtons() {
         // Clear any previous buttons
         const toClear = document.querySelectorAll("#control-panel button");
         for (let button of toClear) {
             button.remove();
         }
-        // Create available actions based on player actions
-        const actions = this.battle.player.actions;
         // Create array of alive enemies
         const aliveEnemies = this.battle.enemies.filter(enemy => enemy.isAlive);
-        // Create the buttons from the alive enemies
-        for (let action of actions) {
-            if (action.type === "attack") {
-                for (let enemy of aliveEnemies) {
-                    const attackButtons = document.querySelector("#attack-buttons");
-                    const button = document.createElement("button");
-                    button.innerText = `${action.name} ${enemy.name} ${enemy.numberRef}`;
-                    button.setAttribute("id", enemy[`${action.action}ButtonRef`]);
-                    button.setAttribute("class", "btn col");
-                    attackButtons.append(button);
-                }
-            }
-            if (action.type === "utility" && action.id !== "health-potion") {
-                const abilityButtons = document.querySelector("#ability-buttons");
-                const button = document.createElement("button");
-                button.innerText = action.name;
-                button.setAttribute("id", action.id);
-                button.setAttribute("class", "btn col");
-                abilityButtons.append(button);
-            }
-            if (action.id === "health-potion") {
-                if (this.battle.player.currentHitPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
-                    const abilityButtons = document.querySelector("#consumable-buttons");
-                    const button = document.createElement("button");
-                    button.innerText = action.name;
-                    button.setAttribute("id", action.id);
-                    button.setAttribute("class", "btn col");
-                    abilityButtons.append(button);
-                }
-            }
+        for (let i = 0, len = aliveEnemies.length; i < len; i++) {
+            const attackButtons = document.querySelector("#attack-buttons");
+            const button = document.createElement("button");
+            button.innerText = `${aliveEnemies[i].name} ${i + 1}`;
+            button.setAttribute("id", `enemy-${i+1}`);
+            button.setAttribute("class", "btn col");
+            aliveEnemies[i].buttonRef = button.id;
+            attackButtons.append(button);
         }
     }
+
     // Method to return a promise that resolves when a player clicks the button for the action they want to take
     playerAction() {
         return new Promise(resolve => {
@@ -157,14 +140,29 @@ class BattleTurn {
             const utilityIdArr = ["defend", "health-potion"];
                 if (utilityIdArr.some(id => id === event.target.id)) {
                     resolve([this.battle.player, event.target.id]);
+                    return;
                 }
-            const attacksIdArr = ["attack-enemy-1", "attack-enemy-2", "attack-enemy-3"] // This is where we need to pick
-            if (attacksIdArr.some(id => id === event.target.id)) {
-                const index = event.target.id.replace(/^\D+/g, '');
-                resolve([this.turnOrder[index], event.target.id]);
-                console.log([this.turnOrder[index], event.target.id])
+            const attackIdArr = this.battle.player.actions.map(action => action.id);
+            if (attackIdArr.some(id => id === event.target.id)) {
+                this.buildTargetActionButtons();
+                console.log("Built target buttons")
+                resolve(["target",event.target.id]);
             }
         }
+        }) 
+    }
+    playerTarget() {
+        return new Promise(resolve => {
+            const aliveEnemies = this.battle.enemies.filter(enemy => enemy.isAlive);
+            const controlPanel = document.querySelector("#control-panel");
+            controlPanel.onclick = event => {
+                if(event.target.tagName !== "BUTTON") {
+                    this.playerTarget();
+                }
+                const target = event.target.id;
+                const targetEnemy = aliveEnemies.filter(enemy => enemy.buttonRef === target)[0];
+                resolve(targetEnemy);
+            }
         }) 
     }
     // Check to see if the battle is over
@@ -185,7 +183,6 @@ class BattleTurn {
             this.battle.player.isDefending = false;
             const defendLi = document.querySelector("#defend");
             defendLi.remove();
-            await window["text"](defendLi);
         }
     }
     // Hide buttons

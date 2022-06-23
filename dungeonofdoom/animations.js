@@ -94,39 +94,41 @@ function updateText(targetElementAsString, text) {
     return new Promise(resolve => {
         document.querySelector(targetElementAsString).innerText = text;
         tl = gsap.timeline({onComplete: resolve()});
-        tl.to(targetElementAsString, {x: 10, duration: 0.1});
-        tl.to(targetElementAsString, {x: -10, duration: 0.1});
-        tl.to(targetElementAsString, {x: 0, duration: 0.1});
+        tl.to(targetElementAsString, {x: 10, duration: 0.05});
+        tl.to(targetElementAsString, {x: -10, duration: 0.01});
+        tl.to(targetElementAsString, {x: 0, duration: 0.01});
         })
 }
 
 // Stab attack animation
-async function stabAttack(attacker, target, isHit, startText, successFailText) {
+async function stabAttackAnimation(attacker, target, isHit, startText, successFailText, isAlive, deathText) {
     return new Promise(async resolve => {
         const attackerPosition = attacker.getBoundingClientRect();
         const targetPosition = target.getBoundingClientRect();
-        const messageBox = document.querySelector("#message-box");
-        messageBox.innerText = startText;
+        const battlefieldPosition = document.querySelector("#battle-container").getBoundingClientRect();
         const moveX = targetPosition.left - attackerPosition.right - 20;
         const moveY = targetPosition.top - attackerPosition.top;
-        await text(messageBox);
-        const t1 = gsap.timeline(
-            {
-                onComplete: () => resolve(),
-            });
-        t1.to(attacker, {duration: 0.2, x: -attackerPosition.left / 3});
-        t1.to(attacker, {duration: 0.3, x: moveX, y: moveY, ease: Elastic.easeOut.config(1.2, 1)});
+        const t1 = gsap.timeline({onComplete: () => resolve()});
+        t1.to("#message-box", {onStart: () => updateText("#message-box", startText), duration: 1.5});
+        t1.to(attacker, {duration: 0.2, x: -attackerPosition.left / 3}, "<25%");
+        t1.to(attacker, {duration: 0.3, x: moveX, y: moveY, ease: Elastic.easeOut.config(1.2, 1)}, "<+=0.2");
         if (isHit) {
-            t1.to(messageBox, {onStart: ( () => text(messageBox))});
-            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), ">-0.3";
+            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
+            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), "<+=0.2";
             t1.to(target, {duration: 0.3, opacity: 1, repeat: 0});
             t1.to(attacker, {duration: 1.5, x: 0, y: 0, ease: "power2.out"}, ">");
+            if (isAlive === false) {
+                t1.to("#message-box", {onStart: () => updateText("#message-box", deathText), duration: 1.5});
+                t1.to(target, {transform: "rotate3d(0, 0, 1, 90deg)", duration: 0.4});
+                t1.to(target, {opacity: 0, duration: 0.2});
+            }
         } else {
-            t1.to(target, {transform: "rotate3d(0, 0, 1, 15deg)", x: targetPosition.left/3, y: 10,duration: 0.1}, ">-0.3")
-            t1.to(target, {transform: "rotate3d(0, 0, 1, -10deg)", x: targetPosition.left/3, y: 0, duration: 0.1})
-            t1.to(target, {transform: "rotate3d(0, 0, 1, 5deg)", duration: 0.1})
-            t1.to(target, {transform: "rotate3d(0, 0, 1, -5deg)", duration: 0.1})
-            t1.to(target, {transform: "rotate3d(0, 0, 1, 0deg)", duration: 0.1})
+            console.log((battlefieldPosition.right - targetPosition.right)/2)
+            t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/2, y: -15,duration: 0.1}, ">");
+            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
+            t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/3, y: -5,duration: 0.3}, ">-0.3");
+            t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/3, y: 0, duration: 0.2});
+            t1.to(target, {x: 0, duration: 1});
             t1.to(attacker, {duration: 1.5, x: 0, ease: "power2.out", y: 0}, ">-0.7");
         }
     })

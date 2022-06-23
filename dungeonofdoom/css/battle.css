@@ -43,3 +43,6 @@ main {
 #health-potions {
     display: inline;
 }
+.sprite {
+    height: 95%;
+}

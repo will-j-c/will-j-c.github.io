@@ -35,7 +35,7 @@ class BattleEvent {
         console.log("BattleEvent method: defend resolved");
     }
 
-    async swordAttack(resolve) {
+    async stabAttack(resolve) {
         console.log("BattleEvent method: swordAttack started")
         // Get the action data object for the event and initialise the swordAttack() method on the player
         const actionControlArr = this.findAction(this.event.action);
@@ -51,6 +51,8 @@ class BattleEvent {
             attackTarget.checkDeathStatus();
         }
         // Handle the animation
+        const successFailText = attackResult[0] ? actionControlObject.success : actionControlObject.failure;
+        await stabAttackAnimation(playerSprite, targetSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText);
         resolve()
         console.log("BattleEvent method: swordAttack resolved")
     }
