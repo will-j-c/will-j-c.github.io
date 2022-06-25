@@ -70,8 +70,9 @@ class Level {
         for (let para of this.text) {
             const paragraph = document.createElement("p");
             paragraph.setAttribute("class", "para-text");
+            paragraph.innerText = para;
             paragraphContainer.append(paragraph)
-            await window["typewriter"](paragraph, para);
+            await window["FadeIn"](paragraph);
         }
         await window["fadeIn"](continueButton);
         continueButton.onclick = () => {

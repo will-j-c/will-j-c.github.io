@@ -9,8 +9,8 @@ body {
     font-size: 6em;
     color: #480707;
 }
-#image-container {
-    height: 50%;
+.image-container {
+    height: 60%;
     padding: 1em;
 }
 #image-container img {

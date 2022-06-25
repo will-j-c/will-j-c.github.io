@@ -36,8 +36,9 @@ class Game {
         for (let para of this.prologueObject.text) {
             const paragraph = document.createElement("p");
             paragraph.setAttribute("class", "para-text");
+            paragraph.innerText = para;
             paragraphContainer.append(paragraph)
-            await window["typewriter"](paragraph, para);
+            await window["fadeIn"](paragraph);
         }
         await window["fadeIn"](continueButton);
         continueButton.onclick = () => {
@@ -101,10 +102,10 @@ class Game {
                 <div class="row">
                     <h1 id="title">Dungeon of Doom</h1>
                 </div>
-                <div id="img-container">
+                <div class="img-container">
                     <img src="./assets/icons/mute.png" id="mute-button">
                 </div>
-                <div class="justify-content-center row" id="image-container">
+                <div class="d-flex justify-content-center image-container">
                         <img src="./assets/title/castleinthedark.gif">                    
                 </div>
 
