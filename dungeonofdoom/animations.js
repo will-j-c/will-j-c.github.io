@@ -1,5 +1,5 @@
 // Fade in
-function fadeIn(targetElement) {
+function fadeIn(targetElement, duration=2) {
     return new Promise(resolve => {
         gsap.fromTo(targetElement, {
             opacity: 0,
@@ -7,7 +7,7 @@ function fadeIn(targetElement) {
         }, 
         {
             opacity: 1,
-            duration: 2,
+            duration: duration,
             ease: "power1.inOut",
             onComplete: resolve
         })
@@ -15,7 +15,7 @@ function fadeIn(targetElement) {
 }
 
 // Fade out
-function fadeOut(targetElement) {
+function fadeOut(targetElement, duration=2) {
     return new Promise(resolve => {
         gsap.fromTo(targetElement, {
             opacity: 1,
@@ -23,7 +23,7 @@ function fadeOut(targetElement) {
         }, 
         {
             opacity: 0,
-            duration: 2,
+            duration: duration,
             ease: "power1.inOut",
             onComplete: resolve
         })
@@ -90,7 +90,6 @@ function pauseBounce(target) {
 // Function that animates the message text
 function updateText(targetElementAsString, text) {
     return new Promise(resolve => {
-        console.log(document.querySelector(targetElementAsString))
         document.querySelector(targetElementAsString).innerText = text;
         tl = gsap.timeline({onComplete: resolve()});
         tl.to(targetElementAsString, {x: 10, duration: 0.05});

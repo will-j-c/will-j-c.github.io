@@ -4,6 +4,8 @@ class Level {
         this.chapterTitle = levelParamObject.chapterTitle;
         this.battleLineup = levelParamObject.battleLineup;
         this.text = levelParamObject.text;
+        this.audio = levelParamObject.audio;
+        this.endText = levelParamObject.endText;
         this.game = game;
         this.tile = levelParamObject.tile,
         this.onEndLevel = onEndLevel;
@@ -52,14 +54,18 @@ class Level {
         // Create the basic HTML for the rest of the screen to interact with
         playScreen.innerHTML = `
             <main class="text-center">
-                <div class="row">
+                <div>
                     <h1 class="chapter-title"></h1>
                 <div class="d-flex justify-content-center flex-column" id="para-container">              
                 </div>
                 <button class="btn" id="continue-button">Continue</button>
+                <audio id="chapter-audio" src="${this.audio}"></audio>
             </main>
             `
         const continueButton = document.querySelector("#continue-button");
+        const chapterAudio = document.querySelector("#chapter-audio");
+        chapterAudio.volume = 0.5;
+        chapterAudio.play();
         gsap.set(continueButton, {opacity: 0});
         const chapterTitle = document.querySelector(".chapter-title");
         const paragraphContainer = document.querySelector("#para-container");
@@ -72,10 +78,11 @@ class Level {
             paragraph.setAttribute("class", "para-text");
             paragraph.innerText = para;
             paragraphContainer.append(paragraph)
-            await window["FadeIn"](paragraph);
+            await window["fadeIn"](paragraph);
         }
         await window["fadeIn"](continueButton);
-        continueButton.onclick = () => {
+        continueButton.onclick = async () => {
+            await window["fadeOut"](playScreen);
             this.initiateBattle();
         }
     }

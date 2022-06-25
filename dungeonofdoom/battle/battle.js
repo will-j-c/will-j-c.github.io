@@ -12,7 +12,12 @@ class Battle {
     }
     // The below method is called to launch a new battle and run the whole logic for the battle.
     start() {
+        const playScreen = document.querySelector("#play-screen");
+        window["fadeIn"](playScreen);
         this.buildBattlefield();
+        const battleMusic = document.querySelector("#battle-music");
+        battleMusic.volume = 0.3;
+        battleMusic.play();
         this.battleTurn = new BattleTurn ({
             battle: this,
             onNewEvent: event => {
@@ -34,6 +39,9 @@ class Battle {
         playScreen.innerHTML = `
             <header class="row m-1 d-flex justify-content-end">
                 <div class="btn-group btn-group-sm" role="group" id="log-quit">
+                    <div class="img-container">
+                        <img src="./assets/icons/mute.png" id="mute-button-battle">
+                    </div>   
                     <!-- Button trigger modal battle log-->
                     <button type="button" class="btn" data-toggle="modal" data-target="#log-modal">Battle Log</button>
                     <!-- Small modal for quit-->
@@ -120,29 +128,20 @@ class Battle {
                         </div>
                     </div>
                 </div>
+                <!-- Audio-->
+                <audio src="./assets/sounds/battlemusic.wav" id="battle-music" loop></audio>
             </main>`
 
         // Create the 5 rows with 3 columns and append them to the battle container
         const battleContainer = document.querySelector("#battle-container");
         battleContainer.setAttribute("style", `background-image: url(${this.level.tile})`)
-        // for (let i = 1; i <= 5; i++) {
-        //     const rowDiv = document.createElement("div");
-        //     const rowDivAttributes = {
-        //                 id: `row-${i}`,
-        //                 class: "row battlefield-row"
-        //             };
-        //     battleContainer.append(rowDiv);
-        //     // Set the attributes for the rows
-        //     for (const attribute in rowDivAttributes) {
-        //         rowDiv.setAttribute(`${attribute}`, `${rowDivAttributes[attribute]}`);
-        //     }
-        //     // BUild the 3 columns, set their attributes and append to the row
+
+        //     // Build the 3 columns, set their attributes and append to the row
             for (let j = 1; j <= 2; j++) {
                 const colDiv = document.createElement("div");
                 const colDivAttributes = {
                         id: `col-${j}`,
                         class: "col pt-3 pb-3 d-flex justify-content-center flex-column align-items-center",
-                        // style: `background-image: url(${this.level.tile})`
                     };
                 //Set the attributes for the columns
                 for (const attribute in colDivAttributes) {

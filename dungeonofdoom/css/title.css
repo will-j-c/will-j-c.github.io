@@ -34,3 +34,14 @@ body {
     color: #480707;
     font-size: 2em;
 }
+#continue-button {
+    color: #480707;
+    font-size: 2em;
+}
+#end-quit {
+    color: #480707;
+    font-size: 2em;
+}
+#mute-button-battle {
+    height: 1em;
+}

@@ -35,7 +35,6 @@ class BattleTurn {
                     console.log("Waiting for target selection")
                     result[0] = await this.playerTarget();
                 }
-                console.log(result)
                 this.hideButtons();
                 currentCombatantTarget = result[0];
                 action = result[1];

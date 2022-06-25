@@ -19,10 +19,13 @@ class Game {
                 <div class="row">
                     <h1 class="chapter-title"></h1>
                 <div/>
+                <div class="img-container">
+                    <img src="./assets/icons/mute.png" id="mute-button">
+                </div>   
                 <div class="d-flex justify-content-center flex-column" id="para-container">              
                 </div>
-                <button class="btn" id="continue-button">Continue</button>
-                <audio src="./assets/sounds/burning-village.wav"></audio>
+                <button class="btn mb-3" id="continue-button">Continue</button>
+                <audio src="./assets/sounds/burning-village.wav" id="burning-village"></audio>
             </main>
             `
         const continueButton = document.querySelector("#continue-button");
@@ -31,14 +34,17 @@ class Game {
         const paragraphContainer = document.querySelector("#para-container");
         chapterTitle.innerText = this.prologueObject.chapterTitle;
         gsap.set(playScreen, {opacity: 1});
-        document.querySelector("audio").play();
+        const audio = document.querySelector("#burning-village")
+        audio.volume = 0.3;
+        audio.play();
         await window["fadeIn"](chapterTitle);
         for (let para of this.prologueObject.text) {
             const paragraph = document.createElement("p");
             paragraph.setAttribute("class", "para-text");
             paragraph.innerText = para;
             paragraphContainer.append(paragraph)
-            await window["fadeIn"](paragraph);
+            paragraph.scrollIntoView({behavior: "smooth"});
+            await window["fadeIn"](paragraph, 5);
         }
         await window["fadeIn"](continueButton);
         continueButton.onclick = () => {
@@ -51,11 +57,14 @@ class Game {
         // Create the basic HTML for the rest of the screen to interact with
         playScreen.innerHTML = `
             <main class="text-center">
-                <div class="row">
-                    <h1>You Win!</h1>
-                <div class="d-flex justify-content-center flex-column" id="para-container">              
+                <div>
+                    <h1 class="chapter-title">You Win!</h1>
+                <div class="d-flex justify-content-center flex-column" id="para-container">
+                <div class="img-container">
+                    <img src="./assets/icons/mute.png" id="mute-button">
+                </div>            
                 </div>
-                <button class="btn">Quit</button>
+                <button class="btn" id="end-quit">Quit</button>
             </main>
         `
         window["fadeIn"]("h1");
@@ -138,11 +147,11 @@ class Game {
         // Create the basic HTML for the rest of the screen to interact with
         playScreen.innerHTML = `
             <main class="text-center">
-                <div class="row">
-                    <h1>You Died</h1>
+                <div>
+                    <h1 class="chapter-title">You Are Dead</h1>
                 <div class="d-flex justify-content-center flex-column" id="para-container">              
                 </div>
-                <button class="btn">Quit</button>
+                <button class="btn" id="end-quit">Quit</button>
             </main>
         `
         window["fadeIn"]("h1");
