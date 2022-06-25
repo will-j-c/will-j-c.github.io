@@ -72,7 +72,7 @@ class Player {
     }
     takeDamage(damage) {
         if (this.isDefending === true) {
-            const halfDamage = damage * 0.5;
+            const halfDamage = Math.floor(damage * 0.5);
             this.currentHitPoints -= halfDamage;
             return halfDamage;
         }

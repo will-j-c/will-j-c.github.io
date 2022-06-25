@@ -1,11 +1,11 @@
 body {
     background-color: #080808;
+    font-family: 'Passion One', cursive;
 }
 #title-screen-main {
     height: 100%;
 }
 #title {
-    font-family: 'Passion One', cursive;
     font-size: 6em;
     color: #480707;
 }

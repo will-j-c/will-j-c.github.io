@@ -2,6 +2,13 @@
 #play-screen {
     height: 100vh;
 }
+.btn {
+    font-size: 0.5em;
+    text-align: center;
+    color: #480707;
+    font-family: 'Passion One', cursive;
+    color: white;
+}
 .battlefield-row {
     height: 20%;
 }
@@ -10,26 +17,23 @@
     min-height: 350px;
     max-height: 650px;
 }
-#control-panel, #status-panel, header, #message-box {
+#control-panel, #status-panel, #message-box {
     background-color: white;
     border-radius: 5%;
     border-color: #480707;
-    border-style: solid;
-    border-width: 5px;
-    font-size: 1em;
-}
-main {
     color: #480707;
-    font-family: 'Passion One', cursive;
+    border-style: solid;
+    border-width: 4px;
+    font-size: 1em;
 }
 #attack-buttons button, #ability-buttons button, #consumable-buttons button {
     color: #480707;
     font-family: 'Passion One', cursive;
 }
-#attack-buttons button:hover, #ability-buttons button:hover, #consumable-buttons button:hover {
+.btn:hover {
     background-color: #B50000;
     border-top-style: solid;
-    border-width: 5px;
+    border-width: 2px;
     border-radius: 5%;
     border-color: #480707;
 }
@@ -49,4 +53,36 @@ main {
 }
 #panel {
     height: 10%;
+}
+#status-panel h2 {
+    font-size: 1.2em;
+}
+#status-panel h3 {
+    font-size: 0.9em;
+    margin-bottom: 0.2rem;
+}
+#status-panel h4 {
+    font-size: 0.6em;
+}
+#status-panel ul {
+    height: 0.5em;
+    margin-bottom: 0.1em;
+}
+#status-panel p, #status-panel li {
+    font-size: 0.6em;
+}
+#status-panel img {
+    height: 2em;
+}
+#message-box {
+    margin-bottom: 0;
+}
+#control-panel h2 {
+    font-size: 1.2em;
+}
+#control-panel h3 {
+    font-size: 0.9em;
+}
+#log-quit {
+    max-width: 25%;
 }

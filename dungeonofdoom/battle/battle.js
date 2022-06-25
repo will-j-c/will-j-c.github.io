@@ -32,8 +32,8 @@ class Battle {
         const playScreen = document.querySelector("#play-screen");
         // Create the bare skeleton of the battle screen
         playScreen.innerHTML = `
-            <header class="row mb-1 mx-1">
-                <div class="btn-group" role="group">
+            <header class="row m-1 d-flex justify-content-end">
+                <div class="btn-group btn-group-sm" role="group" id="log-quit">
                     <!-- Button trigger modal battle log-->
                     <button type="button" class="btn" data-toggle="modal" data-target="#log-modal">Battle Log</button>
                     <!-- Small modal for quit-->
@@ -81,7 +81,7 @@ class Battle {
                 <div class="row m-1 text-center">
                     <h3 id="message-box"></h3>
                 </div>
-                <div class="row d-flex flex-sm-wrap-reverse" id="panel">
+                <div class="row d-flex flex-sm-wrap-reverse mx-1" id="panel">
                     <div class="col m-1" id="status-panel">
                         <h2 class="text-center">Player Status</h2>
                         <div class="row">
@@ -91,12 +91,12 @@ class Battle {
 
                         <div class="row">
                             <h3>Status effects</h3>
-                            <ul id="current-status-effect"></ul>
+                            <ul id="current-status-effect" class="mb-3"></ul>
                         </div>
 
                         <div class="row">
                             <h3>Player Inventory</h3>
-                            <ul id="inventory"></ul>
+                            <ul class="mb-3" id="inventory"></ul>
                         </div>
 
                     </div>
@@ -106,15 +106,15 @@ class Battle {
                             <div class="row justify-content-center text-center">
 
                                 <div class="btn-group btn-group-sm col-6 d-inline-block my-1" role="group" id="attack-buttons">
-                                <h4>Attack actions</h4>
+                                <h3>Attack actions</h4>
                                 </div>
 
                                 <div class="btn-group btn-group-sm col d-inline-block my-1" role="group" id="ability-buttons">
-                                <h4>Abilities</h4>
+                                <h3>Abilities</h4>
                                 </div>
 
                                 <div class="btn-group btn-group-sm col d-inline-block my-1" role="group" id="consumable-buttons">
-                                <h4>Items</h4>
+                                <h3>Items</h4>
                                 </div>
                             </div>
                         </div>
