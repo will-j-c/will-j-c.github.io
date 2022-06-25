@@ -8,9 +8,16 @@ main {
 .btn {
     font-size: 1em;
     text-align: center;
-    color: #480707;
     font-family: 'Passion One', cursive;
     color: white;
+}
+.modal-footer button {
+    border-radius: 5%;
+    border-color: #480707;
+    color: #480707;
+    border-style: solid;
+    border-width: 4px;
+    font-size: 1em;
 }
 #battle-container {
     height: 70%;

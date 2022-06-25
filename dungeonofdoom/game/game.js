@@ -139,6 +139,7 @@ class Game {
         level.start();
     }
     async init() {
+        this.levelIndex = 0;
         const playScreen = document.querySelector("#play-screen");
         // Create the title screen
         playScreen.innerHTML = `

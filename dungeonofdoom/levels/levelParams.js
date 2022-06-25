@@ -30,6 +30,7 @@ const levelParams = [
         ],
         tile: "./assets/tiles/grass.png",
         audio: "./assets/sounds/crows-caw.mp3",
+        endAudio: "",
         endText: [
             "The last skeleton drops to the ground in a pile of unmoving bone. You turn towards the castle doorway.",
             "The door is stiff, but you force it open and head inside."
@@ -45,6 +46,7 @@ const levelParams = [
         ],
         tile: "./assets/tiles/greathall.png",
         audio: "",
+        endAudio: "",
         endText: [
             "The head of the last ghoul flies from its shoulders and rolls across the floor of the hall.",
             "You hear a scream coming from a staircase and recognise it as your daughter's. You sprint for the staircase."
@@ -61,6 +63,7 @@ const levelParams = [
         ],
         tile: "./assets/tiles/ritualroom.jpg",
         audio: "",
+        endAudio: "",
         endText: [
             "As the necromancer falls, the energy that was building explodes outwards. The chamber starts to come down around you.",
             "You grab your daughter, throw her over your shoulder and run for the exit as the world comes down around you."
