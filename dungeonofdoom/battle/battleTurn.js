@@ -120,7 +120,7 @@ class BattleTurn {
         for (let i = 0, len = aliveEnemies.length; i < len; i++) {
             const attackButtons = document.querySelector("#attack-buttons");
             const button = document.createElement("button");
-            button.innerText = `${aliveEnemies[i].name} ${i + 1}`;
+            button.innerText = `${aliveEnemies[i].name} Position: ${aliveEnemies[i].position}`;
             button.setAttribute("id", `enemy-${i+1}`);
             button.setAttribute("class", "btn col");
             aliveEnemies[i].buttonRef = button.id;
@@ -153,7 +153,7 @@ class BattleTurn {
     playerTarget() {
         return new Promise(resolve => {
             const aliveEnemies = this.battle.enemies.filter(enemy => enemy.isAlive);
-            const controlPanel = document.querySelector("#control-panel");
+            const controlPanel = document.querySelector("#attack-buttons");
             controlPanel.onclick = event => {
                 if(event.target.tagName !== "BUTTON") {
                     this.playerTarget();

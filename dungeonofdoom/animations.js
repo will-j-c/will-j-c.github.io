@@ -54,22 +54,6 @@ function pulse(targetElement) {
     })
 }
 
-// Typewriter effect
-function typewriter(targetElement, text) {
-    return new Promise(resolve =>  {
-        gsap.to(targetElement, {
-            duration: 6.5,
-            text: {
-                value: text,
-                delimiter: " "
-            },
-            ease: "none",
-            onComplete: resolve
-        });
-        
-    })
-}
-
 // Battle Animations
 // Player and enemy bounces
 function bounce(target) {
@@ -81,10 +65,6 @@ function bounce(target) {
     t1.to(target, {animationTimingFunction: "cubic-bezier(0.215, 0.61, 0.355, 1)",transform: "translate3d(0, 0, 0) scaleY(0.95)" , duration: 0.2});
     t1.to(target, {transform: "translate3d(0, -4px, 0) scaleY(1.02)" , duration: 0.1});
     return t1;
-}
-// Pause the bounce animation when other actions are ongoing
-function pauseBounce(target) {
-    gsap.set(target, {y: 0}).kill();
 }
 
 // Function that animates the message text
@@ -107,23 +87,23 @@ async function stabAttackAnimation(attacker, target, isHit, startText, successFa
         const moveX = targetPosition.left - attackerPosition.right - 20;
         const moveY = targetPosition.top - attackerPosition.top;
         const t1 = gsap.timeline({onComplete: () => resolve()});
-        t1.to("#message-box", {onStart: () => updateText("#message-box", startText), duration: 1.5});
-        t1.to(attacker, {duration: 0.2, x: -attackerPosition.left / 3}, "<25%");
+        t1.to("#message-box", {onStart: () => updateText("#message-box", startText), duration: 1});
+        t1.to(attacker, {duration: 0.2, x: -attackerPosition.left / 3}, "<+=0.2");
         t1.to(attacker, {duration: 0.3, x: moveX, y: moveY, ease: Elastic.easeOut.config(1.2, 1)}, "<+=0.2");
         if (isHit) {
-            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
-            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), "<+=0.2";
+            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5}, "-=0.5");
+            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), "-=1";
             t1.to(target, {duration: 0.3, opacity: 1, repeat: 0});
             t1.to(attacker, {duration: 1.5, x: 0, y: 0, ease: "power2.out"}, ">");
             if (isAlive === false) {
                 t1.to("#message-box", {onStart: () => updateText("#message-box", deathText), duration: 1.5});
-                t1.to(target, {transform: "rotate3d(0, 0, 1, 90deg)", duration: 0.4});
+                t1.to(target, {transform: "rotate3d(0, 0, 1, 90deg)", duration: 0.4}, "-=1");
                 t1.to(target, {opacity: 0, duration: 0.2});
             }
         } else {
             t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/2, y: -15,duration: 0.1}, ">");
             t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
-            t1.to(target, {x: 0, duration: 1}, "<");
+            t1.to(target, {x: 0, duration: 1}, "-=1");
             t1.to(attacker, {duration: 1.5, x: 0, ease: "power2.out", y: 0}, ">-0.7");
         }
     })
@@ -162,25 +142,25 @@ function shuffleAttackAnimation(attacker, target, isHit, startText, successFailT
         const moveX = targetPosition.right - attackerPosition.left - 20;
         const moveY = targetPosition.top - attackerPosition.top;
         const t1 = gsap.timeline({onComplete: () => resolve()});
-        t1.to("#message-box", {onStart: () => updateText("#message-box", startText), duration: 1.5});
-        t1.to(attacker, {duration: 0.4, x: (battlefieldPosition.right - attackerPosition.right) / 3, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})"}, "-=1");
-        t1.to(attacker, {duration: 0.5, x: moveX, y: moveY, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})"}, "<+=0.2");
+        t1.to("#message-box", {onStart: () => updateText("#message-box", startText), duration: 1});
+        t1.to(attacker, {duration: 0.4, x: (battlefieldPosition.right - attackerPosition.right) / 3, ease: "steps(2)"}, "-=1");
+        t1.to(attacker, {duration: 0.5, x: moveX, y: moveY, ease: "steps(8)"}, "<+=0.2");
         if (isHit) {
-            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
-            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), "<+=0.2";
+            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5}, "-=0.5");
+            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), "-=1";
             t1.to(target, {duration: 0.3, opacity: 1, repeat: 0});
             t1.to("#message-box", {onStart: () => updateText("#current-hit-points", playerHP), duration: 1.5});
-            t1.to(attacker, {duration: 1.8, x: 0, y: 0, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})"}, ">");
+            t1.to(attacker, {duration: 1.8, x: 0, y: 0, ease: "steps(8)"}, ">");
             if (isAlive === false) {
-                t1.to("#message-box", {onStart: () => updateText("#message-box", deathText), duration: 1.5});
-                t1.to(target, {transform: "rotate3d(0, 0, 1, -90deg)", duration: 0.4});
+                t1.to("#message-box", {onStart: () => updateText("#message-box", deathText), duration: 1.5}, "-=0.5");
+                t1.to(target, {transform: "rotate3d(0, 0, 1, -90deg)", duration: 0.4}, "-=1");
                 t1.to(target, {opacity: 0, duration: 0.2});
             }
         } else {
             t1.to(target, {x: (battlefieldPosition.left - targetPosition.left)/2, y: 15,duration: 0.1}, ">");
-            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
-            t1.to(target, {x: 0, y: 0, duration: 1}, "<");
-            t1.to(attacker, {duration: 1.8, x: 0, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})", y: 0}, ">-0.7");
+            t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5}, "-=0.5");
+            t1.to(target, {x: 0, y: 0, duration: 1}, "-=1");
+            t1.to(attacker, {duration: 1.8, x: 0, ease: "steps(8)", y: 0}, ">-0.7");
         }
     })
 }
