@@ -26,7 +26,7 @@ class Battle {
                     battleEvent.start(resolve);
                 })
             }
-    })
+        })
         this.battleTurn.start();
     }
     quitBattle(event) {
@@ -40,7 +40,7 @@ class Battle {
             <header class="row m-1 d-flex justify-content-end">
                 <div class="btn-group btn-group-sm" role="group" id="log-quit">
                     <div class="img-container">
-                        <img src="./assets/icons/mute.png" id="mute-button-battle">
+                        <img src="./assets/icons/unmute.png" id="mute-button">
                     </div>   
                     <!-- Button trigger modal battle log-->
                     <button type="button" class="btn" data-toggle="modal" data-target="#log-modal">Battle Log</button>
@@ -131,11 +131,21 @@ class Battle {
                 <!-- Audio-->
                 <audio src="./assets/sounds/battlemusic.wav" id="battle-music" loop></audio>
             </main>`
-
+        // Listen for the mute button
+        const muteButton = document.querySelector("#mute-button");
+        const audioElement = document.querySelector("#battle-music");
+        muteButton.onclick = () => {
+            if (muteButton.getAttribute("src") === "./assets/icons/mute.png") {
+                muteButton.setAttribute("src", "./assets/icons/unmute.png");
+                audioElement.play();
+                return;
+            }
+            muteButton.setAttribute("src", "./assets/icons/mute.png");
+            audioElement.pause();
+        }
         // Create the 5 rows with 3 columns and append them to the battle container
         const battleContainer = document.querySelector("#battle-container");
         battleContainer.setAttribute("style", `background-image: url(${this.level.tile})`)
-
         //     // Build the 3 columns, set their attributes and append to the row
             for (let j = 1; j <= 2; j++) {
                 const colDiv = document.createElement("div");
@@ -173,7 +183,6 @@ class Battle {
         }
         // Initialise bounce animations
         // document.querySelectorAll(".sprite").forEach(sprite => bounce(sprite));
-
         // Add player HP
         const hpElement = document.querySelector("#current-hit-points");
         hpElement.innerText = `${this.player.currentHitPoints}/${this.player.totalHitPoints}`;

@@ -105,8 +105,7 @@ class BattleEvent {
         }
         // Handle the animation
         const successFailText = attackResult[0] ? actionControlObject.success : actionControlObject.failure;
-        const playerHP = `${Math.max(attackTarget.currentHitPoints, 0)}/${attackTarget.totalHitPoints}`
-        console.log(this.event.currentCombatant.actions)
+        const playerHP = `${Math.max(attackTarget.currentHitPoints, 0)}/${attackTarget.totalHitPoints}`;
         await window[actionControlObject.animation](enemySprite, playerSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText, playerHP);
         this.addBattleLog(actionControlObject.text);
         this.addBattleLog(successFailText);

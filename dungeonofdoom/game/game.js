@@ -19,15 +19,28 @@ class Game {
                 <div class="row">
                     <h1 class="chapter-title"></h1>
                 <div/>
-                <div class="img-container">
-                    <img src="./assets/icons/mute.png" id="mute-button">
+                <div class="img-container d-flex justify-content-start">
+                    <img src="./assets/icons/unmute.png" id="mute-button">
                 </div>   
                 <div class="d-flex justify-content-center flex-column" id="para-container">              
                 </div>
                 <button class="btn mb-3" id="continue-button">Continue</button>
-                <audio src="./assets/sounds/burning-village.wav" id="burning-village"></audio>
+                <audio src="./assets/sounds/prologue.mp3" id="burning-village"></audio>
             </main>
+        
             `
+        // Listen for the mute button
+        const muteButton = document.querySelector("#mute-button");
+        const audioElement = document.querySelector("#burning-village");
+        muteButton.onclick = () => {
+            if (muteButton.getAttribute("src") === "./assets/icons/mute.png") {
+                muteButton.setAttribute("src", "./assets/icons/unmute.png");
+                audioElement.play();
+                return;
+            }
+            muteButton.setAttribute("src", "./assets/icons/mute.png");
+            audioElement.pause();
+        }
         const continueButton = document.querySelector("#continue-button");
         gsap.set(continueButton, {opacity: 0});
         const chapterTitle = document.querySelector(".chapter-title");
@@ -37,6 +50,7 @@ class Game {
         const audio = document.querySelector("#burning-village")
         audio.volume = 0.3;
         audio.play();
+        window["fadeIn"](muteButton);
         await window["fadeIn"](chapterTitle);
         for (let para of this.prologueObject.text) {
             const paragraph = document.createElement("p");
@@ -59,14 +73,32 @@ class Game {
             <main class="text-center">
                 <div>
                     <h1 class="chapter-title">You Win!</h1>
+                </div>
+                <div class="img-container d-flex justify-content-start">
+                    <img src="./assets/icons/unmute.png" id="mute-button">
+                </div>  
                 <div class="d-flex justify-content-center flex-column" id="para-container">
                 <div class="img-container">
                     <img src="./assets/icons/mute.png" id="mute-button">
                 </div>            
                 </div>
                 <button class="btn" id="end-quit">Quit</button>
+                <audio src="./assets/sounds/prologue.mp3" id="burning-village"></audio>
             </main>
         `
+        // Listen for the mute button
+        const muteButton = document.querySelector("#mute-button");
+        const audioElement = document.querySelector("#burning-village");
+        muteButton.onclick = () => {
+            if (muteButton.getAttribute("src") === "./assets/icons/mute.png") {
+                muteButton.setAttribute("src", "./assets/icons/unmute.png");
+                audioElement.play();
+                return;
+            }
+            muteButton.setAttribute("src", "./assets/icons/mute.png");
+            audioElement.pause();
+        }
+
         window["fadeIn"]("h1");
         // Listen for a click on the start button
         const quitButton = document.querySelector("button");
@@ -111,7 +143,7 @@ class Game {
                 <div class="row">
                     <h1 id="title">Dungeon of Doom</h1>
                 </div>
-                <div class="img-container">
+                <div class="img-container d-flex justify-content-start">
                     <img src="./assets/icons/mute.png" id="mute-button">
                 </div>
                 <div class="d-flex justify-content-center image-container">

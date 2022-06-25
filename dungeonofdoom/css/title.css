@@ -17,7 +17,9 @@ body {
     height: 100%;
 }
 #mute-button {
-    height: 3em;
+    height: 1.5em;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 #mute-button:hover {
     cursor: pointer;
@@ -41,7 +43,4 @@ body {
 #end-quit {
     color: #480707;
     font-size: 2em;
-}
-#mute-button-battle {
-    height: 1em;
 }
