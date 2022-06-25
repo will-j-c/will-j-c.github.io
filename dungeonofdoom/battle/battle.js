@@ -32,7 +32,7 @@ class Battle {
         const playScreen = document.querySelector("#play-screen");
         // Create the bare skeleton of the battle screen
         playScreen.innerHTML = `
-            <header class="row mb-3 mx-3">
+            <header class="row mb-1 mx-1">
                 <div class="btn-group" role="group">
                     <!-- Button trigger modal battle log-->
                     <button type="button" class="btn" data-toggle="modal" data-target="#log-modal">Battle Log</button>
@@ -76,13 +76,13 @@ class Battle {
 
             </header>
             <main>
-                <div id="battle-container" class="row m-3 text-center d-flex justify-content-center">
+                <div id="battle-container" class="row m-1 text-center d-flex justify-content-center">
                 </div>
-                <div class="row m-3 text-center">
+                <div class="row m-1 text-center">
                     <h3 id="message-box"></h3>
                 </div>
                 <div class="row d-flex flex-sm-wrap-reverse" id="panel">
-                    <div class="col m-3" id="status-panel">
+                    <div class="col m-1" id="status-panel">
                         <h2 class="text-center">Player Status</h2>
                         <div class="row">
                             <h3>Current Hit Points</h3>
@@ -100,20 +100,20 @@ class Battle {
                         </div>
 
                     </div>
-                    <div class="col m-3" id="control-panel">
+                    <div class="col-8 m-1" id="control-panel">
                         <h2 class="text-center">Actions Pane<h2>
                         <div id="buttons-panel">
                             <div class="row justify-content-center text-center">
 
-                                <div class="btn-group btn-group-sm col-4 d-inline-block my-1" role="group" id="attack-buttons">
+                                <div class="btn-group btn-group-sm col-6 d-inline-block my-1" role="group" id="attack-buttons">
                                 <h4>Attack actions</h4>
                                 </div>
 
-                                <div class="btn-group btn-group-sm col-4 d-inline-block my-1" role="group" id="ability-buttons">
+                                <div class="btn-group btn-group-sm col d-inline-block my-1" role="group" id="ability-buttons">
                                 <h4>Abilities</h4>
                                 </div>
 
-                                <div class="btn-group btn-group-sm col-4 d-inline-block my-1" role="group" id="consumable-buttons">
+                                <div class="btn-group btn-group-sm col d-inline-block my-1" role="group" id="consumable-buttons">
                                 <h4>Items</h4>
                                 </div>
                             </div>
@@ -124,49 +124,51 @@ class Battle {
 
         // Create the 5 rows with 3 columns and append them to the battle container
         const battleContainer = document.querySelector("#battle-container");
-        for (let i = 1; i <= 5; i++) {
-            const rowDiv = document.createElement("div");
-            const rowDivAttributes = {
-                        id: `row-${i}`,
-                        class: "row battlefield-row"
-                    };
-            battleContainer.append(rowDiv);
-            // Set the attributes for the rows
-            for (const attribute in rowDivAttributes) {
-                rowDiv.setAttribute(`${attribute}`, `${rowDivAttributes[attribute]}`);
-            }
-            // BUild the 3 columns, set their attributes and append to the row
-            for (let j = 1; j <= 3; j++) {
+        battleContainer.setAttribute("style", `background-image: url(${this.level.tile})`)
+        // for (let i = 1; i <= 5; i++) {
+        //     const rowDiv = document.createElement("div");
+        //     const rowDivAttributes = {
+        //                 id: `row-${i}`,
+        //                 class: "row battlefield-row"
+        //             };
+        //     battleContainer.append(rowDiv);
+        //     // Set the attributes for the rows
+        //     for (const attribute in rowDivAttributes) {
+        //         rowDiv.setAttribute(`${attribute}`, `${rowDivAttributes[attribute]}`);
+        //     }
+        //     // BUild the 3 columns, set their attributes and append to the row
+            for (let j = 1; j <= 2; j++) {
                 const colDiv = document.createElement("div");
                 const colDivAttributes = {
-                        id: `col-${i}-${j}`,
-                        class: "col pt-3 pb-3 tile",
-                        style: `background-image: url(${this.level.tile})`
+                        id: `col-${j}`,
+                        class: "col pt-3 pb-3 d-flex justify-content-center flex-column align-items-center",
+                        // style: `background-image: url(${this.level.tile})`
                     };
                 //Set the attributes for the columns
                 for (const attribute in colDivAttributes) {
                     colDiv.setAttribute(`${attribute}`, `${colDivAttributes[attribute]}`)
                 }
                 //Append the column to the row
-                rowDiv.append(colDiv);
+                battleContainer.append(colDiv);
             }
-        }
+        // }
         // Add the player image to the battlefield
-        const playerTile = document.querySelector("#col-3-1");
+        const playerTile = document.querySelector("#col-1");
         const playerSprite = document.createElement("img");
         playerSprite.setAttribute("src", this.player.artwork);
         playerSprite.setAttribute("class", "sprite");
         playerSprite.setAttribute("id", "player");
         playerTile.append(playerSprite);
         // Add the enemies to the the battlefield
-        const enemyTiles = ["#col-2-3", "#col-3-3", "#col-4-3"];
-        for (let i = 0, len = enemyTiles.length; i < len; i++) {
-            const enemyTile = document.querySelector(enemyTiles[i]);
+        // const enemyTiles = ["#col-2-3", "#col-3-3", "#col-4-3"];
+        for (let i = 0, len = this.enemies.length; i < len; i++) {
+            const enemyTile = document.querySelector("#col-2");
             const enemy = this.enemies[i];
             const enemySprite = document.createElement("img");
             enemySprite.setAttribute("src", enemy.artwork);
             enemySprite.setAttribute("class", "sprite");
             enemySprite.setAttribute("id", `enemy-${i + 1}`);
+            enemy.position = (i + 1);
             enemy.location = `enemy-${i + 1}`;
             enemyTile.append(enemySprite);
         }

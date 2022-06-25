@@ -22,7 +22,7 @@ const levelParams = [
             "You approach wearily, knowing you are being watched. Crows flock and caw overhead, indicating the presence of carrion.",
             "As you near the gate, there is a pulsing of energy, dark and sickly, it makes you want to vomit. As you recover and look up, you see three dead men things approach. Guardians of the castle with rusty weapons in hand….."
         ],
-        tile: "./assets/tiles/grass.jpg"
+        tile: "./assets/tiles/grass.png"
      }//,
     // {
     //     chapterTitle: "Chapter 2: Hall of Horror",

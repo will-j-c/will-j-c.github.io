@@ -164,7 +164,7 @@ function shuffleAttackAnimation(attacker, target, isHit, startText, successFailT
         const moveY = targetPosition.top - attackerPosition.top;
         const t1 = gsap.timeline({onComplete: () => resolve()});
         t1.to("#message-box", {onStart: () => updateText("#message-box", startText), duration: 1.5});
-        t1.to(attacker, {duration: 0.4, x: -attackerPosition.left / 3, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})"}, "<25%");
+        t1.to(attacker, {duration: 0.4, x: (battlefieldPosition.right - attackerPosition.right) / 3, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})"}, "-=1");
         t1.to(attacker, {duration: 0.5, x: moveX, y: moveY, ease: "rough({template: elastic.inOut, strength: 1, points: 50, taper: none, randomize: true, clamp: false})"}, "<+=0.2");
         if (isHit) {
             t1.to("#message-box", {onStart: () => updateText("#message-box", successFailText), duration: 1.5});
