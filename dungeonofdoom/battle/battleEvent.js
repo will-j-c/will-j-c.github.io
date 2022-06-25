@@ -42,7 +42,10 @@ class BattleEvent {
         document.querySelector("#current-status-effect").append(statusEffect);
         const playerSprite = document.querySelector("#player")
         console.log(statusEffect)
+        //Handle animation
+        this.battle.player.bounceTimeline.pause(0);
         await window[actionControlObject.animation](playerSprite, actionControlObject.text, "#defend-status", actionControlObject.statusOnComplete);
+        this.battle.player.bounceTimeline.resume();
         this.addBattleLog( actionControlObject.text);
         resolve()
         console.log("BattleEvent method: defend resolved");
@@ -65,7 +68,9 @@ class BattleEvent {
         }
         // Handle the animation
         const successFailText = attackResult[0] ? actionControlObject.success : actionControlObject.failure;
+        this.battle.player.bounceTimeline.pause(0);
         await window[actionControlObject.animation](playerSprite, targetSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText);
+        this.battle.player.bounceTimeline.resume();
         this.addBattleLog(actionControlObject.text);
         this.addBattleLog(successFailText);
         if (attackTarget.isAlive === false) {
@@ -81,7 +86,9 @@ class BattleEvent {
         const actionControlObject = actionControlArr[0];
         const playerSprite = document.querySelector("#player");
         const lifeGained = this.battle.player.drinkPotion();
+        this.battle.player.bounceTimeline.pause(0);
         await window[actionControlObject.animation](playerSprite, `${actionControlObject.text} ${lifeGained} hit points`, "#health-potions p", `${this.battle.player.potions}`, "#current-hit-points", `${this.battle.player.currentHitPoints}/${this.battle.player.totalHitPoints}`);
+        this.battle.player.bounceTimeline.resume();
         this.addBattleLog(`${actionControlObject.text} ${lifeGained} hit points`);
         resolve();
         console.log("BattleEvent method: healthPotion resolved")
@@ -106,7 +113,9 @@ class BattleEvent {
         // Handle the animation
         const successFailText = attackResult[0] ? actionControlObject.success : actionControlObject.failure;
         const playerHP = `${Math.max(attackTarget.currentHitPoints, 0)}/${attackTarget.totalHitPoints}`;
+        this.event.currentCombatant.bounceTimeline.pause(0);
         await window[actionControlObject.animation](enemySprite, playerSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText, playerHP);
+        this.event.currentCombatant.bounceTimeline.resume();
         this.addBattleLog(actionControlObject.text);
         this.addBattleLog(successFailText);
         if (attackTarget.isAlive === false) {

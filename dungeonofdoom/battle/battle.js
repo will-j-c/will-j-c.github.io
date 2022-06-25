@@ -169,7 +169,6 @@ class Battle {
         playerSprite.setAttribute("id", "player");
         playerTile.append(playerSprite);
         // Add the enemies to the the battlefield
-        // const enemyTiles = ["#col-2-3", "#col-3-3", "#col-4-3"];
         for (let i = 0, len = this.enemies.length; i < len; i++) {
             const enemyTile = document.querySelector("#col-2");
             const enemy = this.enemies[i];
@@ -182,7 +181,17 @@ class Battle {
             enemyTile.append(enemySprite);
         }
         // Initialise bounce animations
-        // document.querySelectorAll(".sprite").forEach(sprite => bounce(sprite));
+
+        document.querySelectorAll(".sprite").forEach((sprite, i) => {
+            if (i === 0) {
+                const tl = bounce(sprite);
+                this.player.bounceTimeline = tl;
+            } else {
+                const tl = bounce(sprite);
+                this[`enemy${i}`].bounceTimeline = tl; 
+            }
+            
+        });
         // Add player HP
         const hpElement = document.querySelector("#current-hit-points");
         hpElement.innerText = `${this.player.currentHitPoints}/${this.player.totalHitPoints}`;
