@@ -22,6 +22,7 @@ class Game {
                 <div class="d-flex justify-content-center flex-column" id="para-container">              
                 </div>
                 <button class="btn" id="continue-button">Continue</button>
+                <audio src="./assets/sounds/burning-village.wav"></audio>
             </main>
             `
         const continueButton = document.querySelector("#continue-button");
@@ -29,8 +30,8 @@ class Game {
         const chapterTitle = document.querySelector(".chapter-title");
         const paragraphContainer = document.querySelector("#para-container");
         chapterTitle.innerText = this.prologueObject.chapterTitle;
-        
         gsap.set(playScreen, {opacity: 1});
+        document.querySelector("audio").play();
         await window["fadeIn"](chapterTitle);
         for (let para of this.prologueObject.text) {
             const paragraph = document.createElement("p");

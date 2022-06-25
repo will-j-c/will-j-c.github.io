@@ -57,10 +57,8 @@ function pulse(targetElement) {
 // Typewriter effect
 function typewriter(targetElement, text) {
     return new Promise(resolve =>  {
-        const timeAdjustment = text.length/350;
-        scroll(0, 500)
         gsap.to(targetElement, {
-            duration: (0.5),
+            duration: 6.5,
             text: {
                 value: text,
                 delimiter: " "
