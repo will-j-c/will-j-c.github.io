@@ -2,20 +2,22 @@
 #play-screen {
     height: 100vh;
 }
+main {
+    height: 90%;
+}
 .btn {
-    font-size: 0.5em;
+    font-size: 1em;
     text-align: center;
     color: #480707;
     font-family: 'Passion One', cursive;
     color: white;
 }
-.battlefield-row {
-    height: 20%;
-}
 #battle-container {
-    height: 75%;
+    height: 70%;
     min-height: 350px;
-    max-height: 650px;
+    max-height: 800px;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 #control-panel, #status-panel, #message-box {
     background-color: white;
@@ -49,20 +51,17 @@
     display: block;
     margin-top: 10px;
     margin-bottom: 10px;
-    max-width: 75px;
-}
-#panel {
-    height: 10%;
+    max-width: 100px;
 }
 #status-panel h2 {
-    font-size: 1.2em;
+    font-size: 2em;
 }
 #status-panel h3 {
-    font-size: 0.9em;
+    font-size: 1.2em;
     margin-bottom: 0.2rem;
 }
 #status-panel h4 {
-    font-size: 0.6em;
+    font-size: 1em;
 }
 #status-panel ul {
     height: 0.5em;
@@ -76,12 +75,13 @@
 }
 #message-box {
     margin-bottom: 0;
+    font-size: 2em;
 }
 #control-panel h2 {
-    font-size: 1.2em;
+    font-size: 2em;
 }
 #control-panel h3 {
-    font-size: 0.9em;
+    font-size: 1.2em;
 }
 #log-quit {
     max-width: 25%;

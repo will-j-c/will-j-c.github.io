@@ -2,6 +2,7 @@ class Game {
     constructor(levelParams) {
         this.levelParams = levelParams;
         this.prologueObject = prologue;
+        this.epilogueObject = epilogue;
         this.levelIndex = 0;
     }
     // Start the game
@@ -83,12 +84,12 @@ class Game {
                 </div>            
                 </div>
                 <button class="btn" id="end-quit">Quit</button>
-                <audio src="./assets/sounds/prologue.mp3" id="burning-village"></audio>
+                <audio src="./assets/sounds/epilogue.mp3" id="epilogue"></audio>
             </main>
         `
         // Listen for the mute button
         const muteButton = document.querySelector("#mute-button");
-        const audioElement = document.querySelector("#burning-village");
+        const audioElement = document.querySelector("#epilogue");
         muteButton.onclick = () => {
             if (muteButton.getAttribute("src") === "./assets/icons/mute.png") {
                 muteButton.setAttribute("src", "./assets/icons/unmute.png");
@@ -100,6 +101,8 @@ class Game {
         }
 
         window["fadeIn"]("h1");
+
+        
         // Listen for a click on the start button
         const quitButton = document.querySelector("button");
         window["fadeIn"](playScreen);

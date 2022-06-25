@@ -1,11 +1,11 @@
-// Create a Ghoul
-class Ghoul extends Monster {
+// Create a Necromancer
+class Necromancer extends Monster {
     constructor() {
-        super(25);
+        super(75);
         this.accuracy = 0.6;
         this.strength = 10;
-        this.name = "Ghoul";
-        this.artwork = "assets/monster/ghoul.png"
+        this.name = "Necromancer";
+        this.artwork = "assets/monster/necromancer.png"
         this.actions = [
             {
                 name: "Slash Attack",

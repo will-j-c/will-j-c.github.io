@@ -1,11 +1,11 @@
-// Create a Ghoul
-class Ghoul extends Monster {
+// Create a Spider
+class Spider extends Monster {
     constructor() {
-        super(25);
+        super(50);
         this.accuracy = 0.6;
         this.strength = 10;
-        this.name = "Ghoul";
-        this.artwork = "assets/monster/ghoul.png"
+        this.name = "Spider";
+        this.artwork = "assets/monster/wolf_spider.png"
         this.actions = [
             {
                 name: "Slash Attack",
