@@ -138,6 +138,8 @@ class Battle {
                 <audio src="./assets/sounds/hit.mp3" id="hit"></audio>
                 <audio src="./assets/sounds/miss.wav" id="miss"></audio>
                 <audio src="./assets/sounds/dead.wav" id="dead"></audio>
+                <audio src="./assets/sounds/health-potion.wav" id="drink-health-potion"></audio>
+                <audio src="./assets/sounds/defend.mp3" id="defend-self"></audio>
             </main>`
         // Listen for the mute button
         const muteButton = document.querySelector("#mute-button");

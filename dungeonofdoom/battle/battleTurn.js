@@ -87,7 +87,6 @@ class BattleTurn {
                     attackButtons.append(button);
             }
             if (action.type === "utility" && action.id !== "health-potion") {
-                console.log(action.name)
                 const abilityButtons = document.querySelector("#ability-buttons");
                 const button = document.createElement("button");
                 button.innerText = action.name;
@@ -97,7 +96,6 @@ class BattleTurn {
             }
             if (action.id === "health-potion") {
                 if (this.battle.player.currentHitPoints < this.battle.player.totalHitPoints && this.battle.player.potions > 0) {
-                    console.log(action.name)
                     const abilityButtons = document.querySelector("#consumable-buttons");
                     const button = document.createElement("button");
                     button.innerText = action.name;

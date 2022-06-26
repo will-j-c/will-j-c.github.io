@@ -36,7 +36,7 @@ class Player {
                 animation: "defendAnimation"
             },
             {
-                name: "Take Health Potion",
+                name: "Health Potion",
                 type: "utility",
                 action: "drinkPotion",
                 text: "You drink a health potion and gain",

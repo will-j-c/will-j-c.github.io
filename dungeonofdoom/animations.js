@@ -117,6 +117,7 @@ function takePotionAnimation(target, text, potionId, potionStock, hitPointElemen
         await updateText("#message-box", text);
         await updateText(potionId, potionStock);
         const t1 = gsap.timeline({onComplete: () => resolve(), repeat: 2});
+        t1.call(playSound, ["#drink-health-potion"]);
         t1.to(target, {y: -10, duration: 0.1});
         t1.to(target, {y: 0, duration: 0.1});
         t1.to(target, {y: 10, duration: 0.1});
@@ -128,6 +129,7 @@ function defendAnimation(target, text, statusEffectId, statusEffectText) {
     return new Promise(async resolve => {
         await updateText("#message-box", text);
         const t1 = gsap.timeline({onComplete: () => resolve(), repeat: 2});
+        t1.call(playSound("#defend-self"));
         t1.to(target, {x: -10, duration: 0.1});
         t1.to(target, {x: 0, duration: 0.1});
         t1.to(target, {x: 10, duration: 0.1});
@@ -254,15 +256,13 @@ function drainLifeAnimation(attacker, target, isHit, startText, successFailText,
         document.querySelector("#col-2").append(spell);
         const spellPosition = spell.getBoundingClientRect();
         gsap.set(spell, {x: attackerPosition.left - spellPosition.left, y: attackerPosition.top - spellPosition.top + 20, opacity: 0});
-        console.log(spellPosition.left, attackerPosition.left)
-        console.log(attackerPosition.top - spellPosition.top)
         const moveX = targetPosition.right - spellPosition.left;
         const t1 = gsap.timeline({onComplete: () => resolve()});
         t1.call(updateText, ["#message-box", startText]);
         t1.call(playSound, [attackAudioTag]);
         t1.to(attacker, {duration: 0.4, x: (battlefieldPosition.right - attackerPosition.right) / 3}, "<+=0.2");
-        t1.to(spell, {duration: 0.4, x: moveX/2, opacity:1, ease: "expo.in"})
-        t1.to(spell, {duration: 0.4, x: moveX});
+        t1.to(spell, {duration: 0.6, x: moveX/2, opacity:1, ease: "expo.in"})
+        t1.to(spell, {duration: 0.6, x: moveX});
         t1.to(spell, {duration: 0.3, opacity:0, onComplete: () => {spell.remove()}})
         t1.to(attacker, {duration: 0.4, x: 0}, "<+=0.1");
         if (isHit) {
