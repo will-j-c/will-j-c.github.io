@@ -77,4 +77,4 @@ Art set by MedicineStorm http://opengameart.org/content/dungeon-crawl-32x32-tile
 
 ---
 
-![Diagram of the structure of the program](/assets/misc/appendix.png "Appendix")
+![Diagram of the structure of the program](./assets/misc/appendix.png "Appendix")
