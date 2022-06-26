@@ -5,7 +5,8 @@ class Ghoul extends Monster {
         this.accuracy = 0.6;
         this.strength = 10;
         this.name = "Ghoul";
-        this.artwork = "assets/monster/ghoul.png"
+        this.artwork = "assets/monster/ghoul.png",
+        this.deathText = "The ghoul whimpers and is still",
         this.actions = [
             {
                 name: "Slash Attack",

@@ -5,18 +5,20 @@ class Spider extends Monster {
         this.accuracy = 0.6;
         this.strength = 10;
         this.name = "Spider";
-        this.artwork = "assets/monster/wolf_spider.png"
+        this.artwork = "assets/monster/wolf_spider.png",
+        this.deathText = "The spider collapses in a splash of ichor",
         this.actions = [
             {
-                name: "Slash Attack",
+                name: "Pounce Attack",
                 type: "attack",
                 action: "basicAttack",
-                text: "The ghoul darts forward, snarling!",
+                text: "The spider leaps into the air and flies towards you with fangs out!",
                 success: "You are hit",
                 failure: "It missed",
-                animation: "bounceOutLeft",
+                animation: "pounceAttackAnimation",
                 id: "basicAttack",
-                methodId: "basicAttack"
+                methodId: "basicAttack",
+                audio: "#spider-attack"
             }
         ];
     }
