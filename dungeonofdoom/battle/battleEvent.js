@@ -34,8 +34,7 @@ class BattleEvent {
         // Get the action data object for the event and initialise the defend() method on the player
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
-        const actionControlIndex = actionControlArr[1];
-        const actionMethod = this.event.currentCombatant.actions[actionControlIndex].action;
+        const actionMethod = actionControlObject.methodId;
         this.event.currentCombatant[actionMethod]();
         const statusEffect = document.createElement("li");
         statusEffect.setAttribute("id", "defend-status");
@@ -50,12 +49,12 @@ class BattleEvent {
         console.log("BattleEvent method: defend resolved");
     }
 
-    async stabAttack(resolve) {
+    async targetSingleEnemyAttack(resolve) {
         console.log("BattleEvent method: swordAttack started")
         // Get the action data object for the event and initialise the swordAttack() method on the player
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
-        const actionMethod = actionControlObject.action;
+        const actionMethod = actionControlObject.methodId;
         const attackResult = this.event.currentCombatant[actionMethod]();
         const attackTarget = this.event.currentCombatantTarget;
         const playerSprite = document.querySelector("#player");
@@ -126,6 +125,7 @@ class BattleEvent {
     //Start the battle event
     start(resolve) {
         const actionControlObject = this.findAction(this.event.action)[0]
-        this[actionControlObject.methodId](resolve);
+        console.log(actionControlObject.methodId)
+        this[actionControlObject.action](resolve);
     }
 }

@@ -38,6 +38,7 @@ class BattleTurn {
                 this.hideButtons();
                 currentCombatantTarget = result[0];
                 action = result[1];
+                console.log(action)
             }
             const event = {
                 currentCombatant: currentCombatant,
@@ -77,13 +78,11 @@ class BattleTurn {
         const actions = this.battle.player.actions;
         for (let action of actions) {
             if (action.type === "attack") {
-                console.log(action.name)
                 const attackButtons = document.querySelector("#attack-buttons");
                     const button = document.createElement("button");
                     button.innerText = `${action.name}`;
                     button.setAttribute("id", `${action.id}`);
                     button.setAttribute("class", "btn col-4");
-
                     attackButtons.append(button);
             }
             if (action.type === "utility" && action.id !== "health-potion") {

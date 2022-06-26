@@ -1,11 +1,11 @@
 // Define our hero of the story
 class Player {
-    static accuracy = 1;
-    static strength = 50;
+    static accuracy = 0.7;
+    static strength = 10;
     static startPotion = 3;
     constructor() {
         this.totalHitPoints = 100;
-        this.currentHitPoints = this.totalHitPoints;
+        this.currentHitPoints = 90//this.totalHitPoints;
         this.isAlive = true;
         this.isDefending = false;
         this.potions = Player.startPotion;
@@ -16,7 +16,7 @@ class Player {
             {
                 name: "Stab Attack",
                 type: "attack",
-                action: "stabAttack",
+                action: "targetSingleEnemyAttack",
                 text: "You lunge forward and stab at the enemy!",
                 success: "You hit the enemy",
                 failure: "You missed",
@@ -38,18 +38,39 @@ class Player {
             {
                 name: "Health Potion",
                 type: "utility",
-                action: "drinkPotion",
+                action: "healthPotion",
                 text: "You drink a health potion and gain",
                 id: "health-potion",
                 methodId: "healthPotion",
                 animation: "takePotionAnimation"
+            },
+            {
+                name: "Chop Attack",
+                type: "attack",
+                action: "targetSingleEnemyAttack",
+                text: "You leap into the air set to cleave your target!",
+                success: "You hit the enemy",
+                failure: "You missed",
+                id: "chop-attack",
+                methodId: "chopAttack",
+                animation: "stabAttackAnimation"
             }
         ];
     }
     // Method for player attacking. Returns array of whether it is a hit and the damage inflicted.
     stabAttack() {
-        const isHit = Math.random() <= Player.accuracy ? true : false;
+        const revisedAccuracy = Player.accuracy * 1.2;
+        const isHit = Math.random() <= revisedAccuracy ? true : false;
         const damage = Player.strength;
+        if (isHit) {
+            return [true, damage];
+        }
+        return [false, 0];
+    }
+    chopAttack() {
+        const revisedAccuracy = Player.accuracy * 0.8;
+        const isHit = Math.random() <= revisedAccuracy ? true : false;
+        const damage = Player.strength * 2;
         if (isHit) {
             return [true, damage];
         }
