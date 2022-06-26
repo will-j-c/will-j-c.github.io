@@ -48,9 +48,9 @@ After this I just started coding. Big mistake! After several hours I had coded m
 https://www.youtube.com/watch?v=xfCPZhMw5Z0&ab_channel=DrewConley
 
 
-The above video was instrumental in the structure of the game. Although difficult to follow at first, following along and perseverance :persevere:, it finally all started to come together slowly by surely. I've included an image at the end of the readme file that maps out all the logic and how the whole game holds together.
+The above video was instrumental in the structure of the game. Although difficult to follow at first, just trying to follow along and having some perseverance :persevere: meant slow but steady games and built my confidence. I've included an image at the end of the readme file that maps out all the logic and how the whole game holds together. I wanted to do this to better visualise the structure and hold things in place in my head as I scaled things.
 
-I was initially going to animate with Animate.css. Although it is a great tool and super easy, CSS animations were just not going to cut it for all the nuances of battle and being mobile responsive. Therefore, GSAP was the tool of choice as it it easy to grasp the basics (although hideously difficult to master) and incredibly powerful. Great fun to use as well as you start to think of all the wacky things that you can achieve with it!
+I was initially going to animate with Animate.css. Although it is a great tool and super easy to use, CSS animations were just not going to cut it for all the nuances of battle and being mobile responsive. Therefore, GSAP was the tool of choice as it it easy to grasp the basics (although hideously difficult to master) and incredibly powerful. Great fun to use as well as you start to think of all the wacky things that you can achieve with it!
 
 
 Making it mobile responsive was relatively straightforward with Bootstrap but it isn't perfect and took a lot of trial and error. Ultimately, the user experience is much better on a bigger screen. 
