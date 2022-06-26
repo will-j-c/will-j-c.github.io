@@ -89,7 +89,7 @@ class Battle {
                 <div class="row m-1 text-center">
                     <h3 id="message-box"></h3>
                 </div>
-                <div class="row mx-1" id="panel">
+                <div class="row mx-1 d-flex flex-wrap-reverse" id="panel">
                     <div class="col m-1" id="status-panel">
                         <h2 class="text-center">Player Status</h2>
                         <div class="row">
@@ -108,12 +108,12 @@ class Battle {
                         </div>
 
                     </div>
-                    <div class="col-8 m-1" id="control-panel">
+                    <div class="col-12 m-1 col-md-8" id="control-panel">
                         <h2 class="text-center">Actions Pane</h2>
                         <div id="buttons-panel">
                             <div class="row justify-content-center text-center">
 
-                                <div class="btn-group btn-group-sm col-6 d-inline-block my-1" role="group" id="attack-buttons">
+                                <div class="btn-group btn-group-sm col col-md-6 d-inline-block my-1" role="group" id="attack-buttons">
                                 <h3>Attack actions</h4>
                                 </div>
 
