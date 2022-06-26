@@ -3,7 +3,7 @@ let game = new Game(levelParams);
 // game.init();
 const level = new Level({
     player: new Player(), 
-    levelParamObject: levelParams[0], 
+    levelParamObject: levelParams[1], 
     game: game, 
     onEndLevel: event => {
             resolve();

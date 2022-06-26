@@ -178,3 +178,40 @@ function shuffleAttackAnimation(attacker, target, isHit, startText, successFailT
         }
     })
 }
+
+function slashAttackAnimation(attacker, target, isHit, startText, successFailText, isAlive, deathText, playerHP, attackAudioTag) {
+    return new Promise(async resolve => {
+        const attackerPosition = attacker.getBoundingClientRect();
+        const targetPosition = target.getBoundingClientRect();
+        const battlefieldPosition = document.querySelector("#battle-container").getBoundingClientRect();
+        const moveX = targetPosition.right - attackerPosition.left - 20;
+        const moveYBottom = targetPosition.bottom - attackerPosition.top;
+        const moveYTop = targetPosition.top - attackerPosition.bottom;
+        const t1 = gsap.timeline({onComplete: () => resolve()});
+        t1.call(updateText, ["#message-box", startText]);
+        t1.call(playSound, [attackAudioTag]);
+        t1.to(attacker, {duration: 0.4, x: (battlefieldPosition.right - attackerPosition.right) / 3, ease: Elastic.easeOut.config(1.2, 1)}, "<+=0.2");
+        t1.to(attacker, {duration: 0.5, x: moveX, y: moveYBottom, ease: Elastic.easeOut.config(1.2, 1)}, "<+=0.2");
+        t1.to(attacker, {duration: 0.5, x: moveX, y: moveYTop, ease: Elastic.easeOut.config(1.2, 1)}, "<+=0.2");
+        if (isHit) {
+            t1.call(updateText, ["#message-box", successFailText]);
+            t1.call(playSound, ["#hit"]);
+            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), "-=1";
+            t1.to(target, {duration: 0.3, opacity: 1, repeat: 0});
+            t1.call(updateText, ["#current-hit-points", playerHP]);
+            t1.to(attacker, {duration: 1.8, x: 0, y: 0, ease: Elastic.easeOut.config(1.2, 1)}, "-=0.5");
+            if (isAlive === false) {
+                t1.call(playSound, ["#dead"]);
+                t1.call(updateText, ["#message-box", deathText]);
+                t1.to(target, {transform: "rotate3d(0, 0, 1, -90deg)", duration: 0.4}, "-=0.75");
+                t1.to(target, {opacity: 0, duration: 0.2});
+            }
+        } else {
+            t1.to(target, {x: (battlefieldPosition.left - targetPosition.left)/2, y: 15,duration: 0.1}, ">");
+            t1.call(updateText, ["#message-box", successFailText]);
+            t1.call(playSound, ["#miss"]);
+            t1.to(target, {x: 0, y: 0, duration: 1});
+            t1.to(attacker, {duration: 1.8, x: 0, ease: Elastic.easeOut.config(1.2, 1), y: 0}, ">-0.7");
+        }
+    })
+}
