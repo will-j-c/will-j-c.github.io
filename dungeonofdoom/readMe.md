@@ -3,7 +3,7 @@
 
 ---
 
-A dark adn gritty story rich battling game inspired by classic JRPGs like Final Fantasy. You take the role of the nameless protagonist who must quest to save his family. The tone is deliberately dark adn macabre, bringing into line with more modern games such as Dark Souls.
+A dark and gritty story rich battling game inspired by classic JRPGs like Final Fantasy. You take the role of the nameless protagonist who must quest to save his (or her) family. The tone is deliberately dark and macabre, bringing it into line with more modern games such as Dark Souls.
 
 
 The game has 3 levels with transitional scenes between each as well as a prologue and epilogue.
@@ -48,8 +48,16 @@ After this I just started coding. Big mistake! After several hours I had coded m
 https://www.youtube.com/watch?v=xfCPZhMw5Z0&ab_channel=DrewConley
 
 
-The above video was instrumental in the structure of the game. Although difficult to follow at first, following along and perseverance :persevere:, it finally all started to come together slowly by surely. I've included an image at the end of the readme file that maps out all the logic and how the whole game holds together. 
+The above video was instrumental in the structure of the game. Although difficult to follow at first, following along and perseverance :persevere:, it finally all started to come together slowly by surely. I've included an image at the end of the readme file that maps out all the logic and how the whole game holds together.
 
+I was initially going to animate with Animate.css. Although it is a great tool and super easy, CSS animations were just not going to cut it for all the nuances of battle and being mobile responsive. Therefore, GSAP was the tool of choice as it it easy to grasp the basics (although hideously difficult to master) and incredibly powerful. Great fun to use as well as you start to think of all the wacky things that you can achieve with it!
+
+
+Making it mobile responsive was relatively straightforward with Bootstrap but it isn't perfect and took a lot of trial and error. Ultimately, the user experience is much better on a bigger screen. 
+
+
+Overall, the project was satisfying but a lot of work. It hammered home the importance of planning and having a clear strategy before just starting to code.
+ 
 ### Instructions
 
 ---
