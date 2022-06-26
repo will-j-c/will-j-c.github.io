@@ -112,6 +112,48 @@ async function stabAttackAnimation(attacker, target, isHit, startText, successFa
         }
     })
 }
+// Player animations
+// Chop attack animation
+async function chopAttackAnimation(attacker, target, isHit, startText, successFailText, isAlive, deathText, audioTag) {
+    return new Promise(async resolve => {
+        const attackerPosition = attacker.getBoundingClientRect();
+        const targetPosition = target.getBoundingClientRect();
+        const battlefieldPosition = document.querySelector("#battle-container").getBoundingClientRect();
+        const moveX = targetPosition.left - attackerPosition.right;
+        const moveYDestination = targetPosition.top - attackerPosition.top;
+        const apexLeapY = -attackerPosition.bottom/3 * 2;
+        const motionPath = {
+            path: [{x:moveX/2, y:apexLeapY}, {x:moveX, y:moveYDestination}]
+        };
+        gsap.registerPlugin(MotionPathPlugin);
+        const t1 = gsap.timeline({onComplete: () => resolve()});
+        t1.call(updateText, ["#message-box", startText]);
+        t1.call(playSound, [audioTag]);
+        t1.to(attacker, {duration: 0.7, x: -attackerPosition.left / 3});
+        t1.to(attacker, {duration: 2, motionPath: motionPath, ease: Elastic.easeOut.config(1.2, 1)});
+        if (isHit) {
+            t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}, "-=1.5");
+            t1.to(target, {duration: 0.2, opacity: 1, repeat: 0});
+            t1.call(updateText, ["#message-box", successFailText]);
+            t1.call(playSound, ["#hit"], "-=1.5");
+            
+            t1.to(attacker, {duration: 1.5, x: 0, y: 0, ease: "power2.out"}, "-=0.5");
+            if (isAlive === false) {
+                t1.call(playSound, ["#dead"], "-=0.75");
+                t1.call(updateText, ["#message-box", deathText]);
+                t1.to(target, {transform: "rotate3d(0, 0, 1, 90deg)", duration: 0.4}, "-=0.75");
+                t1.to(target, {opacity: 0, duration: 0.2});
+            }
+        } else {
+            t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/2, y: -15,duration: 0.1}, "-=1.5");
+            t1.call(updateText, ["#message-box", successFailText]);
+            t1.call(playSound, ["#miss"], "-=1.5");
+            t1.to(target, {x: 0, duration: 1});
+            t1.to(attacker, {duration: 1.5, x: 0, ease: "power2.out", y: 0}, ">-0.7");
+        }
+    })
+}
+// Take potion animation
 function takePotionAnimation(target, text, potionId, potionStock, hitPointElement, hitPointText) {
     return new Promise(async resolve => {
         await updateText("#message-box", text);

@@ -1,6 +1,6 @@
 // Define our hero of the story
 class Player {
-    static accuracy = 0.7;
+    static accuracy = 0;
     static strength = 10;
     static startPotion = 3;
     constructor() {
@@ -22,7 +22,8 @@ class Player {
                 failure: "You missed",
                 id: "stab-attack",
                 methodId: "stabAttack",
-                animation: "stabAttackAnimation"
+                animation: "stabAttackAnimation",
+                audio: "#stab-attack"
             },
             {
                 name: "Defend",
@@ -33,7 +34,7 @@ class Player {
                 animation: "bounce",
                 methodId: "defend",
                 statusOnComplete: "Defending",
-                animation: "defendAnimation"
+                animation: "defendAnimation",
             },
             {
                 name: "Health Potion",
@@ -53,7 +54,8 @@ class Player {
                 failure: "You missed",
                 id: "chop-attack",
                 methodId: "chopAttack",
-                animation: "stabAttackAnimation"
+                animation: "chopAttackAnimation",
+                audio: "#chop-attack"
             }
         ];
     }

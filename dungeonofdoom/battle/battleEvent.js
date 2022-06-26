@@ -67,7 +67,7 @@ class BattleEvent {
         // Handle the animation
         const successFailText = attackResult[0] ? actionControlObject.success : actionControlObject.failure;
         this.battle.player.bounceTimeline.pause(0);
-        await window[actionControlObject.animation](playerSprite, targetSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText);
+        await window[actionControlObject.animation](playerSprite, targetSprite, attackResult[0], actionControlObject.text, successFailText, attackTarget.isAlive, attackTarget.deathText, actionControlObject.audio);
         this.battle.player.bounceTimeline.resume();
         this.addBattleLog(actionControlObject.text);
         this.addBattleLog(successFailText);
