@@ -1,7 +1,7 @@
 // Define our hero of the story
 class Player {
-    static accuracy = 0.5;
-    static strength = 20;
+    static accuracy = 1;
+    static strength = 50;
     static startPotion = 3;
     constructor() {
         this.totalHitPoints = 100;

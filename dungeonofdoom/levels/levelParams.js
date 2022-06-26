@@ -22,7 +22,7 @@ const epilogue = {
 const levelParams = [
     {
         chapterTitle: "Chapter 1: Knock Knock",
-        battleLineup: [new Skeleton, new Skeleton, new Skeleton],
+        battleLineup: [Skeleton, Skeleton, Skeleton],
         text: [
             "You arrive at the castle after three days forced march. The exterior is quiet and no light shows from the windows.",
             "You approach wearily, knowing you are being watched. Crows flock and caw overhead, indicating the presence of carrion.",
@@ -38,14 +38,14 @@ const levelParams = [
      },
     {
         chapterTitle: "Chapter 2: Hall of Horror",
-        battleLineup: [new Ghoul, new Ghoul, new Ghoul],
+        battleLineup: [Ghoul, Ghoul, Ghoul],
         text: [
             "The first thing you notice as you open step through the darkened doorway and into a large greeting hall is the stench of putrid blood and the sound of chewing.",
             "As you peer into the dark corners of the hall, you begin to see three hunched shapes slowly become clearer as your eyes adjust to the gloom.",
             "Sensing your presence, the three shapes rise and with guttural snarls, pelt towards you at speed…"
         ],
         tile: "./assets/tiles/greathall.png",
-        audio: "",
+        audio: "./assets/sounds/chew.mp3",
         endAudio: "",
         endText: [
             "The head of the last ghoul flies from its shoulders and rolls across the floor of the hall.",
@@ -54,7 +54,7 @@ const levelParams = [
     },
     {
         chapterTitle: "Chapter 3: Pit of Evil",
-        battleLineup: [new Spider, new Necromancer, new Spider],
+        battleLineup: [Spider, Necromancer, Spider],
         text: [
             "As you reach the bottom of the stairs, you feel a dark pulsing behind your eyes and hear a rhythmic ritualistic chanting building to a crescendo.",
             "The necromancer is in the middle of a ritual circle, knife raised for the killing strike, flanked by two giant spider bodyguards.",
@@ -62,8 +62,8 @@ const levelParams = [
             "He will pay."
         ],
         tile: "./assets/tiles/ritualroom.jpg",
-        audio: "",
-        endAudio: "",
+        audio: "./assets/sounds/chant.wav",
+        endAudio: "./assets/sounds/rumble.wav",
         endText: [
             "As the necromancer falls, the energy that was building explodes outwards. The chamber starts to come down around you.",
             "You grab your daughter, throw her over your shoulder and run for the exit as the world comes down around you."

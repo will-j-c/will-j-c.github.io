@@ -78,10 +78,7 @@ class Game {
                 <div class="img-container d-flex justify-content-start">
                     <img src="./assets/icons/unmute.png" id="mute-button">
                 </div>  
-                <div class="d-flex justify-content-center flex-column" id="para-container">
-                <div class="img-container">
-                    <img src="./assets/icons/mute.png" id="mute-button">
-                </div>            
+                <div class="d-flex justify-content-center flex-column" id="para-container">       
                 </div>
                 <button class="btn" id="end-quit">Quit</button>
                 <audio src="./assets/sounds/epilogue.mp3" id="epilogue"></audio>
@@ -99,10 +96,9 @@ class Game {
             muteButton.setAttribute("src", "./assets/icons/mute.png");
             audioElement.pause();
         }
-
+        audioElement.volume = 0.5;
+        audioElement.play();
         window["fadeIn"]("h1");
-
-        
         // Listen for a click on the start button
         const quitButton = document.querySelector("button");
         window["fadeIn"](playScreen);
@@ -155,6 +151,7 @@ class Game {
                 </div>
 
                 <button class="btn" id="start-button">Start New Game</button>
+                <button class="btn" id="skip-button">Skip Prologue</button>
                 <audio src="./assets/sounds/crows-caw.mp3" loop>                    
                 </audio>
             </main>
@@ -174,9 +171,16 @@ class Game {
         
             // Listen for a click on the start button
         const startButton = document.querySelector("#start-button");
+        const skipButton = document.querySelector("#skip-button");
         window["fadeIn"](playScreen);
         window["pulse"]("#title");
         startButton.onclick = () => this.start();
+        skipButton.onclick = async () => {
+            this.player = new Player();
+            const playScreen = document.querySelector("#play-screen");
+            await window["fadeOut"](playScreen);
+            this.initiateLevel()
+        };
     }
     async gameOver() {
         const playScreen = document.querySelector("#play-screen");
@@ -185,11 +189,29 @@ class Game {
             <main class="text-center">
                 <div>
                     <h1 class="chapter-title">You Are Dead</h1>
+                </div>
+                <div class="img-container d-flex justify-content-start">
+                    <img src="./assets/icons/unmute.png" id="mute-button">
+                </div> 
                 <div class="d-flex justify-content-center flex-column" id="para-container">              
                 </div>
                 <button class="btn" id="end-quit">Quit</button>
+                <audio src="./assets/sounds/evil-laugh.wav" id="game-over"></audio>
             </main>
         `
+        // Listen for the mute button
+        const muteButton = document.querySelector("#mute-button");
+        const audioElement = document.querySelector("#game-over");
+        muteButton.onclick = () => {
+            if (muteButton.getAttribute("src") === "./assets/icons/mute.png") {
+                muteButton.setAttribute("src", "./assets/icons/unmute.png");
+                audioElement.play();
+                return;
+            }
+            muteButton.setAttribute("src", "./assets/icons/mute.png");
+            audioElement.pause();
+        }
+        audioElement.play();
         window["fadeIn"]("h1");
         // Listen for a click on the start button
         const quitButton = document.querySelector("button");

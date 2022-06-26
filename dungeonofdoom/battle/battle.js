@@ -2,7 +2,7 @@
 class Battle {
     constructor({player, enemy1, enemy2, enemy3, level, onEnd}) {
         this.player = player; //The current instance of the player object within Game
-        this.enemies = [enemy1, enemy2, enemy3];
+        this.enemies = [new enemy1, new enemy2, new enemy3];
         this.enemy1 = this.enemies[0];
         this.enemy2 = this.enemies[1];
         this.enemy3 = this.enemies[2];

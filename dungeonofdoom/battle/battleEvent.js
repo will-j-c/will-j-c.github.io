@@ -40,8 +40,7 @@ class BattleEvent {
         const statusEffect = document.createElement("li");
         statusEffect.setAttribute("id", "defend-status");
         document.querySelector("#current-status-effect").append(statusEffect);
-        const playerSprite = document.querySelector("#player")
-        console.log(statusEffect)
+        const playerSprite = document.querySelector("#player");
         //Handle animation
         this.battle.player.bounceTimeline.pause(0);
         await window[actionControlObject.animation](playerSprite, actionControlObject.text, "#defend-status", actionControlObject.statusOnComplete);

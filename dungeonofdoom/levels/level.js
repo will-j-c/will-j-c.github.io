@@ -46,12 +46,27 @@ class Level {
         // Create the basic HTML for the rest of the screen to interact with
         playScreen.innerHTML = `
             <main class="text-center">
+                <div class="img-container d-flex justify-content-start">
+                    <img src="./assets/icons/unmute.png" id="mute-button">
+                </div>
                 <div class="d-flex justify-content-center flex-column mt-10" id="para-container-end">              
                 </div>
                 <button class="btn" id="continue-button">Continue</button>
                 <audio id="chapter-audio" src="${this.endAudio}"></audio>
             </main>
             `
+        // Listen for the mute button
+        const muteButton = document.querySelector("#mute-button");
+        const audioElement = document.querySelector("audio");
+        muteButton.onclick = () => {
+            if (muteButton.getAttribute("src") === "./assets/icons/mute.png") {
+                muteButton.setAttribute("src", "./assets/icons/unmute.png");
+                audioElement.play();
+                return;
+            }
+            muteButton.setAttribute("src", "./assets/icons/mute.png");
+            audioElement.pause();
+        }
         const continueButton = document.querySelector("#continue-button");
         const chapterAudio = document.querySelector("#chapter-audio");
         chapterAudio.volume = 0.5;
@@ -79,12 +94,28 @@ class Level {
             <main class="text-center">
                 <div>
                     <h1 class="chapter-title"></h1>
+                </div>
+                <div class="img-container d-flex justify-content-start">
+                    <img src="./assets/icons/unmute.png" id="mute-button">
+                </div>
                 <div class="d-flex justify-content-center flex-column" id="para-container">              
                 </div>
                 <button class="btn" id="continue-button">Continue</button>
                 <audio id="chapter-audio" src="${this.audio}"></audio>
             </main>
             `
+        // Listen for the mute button
+        const muteButton = document.querySelector("#mute-button");
+        const audioElement = document.querySelector("audio");
+        muteButton.onclick = () => {
+            if (muteButton.getAttribute("src") === "./assets/icons/mute.png") {
+                muteButton.setAttribute("src", "./assets/icons/unmute.png");
+                audioElement.play();
+                return;
+            }
+            muteButton.setAttribute("src", "./assets/icons/mute.png");
+            audioElement.pause();
+        }
         const continueButton = document.querySelector("#continue-button");
         const chapterAudio = document.querySelector("#chapter-audio");
         chapterAudio.volume = 0.5;
@@ -99,7 +130,8 @@ class Level {
             const paragraph = document.createElement("p");
             paragraph.setAttribute("class", "para-text");
             paragraph.innerText = para;
-            paragraphContainer.append(paragraph)
+            paragraphContainer.append(paragraph);
+            paragraph.scrollIntoView({behavior: "smooth"});
             await window["fadeIn"](paragraph);
         }
         await window["fadeIn"](continueButton);
