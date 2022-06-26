@@ -2,23 +2,23 @@
 class Necromancer extends Monster {
     constructor() {
         super(75);
-        this.accuracy = 0.6;
+        this.accuracy = 0;
         this.strength = 10;
         this.name = "Necromancer";
         this.artwork = "assets/monster/necromancer.png",
         this.deathText = "The necromancer screams and disappears....",
         this.actions = [
             {
-                name: "Slash Attack",
+                name: "Drain Life",
                 type: "attack",
                 action: "basicAttack",
-                text: "The ghoul darts forward, snarling!",
+                text: "The necromancer sends a bolt of dark energy towards you!",
                 success: "You are hit",
                 failure: "It missed",
-                animation: "pounceAttackAnimation",
+                animation: "drainLifeAnimation",
                 id: "basicAttack",
                 methodId: "basicAttack",
-                audio: "#spider-attack"
+                audio: "#spell-attack"
             }
         ];
     }

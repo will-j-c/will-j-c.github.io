@@ -133,6 +133,7 @@ class Battle {
                 <audio src="./assets/sounds/skelattack.wav" id="skeleton-attack"></audio>
                 <audio src="./assets/sounds/ghoulattack.wav" id="ghoul-attack"></audio>
                 <audio src="./assets/sounds/spider.wav" id="spider-attack"></audio>
+                <audio src="./assets/sounds/spell.wav" id="spell-attack"></audio>
                 <audio src="./assets/sounds/jabattack.wav" id="stab-attack"></audio>
                 <audio src="./assets/sounds/hit.mp3" id="hit"></audio>
                 <audio src="./assets/sounds/miss.wav" id="miss"></audio>
