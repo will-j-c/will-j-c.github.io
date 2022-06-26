@@ -30,7 +30,7 @@ const levelParams = [
         ],
         tile: "./assets/tiles/grass.png",
         audio: "./assets/sounds/crows-caw.mp3",
-        endAudio: "",
+        endAudio: "./assets/sounds/gateway.mp3",
         endText: [
             "The last skeleton drops to the ground in a pile of unmoving bone. You turn towards the castle doorway.",
             "The door is stiff, but you force it open and head inside."
@@ -46,7 +46,7 @@ const levelParams = [
         ],
         tile: "./assets/tiles/greathall.png",
         audio: "./assets/sounds/chew.mp3",
-        endAudio: "",
+        endAudio: "./assets/sounds/ghoul-after.mp3",
         endText: [
             "The head of the last ghoul flies from its shoulders and rolls across the floor of the hall.",
             "You hear a scream coming from a staircase and recognise it as your daughter's. You sprint for the staircase."
