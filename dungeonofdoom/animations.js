@@ -55,6 +55,12 @@ function pulse(targetElement) {
 }
 
 // Battle Animations
+// Function that plays a sound in the animations
+function playSound(soundAudioTag) {
+    const audioElement = document.querySelector(soundAudioTag);
+    audioElement.play();
+}
+
 // Player and enemy bounces
 function bounce(target) {
     const rand = Math.random() * 1;
@@ -88,21 +94,25 @@ async function stabAttackAnimation(attacker, target, isHit, startText, successFa
         const moveY = targetPosition.top - attackerPosition.top;
         const t1 = gsap.timeline({onComplete: () => resolve()});
         t1.call(updateText, ["#message-box", startText]);
+        t1.call(playSound, ["#stab-attack"]);
         t1.to(attacker, {duration: 0.2, x: -attackerPosition.left / 3}, "<+=0.2");
         t1.to(attacker, {duration: 0.3, x: moveX, y: moveY, ease: Elastic.easeOut.config(1.2, 1)}, "<+=0.2");
         if (isHit) {
             t1.call(updateText, ["#message-box", successFailText]);
+            t1.call(playSound, ["#hit"]);
             t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), "-=1";
             t1.to(target, {duration: 0.3, opacity: 1, repeat: 0});
             t1.to(attacker, {duration: 1.5, x: 0, y: 0, ease: "power2.out"}, "-=0.5");
             if (isAlive === false) {
+                t1.call(playSound, ["#dead"]);
                 t1.call(updateText, ["#message-box", deathText]);
-                t1.to(target, {transform: "rotate3d(0, 0, 1, 90deg)", duration: 0.4}, "-=1");
+                t1.to(target, {transform: "rotate3d(0, 0, 1, 90deg)", duration: 0.4}, "-=0.75");
                 t1.to(target, {opacity: 0, duration: 0.2});
             }
         } else {
             t1.to(target, {x: (battlefieldPosition.right - targetPosition.right)/2, y: -15,duration: 0.1}, ">");
             t1.call(updateText, ["#message-box", successFailText]);
+            t1.call(playSound, ["#miss"]);
             t1.to(target, {x: 0, duration: 1});
             t1.to(attacker, {duration: 1.5, x: 0, ease: "power2.out", y: 0}, ">-0.7");
         }
@@ -134,7 +144,7 @@ function defendAnimation(target, text, statusEffectId, statusEffectText) {
 
 // Enemy animations
 
-function shuffleAttackAnimation(attacker, target, isHit, startText, successFailText, isAlive, deathText, playerHP) {
+function shuffleAttackAnimation(attacker, target, isHit, startText, successFailText, isAlive, deathText, playerHP, attackAudioTag) {
     return new Promise(async resolve => {
         const attackerPosition = attacker.getBoundingClientRect();
         const targetPosition = target.getBoundingClientRect();
@@ -143,22 +153,26 @@ function shuffleAttackAnimation(attacker, target, isHit, startText, successFailT
         const moveY = targetPosition.top - attackerPosition.top;
         const t1 = gsap.timeline({onComplete: () => resolve()});
         t1.call(updateText, ["#message-box", startText]);
+        t1.call(playSound, [attackAudioTag]);
         t1.to(attacker, {duration: 0.4, x: (battlefieldPosition.right - attackerPosition.right) / 3, ease: "steps(2)"}, "<+=0.2");
         t1.to(attacker, {duration: 0.5, x: moveX, y: moveY, ease: "steps(8)"}, "<+=0.2");
         if (isHit) {
             t1.call(updateText, ["#message-box", successFailText]);
+            t1.call(playSound, ["#hit"]);
             t1.to(target, {duration: 0.3, opacity: 0, repeat: 1}), "-=1";
             t1.to(target, {duration: 0.3, opacity: 1, repeat: 0});
             t1.call(updateText, ["#current-hit-points", playerHP]);
             t1.to(attacker, {duration: 1.8, x: 0, y: 0, ease: "steps(8)"}, "-=0.5");
             if (isAlive === false) {
+                t1.call(playSound, ["#dead"]);
                 t1.call(updateText, ["#message-box", deathText]);
-                t1.to(target, {transform: "rotate3d(0, 0, 1, -90deg)", duration: 0.4}, "-=1");
+                t1.to(target, {transform: "rotate3d(0, 0, 1, -90deg)", duration: 0.4}, "-=0.75");
                 t1.to(target, {opacity: 0, duration: 0.2});
             }
         } else {
             t1.to(target, {x: (battlefieldPosition.left - targetPosition.left)/2, y: 15,duration: 0.1}, ">");
             t1.call(updateText, ["#message-box", successFailText]);
+            t1.call(playSound, ["#miss"]);
             t1.to(target, {x: 0, y: 0, duration: 1});
             t1.to(attacker, {duration: 1.8, x: 0, ease: "steps(8)", y: 0}, ">-0.7");
         }
