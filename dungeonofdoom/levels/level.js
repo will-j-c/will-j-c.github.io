@@ -46,7 +46,7 @@ class Level {
         // Create the basic HTML for the rest of the screen to interact with
         playScreen.innerHTML = `
             <main class="text-center">
-                <div class="d-flex justify-content-center flex-column mt-10" id="para-container">              
+                <div class="d-flex justify-content-center flex-column mt-10" id="para-container-end">              
                 </div>
                 <button class="btn" id="continue-button">Continue</button>
                 <audio id="chapter-audio" src="${this.endAudio}"></audio>
@@ -57,7 +57,7 @@ class Level {
         chapterAudio.volume = 0.5;
         chapterAudio.play();
         gsap.set(continueButton, {opacity: 0});
-        const paragraphContainer = document.querySelector("#para-container");
+        const paragraphContainer = document.querySelector("#para-container-end");
         gsap.set(playScreen, {opacity: 1});
         for (let para of this.endText) {
             const paragraph = document.createElement("p");
