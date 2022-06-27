@@ -10,35 +10,23 @@ class BattleTurn {
         //Get the current active combatant
         const currentCombatant = this.turnOrder[this.currentTurnIndex];
         if (currentCombatant.isAlive) {
-            console.log(`Current turn: ${currentCombatant.type} ${this.currentTurnIndex}`)
             let currentCombatantTarget = this.battle.player;
             let action = "basicAttack";
 
             // If it is the player turn, build the available actions and listen for the choice, then submit to the battleTurnSubmission
             if (currentCombatant.type === "player") {
-                console.log("Building initIal buttons")
                 this.buildInitialPlayerActions();
-                console.log("Updating buttons")
                 // this.updatePlayerActions();
                 this.showButtons();
-                console.log(`Player defending status: ${this.battle.player.isDefending}`)
-                console.log("Waiting to update status effects")
                 this.updateStatusEffects();
-                console.log("Status effects updated");
-                console.log(`Player defending status: ${this.battle.player.isDefending}`)
-                console.log("Start player turn message started")
                 updateText("#message-box", "Select an action")
-                console.log("Start player turn message resolved")
-                console.log("Waiting for player input")
                 const result = await this.playerAction();
                 if (result[0] === "target") {
-                    console.log("Waiting for target selection")
                     result[0] = await this.playerTarget();
                 }
                 this.hideButtons();
                 currentCombatantTarget = result[0];
                 action = result[1];
-                console.log(action)
             }
             const event = {
                 currentCombatant: currentCombatant,
@@ -141,7 +129,6 @@ class BattleTurn {
             const attackIdArr = this.battle.player.actions.map(action => action.id);
             if (attackIdArr.some(id => id === event.target.id)) {
                 this.buildTargetActionButtons();
-                console.log("Built target buttons")
                 resolve(["target",event.target.id]);
             }
         }
@@ -163,15 +150,12 @@ class BattleTurn {
     }
     // Check to see if the battle is over
     checkIsOver() {
-        console.log(`Player Alive: ${this.battle.player.isAlive}`)
         if (this.battle.player.isAlive === false) {
             this.battle.isOver = true;
         }
-        console.log(`All enemies dead: ${this.battle.enemies.every(enemy => enemy.isAlive === false)}`)
         if (this.battle.enemies.every(enemy => enemy.isAlive === false)) {
             this.battle.isOver = true;
         }
-        console.log(`Battle over: ${this.battle.isOver}`)
     }
     // Update status effects
     async updateStatusEffects() {
@@ -198,9 +182,7 @@ class BattleTurn {
         for (let enemy of this.battle.enemies) {
             this.turnOrder.push(enemy);
         }
-        console.log("Starting message started")
         updateText("#message-box", "The enemy approaches....")
-        console.log("Starting message resolved")
         // // Start the first turn
         // Set a small timeout so that the animations fire correctly
         setTimeout(() => this.turn(), 1000);

@@ -35,7 +35,6 @@ class Level {
                         this.onEndLevel(event);
                     }
                     resolve();
-                    console.log("Level class: Battle Resolved")
                 })
             }
         });

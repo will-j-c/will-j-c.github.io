@@ -30,7 +30,6 @@ class BattleEvent {
 
     // Player action methods
     async defend(resolve) {
-        console.log("BattleEvent method: defend started")
         // Get the action data object for the event and initialise the defend() method on the player
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
@@ -45,12 +44,10 @@ class BattleEvent {
         await window[actionControlObject.animation](playerSprite, actionControlObject.text, "#defend-status", actionControlObject.statusOnComplete);
         this.battle.player.bounceTimeline.resume();
         this.addBattleLog( actionControlObject.text);
-        resolve()
-        console.log("BattleEvent method: defend resolved");
+        resolve();
     }
 
     async targetSingleEnemyAttack(resolve) {
-        console.log("BattleEvent method: swordAttack started")
         // Get the action data object for the event and initialise the swordAttack() method on the player
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
@@ -75,11 +72,9 @@ class BattleEvent {
             this.addBattleLog(attackTarget.deathText);
         }
         resolve();
-        console.log("BattleEvent method: swordAttack resolved")
     }
     // Take potion
     async healthPotion(resolve) {
-        console.log("BattleEvent method: healthPotion started")
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
         const playerSprite = document.querySelector("#player");
@@ -89,12 +84,10 @@ class BattleEvent {
         this.battle.player.bounceTimeline.resume();
         this.addBattleLog(`${actionControlObject.text} ${lifeGained} hit points`);
         resolve();
-        console.log("BattleEvent method: healthPotion resolved")
     }
     // Enemy action methods
     // Enemy basic attack
     async basicAttack(resolve) {
-        console.log("BattleEvent method: basicAttack started")
         // Get the action data object for the event and initialise the swordAttack() method on the player
         const actionControlArr = this.findAction(this.event.action);
         const actionControlObject = actionControlArr[0];
@@ -120,12 +113,10 @@ class BattleEvent {
             this.addBattleLog(attackTarget.deathText);
         }
         resolve()
-        console.log("BattleEvent method: basicAttack resolved")
     }
     //Start the battle event
     start(resolve) {
-        const actionControlObject = this.findAction(this.event.action)[0]
-        console.log(actionControlObject.methodId)
+        const actionControlObject = this.findAction(this.event.action)[0];
         this[actionControlObject.action](resolve);
     }
 }
