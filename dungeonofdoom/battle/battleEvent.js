@@ -27,7 +27,6 @@ class BattleEvent {
         li.innerText = text;
         logBodyUl.append(li);
     }
-
     // Player action methods
     async defend(resolve) {
         // Get the action data object for the event and initialise the defend() method on the player
@@ -46,7 +45,6 @@ class BattleEvent {
         this.addBattleLog( actionControlObject.text);
         resolve();
     }
-
     async targetSingleEnemyAttack(resolve) {
         // Get the action data object for the event and initialise the swordAttack() method on the player
         const actionControlArr = this.findAction(this.event.action);

@@ -1,6 +1,6 @@
 // Define our hero of the story
 class Player {
-    static accuracy = 0.8;
+    static accuracy = 0.75;
     static strength = 15;
     static startPotion = 5;
     constructor() {

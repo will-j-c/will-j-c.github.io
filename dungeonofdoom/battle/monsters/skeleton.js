@@ -1,6 +1,5 @@
 // Create a Skeleton
 class Skeleton extends Monster {
-    // static criticalChance = 0.9
     constructor() {
         super(20);
         this.accuracy = 0.5;
@@ -21,15 +20,6 @@ class Skeleton extends Monster {
                 methodId: "basicAttack",
                 audio: "#skeleton-attack"
             },
-            // {
-            //     name: "Grab Attack",
-            //     type: "attack",
-            //     action: "specialAttack",
-            //     text: "The skeleton tries to !",
-            //     success: "You are hit",
-            //     failure: "It missed",
-            //     animation: "bounceOutRight"
-            // }
         ];
     }
     basicAttack() {
@@ -40,8 +30,4 @@ class Skeleton extends Monster {
         }
         return [false, 0];
     }
-    // // Method to determine if the attack is a critical strike or not
-    // isCritical() {
-    //     return Math.random() > Skeleton.criticalChance ? true : false;
-    // }
 }

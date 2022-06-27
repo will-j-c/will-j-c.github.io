@@ -93,7 +93,6 @@ class BattleTurn {
             }
         }
     }
-
     buildTargetActionButtons() {
         // Clear any previous buttons
         const toClear = document.querySelectorAll("#control-panel button");
@@ -112,7 +111,6 @@ class BattleTurn {
             attackButtons.append(button);
         }
     }
-
     // Method to return a promise that resolves when a player clicks the button for the action they want to take
     playerAction() {
         return new Promise(resolve => {
@@ -121,17 +119,17 @@ class BattleTurn {
                 if(event.target.tagName !== "BUTTON") {
                     this.playerAction();
                 }
-            const utilityIdArr = ["defend", "health-potion"];
+                const utilityIdArr = ["defend", "health-potion"];
                 if (utilityIdArr.some(id => id === event.target.id)) {
                     resolve([this.battle.player, event.target.id]);
                     return;
                 }
-            const attackIdArr = this.battle.player.actions.map(action => action.id);
-            if (attackIdArr.some(id => id === event.target.id)) {
-                this.buildTargetActionButtons();
-                resolve(["target",event.target.id]);
+                const attackIdArr = this.battle.player.actions.map(action => action.id);
+                if (attackIdArr.some(id => id === event.target.id)) {
+                    this.buildTargetActionButtons();
+                    resolve(["target",event.target.id]);
+                }
             }
-        }
         }) 
     }
     playerTarget() {

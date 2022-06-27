@@ -66,7 +66,6 @@ class Game {
             this.initiateLevel();
         }
     }
-
     endingSequence() {
         const playScreen = document.querySelector("#play-screen");
         // Create the basic HTML for the rest of the screen to interact with
@@ -217,6 +216,5 @@ class Game {
         const quitButton = document.querySelector("button");
         window["fadeIn"](playScreen);
         quitButton.onclick = () => this.init();
-    }        
-    
+    }            
 }
