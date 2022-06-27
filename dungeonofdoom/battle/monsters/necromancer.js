@@ -2,8 +2,8 @@
 class Necromancer extends Monster {
     constructor() {
         super(75);
-        this.accuracy = 0;
-        this.strength = 10;
+        this.accuracy = 0.8;
+        this.strength = 20;
         this.name = "Necromancer";
         this.artwork = "assets/monster/necromancer.png",
         this.deathText = "The necromancer screams and disappears....",

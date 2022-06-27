@@ -60,36 +60,6 @@ main {
     margin-bottom: 10px;
     max-width: 100px;
 }
-#status-panel h2 {
-    font-size: 2em;
-}
-#status-panel h3 {
-    font-size: 1.2em;
-    margin-bottom: 0.2rem;
-}
-#status-panel h4 {
-    font-size: 1em;
-}
-#status-panel ul {
-    height: 0.5em;
-    margin-bottom: 0.1em;
-}
-#status-panel p, #status-panel li {
-    font-size: 0.8em;
-}
-#status-panel img {
-    height: 2em;
-}
-#message-box {
-    margin-bottom: 0;
-    font-size: 2em;
-}
-#control-panel h2 {
-    font-size: 2em;
-}
-#control-panel h3 {
-    font-size: 1.2em;
-}
 #log-quit {
     max-width: 50%;
 }

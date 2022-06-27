@@ -2,8 +2,8 @@
 class Spider extends Monster {
     constructor() {
         super(50);
-        this.accuracy = 0.6;
-        this.strength = 10;
+        this.accuracy = 0.5;
+        this.strength = 25;
         this.name = "Spider";
         this.artwork = "assets/monster/wolf_spider.png",
         this.deathText = "The spider collapses in a splash of ichor",

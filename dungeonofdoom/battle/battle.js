@@ -87,41 +87,41 @@ class Battle {
                 <div id="battle-container" class="row m-1 text-center d-flex justify-content-center">
                 </div>
                 <div class="row m-1 text-center">
-                    <h3 id="message-box"></h3>
+                    <h5 id="message-box"></h3>
                 </div>
                 <div class="row mx-1 d-flex flex-wrap-reverse" id="panel">
                     <div class="col m-1" id="status-panel">
                         <h2 class="text-center">Player Status</h2>
                         <div class="row">
-                            <h3>Current Hit Points</h3>
-                            <h4 id="current-hit-points"></h4>
+                            <h5>Current Hit Points</h3>
+                            <h6 id="current-hit-points"></h4>
                         </div>
 
                         <div class="row">
-                            <h3>Status effects</h3>
+                            <h5>Status effects</h3>
                             <ul id="current-status-effect" class="mb-3"></ul>
                         </div>
 
                         <div class="row">
-                            <h3>Player Inventory</h3>
+                            <h5>Player Inventory</h3>
                             <ul class="mb-3" id="inventory"></ul>
                         </div>
 
                     </div>
-                    <div class="col-12 m-1 col-md-8" id="control-panel">
+                    <div class="col-12 mt-1 mb-1 col-md-8 container" id="control-panel">
                         <h2 class="text-center">Actions Pane</h2>
                         <div id="buttons-panel">
                             <div class="row justify-content-center text-center">
 
-                                <div class="btn-group btn-group-sm col col-md-6 d-inline-block my-1" role="group" id="attack-buttons">
+                                <div class="btn-group btn-group col col-md-4 d-inline-block my-1" role="group" id="attack-buttons">
                                 <h3>Attack actions</h4>
                                 </div>
 
-                                <div class="btn-group btn-group-sm col d-inline-block my-1" role="group" id="ability-buttons">
+                                <div class="btn-group btn-group col d-inline-block my-1" role="group" id="ability-buttons">
                                 <h3>Abilities</h4>
                                 </div>
 
-                                <div class="btn-group btn-group-sm col d-inline-block my-1" role="group" id="consumable-buttons">
+                                <div class="btn-group btn-group col d-inline-block my-1" role="group" id="consumable-buttons">
                                 <h3>Items</h4>
                                 </div>
                             </div>

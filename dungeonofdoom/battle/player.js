@@ -1,11 +1,11 @@
 // Define our hero of the story
 class Player {
-    static accuracy = 0;
-    static strength = 10;
-    static startPotion = 3;
+    static accuracy = 0.8;
+    static strength = 15;
+    static startPotion = 5;
     constructor() {
         this.totalHitPoints = 100;
-        this.currentHitPoints = 90//this.totalHitPoints;
+        this.currentHitPoints = this.totalHitPoints;
         this.isAlive = true;
         this.isDefending = false;
         this.potions = Player.startPotion;
@@ -82,7 +82,7 @@ class Player {
         this.isDefending = true;
     }
     drinkPotion() {
-        const lifeGained = Math.floor(Math.random() * 20);
+        const lifeGained = Math.floor(Math.random() * 30);
         if (this.currentHitPoints + lifeGained > this.totalHitPoints) {
             const revisedLifeGain = this.totalHitPoints - this.currentHitPoints;
             this.currentHitPoints = this.totalHitPoints;

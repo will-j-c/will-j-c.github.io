@@ -82,7 +82,7 @@ class BattleTurn {
                     const button = document.createElement("button");
                     button.innerText = `${action.name}`;
                     button.setAttribute("id", `${action.id}`);
-                    button.setAttribute("class", "btn col-4");
+                    button.setAttribute("class", "btn col");
                     attackButtons.append(button);
             }
             if (action.type === "utility" && action.id !== "health-potion") {
@@ -90,7 +90,7 @@ class BattleTurn {
                 const button = document.createElement("button");
                 button.innerText = action.name;
                 button.setAttribute("id", action.id);
-                button.setAttribute("class", "btn col-4");
+                button.setAttribute("class", "btn col");
                 abilityButtons.append(button);
             }
             if (action.id === "health-potion") {
@@ -99,7 +99,7 @@ class BattleTurn {
                     const button = document.createElement("button");
                     button.innerText = action.name;
                     button.setAttribute("id", action.id);
-                    button.setAttribute("class", "btn col-4");
+                    button.setAttribute("class", "btn col");
                     abilityButtons.append(button);
                 }
             }

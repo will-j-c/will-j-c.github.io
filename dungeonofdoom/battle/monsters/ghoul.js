@@ -1,7 +1,7 @@
 // Create a Ghoul
 class Ghoul extends Monster {
     constructor() {
-        super(25);
+        super(30);
         this.accuracy = 0.6;
         this.strength = 10;
         this.name = "Ghoul";
