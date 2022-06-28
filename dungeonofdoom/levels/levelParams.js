@@ -1,7 +1,7 @@
 const prologue = {
     chapterTitle: "Prologue",
     text: [
-        "You awake to the sound of screams and battle. The smell of burning in the air and the glow of fire on the night sky. You run to the window and look outside. The village is burning and horrors move in an our of the flickering shadows, butchering your friends and neighbours.",
+        "You awake to the sound of screams and battle. The smell of burning in the air and the glow of fire on the night sky. You run to the window and look outside. The village is burning and horrors move in and out of the flickering shadows, butchering your friends and neighbours.",
         "A banging shakes the door of your cottage in its hinges. Dust puffs from the frame and someone (or something) tries to batter down the door. You hear a groan from outside and a barely human voice whispering in a strange hypnotic cadence.", 
         "Without thinking, you run to your daughter's room and shake her from her slumber. Her eyes look back at you in terror as you whisper to her to remain quiet and come with you. Just as you head to the back room and the back door, you hear a huge crash and the shuffling of dead things entering your house. You run to the back door and fling it open to the end of the world.",
         "As you hesitate, stunned at the brutality on display around you, you feel cold claws grip you from behind in a vice like grip, dragging you to the floor and away from your daughter as she screams and reaches for you.",

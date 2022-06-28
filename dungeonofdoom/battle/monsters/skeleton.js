@@ -2,7 +2,7 @@
 class Skeleton extends Monster {
     constructor() {
         super(20);
-        this.accuracy = 0.5;
+        this.accuracy = 0.35;
         this.strength = 7;
         this.name = "Skeleton";
         this.artwork = "assets/monster/skeletal_warrior.png"

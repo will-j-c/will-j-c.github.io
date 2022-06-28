@@ -2,7 +2,7 @@
 class Ghoul extends Monster {
     constructor() {
         super(30);
-        this.accuracy = 0.6;
+        this.accuracy = 0.5;
         this.strength = 10;
         this.name = "Ghoul";
         this.artwork = "assets/monster/ghoul.png",
