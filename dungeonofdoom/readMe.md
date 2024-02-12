@@ -12,7 +12,7 @@ The game has 3 levels with transitional scenes between each as well as a prologu
 
 ---
 
-https://boshlike.github.io/dungeonofdoom/
+https://will-j-c.github.io/dungeonofdoom/
 
 ### Tech Stack
 
